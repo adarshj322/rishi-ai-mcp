@@ -1,0 +1,35 @@
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[project]
+name = "rishi-ai-mcp"
+version = "1.0.0"
+description = "MCP server for Vedic astrology — 5 tools powered by the DashaFlow calculation engine"
+readme = "README.md"
+license = "MIT"
+requires-python = ">=3.10"
+authors = [{ name = "Adarsh J" }]
+keywords = ["vedic-astrology", "mcp", "jyotish", "horoscope", "dashaflow"]
+classifiers = [
+    "Development Status :: 5 - Production/Stable",
+    "Intended Audience :: Developers",
+    "License :: OSI Approved :: MIT License",
+    "Programming Language :: Python :: 3",
+    "Topic :: Scientific/Engineering :: Astronomy",
+]
+dependencies = [
+    "dashaflow>=1.0.0",
+    "mcp>=1.0.0",
+]
+
+[project.urls]
+Homepage = "https://github.com/adarshj322/rishi-ai-mcp"
+Repository = "https://github.com/adarshj322/rishi-ai-mcp"
+
+[project.scripts]
+rishi-ai-mcp = "rishi_ai_mcp:main"
+
+[tool.hatch.build.targets.wheel]
+packages = ["."]
+only-include = ["rishi_ai_mcp.py"]
