@@ -1,9 +1,9 @@
 {
   "mcpServers": {
     "vedic-astrology": {
-      "command": "python",
+      "command": "uvx",
       "args": [
-        "rishi_ai_mcp.py"
+        "rishi-ai-mcp"
       ]
     }
   }
