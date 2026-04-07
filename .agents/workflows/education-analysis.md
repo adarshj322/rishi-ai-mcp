@@ -5,7 +5,7 @@ description: Education & Learning Analysis Workflow
 
 When analyzing education and learning prospects, follow these steps:
 
-1. **Fetch Chart Data**: Call `cast_vedic_chart` and `cast_transit_chart`.
+1. **Fetch Chart Data**: Call `cast_vedic_chart` and `cast_transit_chart` (using birth parameters).
 2. **4th House (Vidya Bhava)**: Analyze the 4th house — formal education, degrees, academic environment.
 3. **5th House (Buddhi Bhava)**: Analyze the 5th house — intelligence, creative thinking, exam performance.
 4. **2nd House (Vak/Speech)**: Check for eloquence, communication, and early education.

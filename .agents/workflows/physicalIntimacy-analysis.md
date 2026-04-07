@@ -5,7 +5,7 @@ description: Physical Intimacy & Sexual Energy Analysis Workflow
 
 For analyzing sexual drive, physical compatibility, and bedroom dynamics:
 
-1. **Fetch Chart Data**: Call `cast_vedic_chart` and `cast_transit_chart` for the native.
+1. **Fetch Chart Data**: Call `cast_vedic_chart` and `cast_transit_chart` (using birth parameters) for the native.
 2. **Compatibility (only if BOTH people's birth details are provided)**: Call `calculate_compatibility` and pay specific attention to the **Yoni Koota** (sexual compatibility, 4 pts), **Graha Maitri** (mental-emotional bonding, 5 pts), and the new **SexEnergy** factor (analysis of 7th house planet placements). Also review the **Kuja Dosha** analysis — Mars energy directly impacts physical drive and aggression. If only the native's details are provided, skip this step and analyse their physical drive and intimacy patterns from the chart alone.
 3. **Drive (Mars & Venus)**: Analyze Mars (passion, raw physical energy, aggression) and Venus (sensuality, pleasure). Check their `dignity`, `shadbala.percentage`, house placement, and mutual aspects — these define the native's baseline libido and style of physical expression.
 4. **Bedroom Dynamics (12th House)**: Analyze the 12th house (bed pleasures, private intimacy, sleep, foreign connections) and its lord's strength.

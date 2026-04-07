@@ -5,7 +5,7 @@ description: Marriage & Spouse Analysis Workflow
 
 When performing a marriage analysis, execute the following steps:
 
-1. **Fetch Chart Data**: Call `cast_vedic_chart` and `cast_transit_chart` for the native.
+1. **Fetch Chart Data**: Call `cast_vedic_chart` and `cast_transit_chart` (using birth parameters) for the native.
 2. **Compatibility (only if BOTH people's birth details are provided)**: Call `calculate_compatibility` for the full compatibility report. This now returns:
    - **8 Ashtakoot kutas** (36 pts): Varna, Vashya, Tara, Yoni, Graha Maitri, Gana, Bhakoot, Nadi
    - **Additional kutas**: Mahendra (longevity), Stree Deergha (prosperity), Vedha (affliction), Rajju (marital durability), BadConstellations (inauspicious padas), LagnaHouse7 (ascendant cross-check), SexEnergy (physical compatibility)

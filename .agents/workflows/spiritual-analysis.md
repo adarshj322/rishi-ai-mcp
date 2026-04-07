@@ -5,7 +5,7 @@ description: Spiritual Path & Dharma Analysis Workflow
 
 When analyzing spiritual path and dharma, follow these steps:
 
-1. **Fetch Chart Data**: Call `cast_vedic_chart` and `cast_transit_chart`.
+1. **Fetch Chart Data**: Call `cast_vedic_chart` and `cast_transit_chart` (using birth parameters).
 2. **Atmakaraka (Soul Planet)**: From `jaimini_karakas`, identify the Atmakaraka — the planet with the highest degree. This is the most important indicator of the soul's purpose and primary spiritual lesson. Check its sign, house, `dignity`, and `shadbala.percentage`.
 3. **Karakamsha & Ishta Devata**: Read the `karakamsha` output directly — it provides the Karakamsha sign (AK in Navamsha), house from Lagna, the Ishta Devata (planet ruling 12th from Karakamsha), and planets placed in the Karakamsha sign. The Ishta Devata planet indicates the native's personal deity/highest spiritual guide.
 4. **9th House (Dharma Bhava)**: Analyze the 9th house — guru, religion, higher philosophy, father, past-life merit. A strong 9th lord (`shadbala.percentage` > 100%) indicates natural dharmic alignment.

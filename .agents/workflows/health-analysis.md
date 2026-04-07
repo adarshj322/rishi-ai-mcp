@@ -5,7 +5,7 @@ description: Health & Vitality Analysis Workflow
 
 When performing a health analysis, execute the following steps:
 
-1. **Fetch Chart Data**: Call `cast_vedic_chart` and `cast_transit_chart`.
+1. **Fetch Chart Data**: Call `cast_vedic_chart` and `cast_transit_chart` (using birth parameters).
 2. **Vitality (Lagna complex)**: Assess the Lagna, Lagna lord (dignity + `shadbala.percentage`), and the Sun (natural karaka for vitality and prana). A weakened Lagna lord or combust Sun indicates reduced constitutional strength.
 3. **Acute Illness (6th House)**: Analyze the 6th house, its lord, and planets placed there. This shows the nature of diseases the native is susceptible to and their immune response.
 4. **Chronic & Deep Issues (8th House)**: The 8th house governs chronic, sudden, or deep-seated health crises, surgeries, and longevity challenges.
