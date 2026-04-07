@@ -10,6 +10,8 @@ Run:      rishi-ai-mcp            (console entry-point)
   or:     python rishi_ai_mcp.py  (direct)
 """
 
+__version__ = "1.0.0"
+
 import json
 from mcp.server.fastmcp import FastMCP
 from dashaflow import (

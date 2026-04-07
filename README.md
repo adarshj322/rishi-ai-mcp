@@ -1,5 +1,10 @@
 # RishiAI MCP Server
 
+[![PyPI version](https://img.shields.io/pypi/v/rishi-ai-mcp.svg)](https://pypi.org/project/rishi-ai-mcp/)
+[![CI](https://github.com/adarshj322/rishi-ai-mcp/actions/workflows/ci.yml/badge.svg)](https://github.com/adarshj322/rishi-ai-mcp/actions/workflows/ci.yml)
+[![Python versions](https://img.shields.io/pypi/pyversions/rishi-ai-mcp.svg)](https://pypi.org/project/rishi-ai-mcp/)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+
 A [Model Context Protocol](https://modelcontextprotocol.io/) server that exposes **Vedic astrology tools** powered by the [DashaFlow](https://github.com/adarshj322/dashaflow) calculation engine.
 
 Works with **any MCP-compatible client** — VS Code Copilot, Cursor, Claude Desktop, Claude Code, Gemini CLI, Codex, Antigravity, OpenCode, OpenClaw, Pi agent, or any custom app that speaks MCP.
