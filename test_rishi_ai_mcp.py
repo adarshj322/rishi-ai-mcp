@@ -70,24 +70,20 @@ class TestCastVedicChart(unittest.TestCase):
 class TestCastTransitChart(unittest.TestCase):
     """Test the cast_transit_chart MCP tool."""
 
-    @classmethod
-    def setUpClass(cls):
-        cls.natal_json = cast_vedic_chart("1990-04-15", "14:30", 28.6139, 77.2090, "Asia/Kolkata")
-
     def test_returns_valid_json(self):
-        result = cast_transit_chart("2025-06-15", self.natal_json)
+        result = cast_transit_chart("2025-06-15", "1990-04-15", "14:30", 28.6139, 77.2090, "Asia/Kolkata")
         data = json.loads(result)
         self.assertNotIn("error", data)
 
     def test_has_planets_and_sade_sati(self):
-        result = cast_transit_chart("2025-06-15", self.natal_json)
+        result = cast_transit_chart("2025-06-15", "1990-04-15", "14:30", 28.6139, 77.2090, "Asia/Kolkata")
         data = json.loads(result)
         self.assertIn("planets", data)
         self.assertIn("sade_sati", data)
         self.assertIn("rahu_ketu_axis", data)
 
     def test_transit_planet_fields(self):
-        result = cast_transit_chart("2025-06-15", self.natal_json)
+        result = cast_transit_chart("2025-06-15", "1990-04-15", "14:30", 28.6139, 77.2090, "Asia/Kolkata")
         data = json.loads(result)
         for name, pdata in data["planets"].items():
             self.assertIn("sign", pdata)
@@ -95,12 +91,12 @@ class TestCastTransitChart(unittest.TestCase):
             self.assertIn("house_from_lagna", pdata)
 
     def test_invalid_date_returns_error(self):
-        result = cast_transit_chart("not-a-date", self.natal_json)
+        result = cast_transit_chart("not-a-date", "1990-04-15", "14:30", 28.6139, 77.2090, "Asia/Kolkata")
         data = json.loads(result)
         self.assertIn("error", data)
 
-    def test_invalid_natal_json_returns_error(self):
-        result = cast_transit_chart("2025-06-15", "not json")
+    def test_invalid_dob_returns_error(self):
+        result = cast_transit_chart("2025-06-15", "not-a-date", "14:30", 28.6139, 77.2090, "Asia/Kolkata")
         data = json.loads(result)
         self.assertIn("error", data)
 
