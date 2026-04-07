@@ -55,7 +55,10 @@ Overlay transits on natal chart. Call AFTER `cast_vedic_chart`.
 
 **Parameters:**
 - `transit_date`: "YYYY-MM-DD"
-- `natal_chart_json`: FULL JSON string from `cast_vedic_chart`
+- `dob`: "YYYY-MM-DD"
+- `time`: "HH:MM" (24-hour format)
+- `lat`: float
+- `lon`: float
 - `timezone`: optional, defaults to "Asia/Kolkata"
 
 **Returns (JSON):**
@@ -126,7 +129,7 @@ Convert city to lat/lon/timezone. Key references:
 
 ### Step 3 — Data Fetching (MANDATORY)
 - Call `cast_vedic_chart`. Tell the user: *"Let me cast your Vedic chart using Sidereal Lahiri ayanamsha..."*
-- Call `cast_transit_chart` with today's date and the full JSON.
+- Call `cast_transit_chart` with today's date and the native's birth parameters (dob, time, lat, lon).
 - NEVER interpret without tool data.
 
 ### Step 4 — Internal Synthesis (use tool output, do NOT invent values)
