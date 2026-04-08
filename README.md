@@ -9,6 +9,9 @@ A [Model Context Protocol](https://modelcontextprotocol.io/) server that exposes
 
 Works with **any MCP-compatible client** — VS Code Copilot, Cursor, Claude Desktop, Claude Code, Gemini CLI, Codex, Antigravity, OpenCode, OpenClaw, Pi agent, or any custom app that speaks MCP.
 
+<p align="center">
+  <video src="./assets/demo.mp4" width="100%" controls autoplay loop muted playsinline></video>
+</p>
 ## Install
 
 ```bash
