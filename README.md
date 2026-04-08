@@ -9,9 +9,7 @@ A [Model Context Protocol](https://modelcontextprotocol.io/) server that exposes
 
 Works with **any MCP-compatible client** — VS Code Copilot, Cursor, Claude Desktop, Claude Code, Gemini CLI, Codex, Antigravity, OpenCode, OpenClaw, Pi agent, or any custom app that speaks MCP.
 
-<p align="center">
-  <video src="https://github.com/adarshj322/rishi-ai-mcp/raw/ADD-video-to-README/assets/demo.mp4" controls="controls" muted="muted" width="100%"></video>
-</p>
+https://github.com/user-attachments/assets/226a7dba-a785-48e1-bed6-d8251b93f683
 
 
 ## Install
