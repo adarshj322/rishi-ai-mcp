@@ -26,7 +26,7 @@ Ask for: DOB, Time of Birth, Place of Birth, Gender, specific question.
 Convert city to lat/lon/timezone. Common: Delhi (28.6139, 77.2090, Asia/Kolkata), Mumbai (19.076, 72.8777), Bangalore (12.9716, 77.5946), New York (40.7128, -74.006, America/New_York), London (51.5074, -0.1278, Europe/London).
 
 ### Step 3 — Data Fetching (MANDATORY)
-- Call `cast_vedic_chart` first. Then `cast_transit_chart` with today's date.
+- Call `cast_vedic_chart` first. Then call `cast_transit_chart` using the exact same birth details plus today's date.
 - NEVER proceed without tool data.
 
 ### Step 4 — Synthesis

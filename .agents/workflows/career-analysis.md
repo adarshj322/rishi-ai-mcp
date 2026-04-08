@@ -5,7 +5,7 @@ description: Career & Profession Analysis Workflow
 
 When performing a career analysis, execute the following steps:
 
-1. **Fetch Chart Data**: Call `cast_vedic_chart` and `cast_transit_chart`. Also call `analyze_career_chart` (same birth params) to get the D10-based career analysis with career themes, domain recommendations, and strength factors.
+1. **Fetch Chart Data**: Call `cast_vedic_chart` and `cast_transit_chart` (using birth parameters). Also call `analyze_career_chart` (same birth params) to get the D10-based career analysis with career themes, domain recommendations, and strength factors.
 2. **Amatyakaraka (Career Soul)**: From `jaimini_karakas`, identify the Amatyakaraka — it is the primary planet guiding career direction. Check its sign, house, dignity, and strength in Shadbala. Cross-reference with `analyze_career_chart` output's `career_themes`.
 3. **Lagna & Core Nature**: Assess the Lagna and Lord to understand the native's baseline drive and work style.
 4. **10th House (Karma/Profession)**:

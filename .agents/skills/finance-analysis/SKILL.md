@@ -7,7 +7,7 @@ description: "Use when analyzing wealth, money, financial prospects, income, inv
 
 When performing a finance analysis, execute the following steps:
 
-1. **Fetch Chart Data**: Call `cast_vedic_chart` and `cast_transit_chart`.
+1. **Fetch Chart Data**: Call `cast_vedic_chart` and `cast_transit_chart` (using birth parameters).
 2. **Amatyakaraka**: From `jaimini_karakas`, identify the Amatyakaraka. Its strength indicates the native's earning power and financial direction.
 3. **Wealth Triangle**:
    - **2nd House**: Accumulated wealth, savings, family inheritance. Check lord's `dignity` and `shadbala.percentage`.

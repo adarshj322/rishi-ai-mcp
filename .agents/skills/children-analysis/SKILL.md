@@ -7,7 +7,7 @@ description: "Use when analyzing children, progeny, fertility, pregnancy timing,
 
 When analyzing children/progeny matters, follow these steps:
 
-1. **Fetch Chart Data**: Call `cast_vedic_chart` and `cast_transit_chart`.
+1. **Fetch Chart Data**: Call `cast_vedic_chart` and `cast_transit_chart` (using birth parameters).
 2. **5th House (Putra Bhava)**: Analyze the 5th house from Lagna and Moon — sign, occupants, aspects.
 3. **5th Lord**: Check the placement, dignity, and strength of the 5th lord. Is it combust? Retrograde? Afflicted?
 4. **Putrakaraka (Jupiter)**: Assess Jupiter's dignity, house, and aspects. Jupiter is the natural significator of children.

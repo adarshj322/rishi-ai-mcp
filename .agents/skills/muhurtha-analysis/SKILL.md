@@ -8,7 +8,7 @@ description: "Use when picking auspicious times, electional astrology, muhurtha,
 When helping the user pick an auspicious time for an activity, follow these steps:
 
 1. **Fetch Muhurtha Data**: Call `check_muhurtha` with the activity type, proposed date/time, and location. Supported activities: `marriage`, `travel`, `business`, `education`, `house_entry`, `medical`. The tool automatically evaluates Panchang purity, nakshatra suitability, activity-specific rules, and returns a verdict with score.
-2. **Also Fetch Natal Chart (if birth details provided)**: Call `cast_vedic_chart` for the native and `cast_transit_chart` for the proposed date.
+2. **Also Fetch Natal Chart (if birth details provided)**: Call `cast_vedic_chart` for the native and `cast_transit_chart` (using birth parameters) for the proposed date.
 3. **Interpret Muhurtha Results**: Read the `check_muhurtha` output:
    - `verdict`: "auspicious" / "mixed_favorable" / "mixed" / "inauspicious"
    - `positive_factors` and `negative_factors`: specific reasons for/against the time

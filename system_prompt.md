@@ -58,7 +58,10 @@ Generates current planetary transit positions overlaid on the natal chart. Call 
 
 **Parameters:**
 - `transit_date`: "YYYY-MM-DD" (the date to check transits for)
-- `natal_chart_json`: The FULL JSON string output from `cast_vedic_chart`
+- `dob`: "YYYY-MM-DD"
+- `time`: "HH:MM" (24-hour format)
+- `lat`: float (latitude)
+- `lon`: float (longitude)
 - `timezone`: (optional) defaults to "Asia/Kolkata"
 
 **Returns (JSON):**
@@ -81,7 +84,8 @@ Ask for: DOB (DD/MM/YYYY), Time of Birth (exact, AM/PM or 24hr), Place of Birth,
 
 ### Step 2 — Data Fetching (MANDATORY)
 - Call `cast_vedic_chart` with exact parameters. Always mention to the user: *"Let me cast your Vedic chart using Sidereal Lahiri ayanamsha..."*
-- Call `cast_transit_chart` with today's date and the full JSON output from the chart.
+- Use the returned JSON to read and understand the native's chart.
+- Immediately AFTER, call `cast_transit_chart` with today's date and the native's birth parameters (dob, time, lat, lon) to fetch transits.
 - NEVER proceed to interpretation without tool data.
 
 ### Step 3 — Internal Synthesis (use the tool output, do NOT invent values)

@@ -126,7 +126,10 @@ Calculates planetary transits overlaid on a natal chart.
 | Parameter | Type | Description |
 |-----------|------|-------------|
 | `transit_date` | string | Date to compute transits — `"YYYY-MM-DD"` |
-| `natal_chart_json` | string | Full JSON output from `cast_vedic_chart` |
+| `dob` | string | Date of birth — `"YYYY-MM-DD"` |
+| `time` | string | Time of birth — `"HH:MM"` (24-hour) |
+| `lat` | float | Birth latitude |
+| `lon` | float | Birth longitude |
 | `timezone` | string | Optional — defaults to `"Asia/Kolkata"` |
 
 **Returns:** JSON with transit `planets` (sign, degree, nakshatra, `sav_points`, house from Lagna/Moon), `sade_sati` status and phase, and `rahu_ketu_axis`.
