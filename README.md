@@ -42,7 +42,7 @@ The repo includes ready-to-use configs for three IDEs:
 
 - `.vscode/mcp.json` — auto-configures the MCP server
 - `.github/copilot-instructions.md` — RishiAI persona (always-on)
-- `.agents/skills/*/SKILL.md` — 13 workflow skills (auto-triggered by topic, or invoke via `/skill-name`)
+- `.agents/skills/*/SKILL.md` — 14 workflow skills (auto-triggered by topic, or invoke via `/skill-name`)
 
 VS Code Copilot reads `.github/copilot-instructions.md` for always-on instructions and `.agents/skills/` for skills. Just open the cloned folder and the tools + persona + skills are active.
 
@@ -50,15 +50,15 @@ VS Code Copilot reads `.github/copilot-instructions.md` for always-on instructio
 
 - `.cursor/mcp.json` — auto-configures the MCP server
 - `.cursor/rules/rishi-ai.mdc` — RishiAI persona (always-on core rule)
-- `.agents/skills/*/SKILL.md` — 13 workflow skills (shared, Cursor reads `.agents/skills/` natively)
+- `.agents/skills/*/SKILL.md` — 14 workflow skills (shared, Cursor reads `.agents/skills/` natively)
 
 Open the cloned folder in Cursor and the tools + persona + skills are active.
 
 ### Antigravity
 
 - `.agents/rules/rishi-ai.md` — RishiAI persona (always-on)
-- `.agents/skills/*/SKILL.md` — 13 workflow skills
-- `.agents/workflows/*.md` — 13 slash-command workflows
+- `.agents/skills/*/SKILL.md` — 14 workflow skills
+- `.agents/workflows/*.md` — 14 slash-command workflows
 
 Antigravity reads `.agents/` natively. Configure the MCP server in your Antigravity settings:
 
@@ -208,6 +208,7 @@ All IDEs share skills from `.agents/skills/` using the [Agent Skills](https://ag
 | `/physicalIntimacy-analysis` | Physical compatibility |
 | `/geopolitics-analysis` | Mundane astrology |
 | `/past-life-analysis` | Past life karma and karmic debts |
+| `/spouse-profiling` | Detailed spouse blueprint — looks, personality, archetype |
 
 ---
 
@@ -238,8 +239,8 @@ rishi_ai_mcp.py            MCP entry point — 5 tools, pip-installable
   └── rules/rishi-ai.mdc   Always-on core rule (Cursor)
 .agents/                   Shared across all IDEs
   ├── rules/rishi-ai.md   Always-on agent rule (Antigravity)
-  ├── skills/              13 workflow skills (SKILL.md per folder)
-  └── workflows/           13 slash-command workflows (Antigravity)
+  ├── skills/              14 workflow skills (SKILL.md per folder)
+  └── workflows/           14 slash-command workflows (Antigravity)
 system_prompt.md           Universal reference prompt (for other clients)
 ```
 
