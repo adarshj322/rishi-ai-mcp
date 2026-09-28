@@ -187,10 +187,6 @@ class TestAnalyzeCareerChart(unittest.TestCase):
             analyze_career_chart("bad", "14:30", 28.6139, 77.2090, "Asia/Kolkata")
 
 
-if __name__ == "__main__":
-    unittest.main()
-
-
 class TestCompactDetail(unittest.TestCase):
     """Slice 1: compact-by-default payloads."""
 
@@ -239,3 +235,7 @@ class TestDetailValidationUpfront(unittest.TestCase):
         finally:
             rishi_ai_mcp.cast_chart = orig
         self.assertEqual(calls, [], "cast_chart ran before detail validation")
+
+
+if __name__ == "__main__":
+    unittest.main()
