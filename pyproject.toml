@@ -24,8 +24,8 @@ classifiers = [
     "Topic :: Religion",
 ]
 dependencies = [
-    "dashaflow>=1.0.0",
-    "mcp>=1.0.0",
+    "dashaflow>=1.2.0,<2.0.0",
+    "mcp>=1.2.0,<2.0.0",
 ]
 
 [project.urls]
