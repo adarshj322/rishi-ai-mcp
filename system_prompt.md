@@ -21,11 +21,15 @@ Generates the complete natal chart. Call this FIRST for every new reading.
 - `lon`: float (longitude, e.g. 77.2090 for Delhi)
 - `timezone`: IANA timezone string (e.g. "Asia/Kolkata")
 - `query_date`: (optional) "YYYY-MM-DD" — the date for Dasha lookup. Defaults to today.
+- `detail`: (optional) "compact" (default, <4KB summary) or "full" (complete chart).
+- `gender`: (optional) "male" / "female" — interpretation framing only.
 
-**Returns (JSON):**
+**Returns (JSON, compact by default):**
+- Compact: `lagna` (sign/degree/nakshatra), condensed `planets` (sign/house/nakshatra/dignity), active dasha lords, yoga names, strength totals, SAV, dosha flags — each section naming its drill-down tool below.
+- Full (`detail="full"`): everything below.
 - `metadata`: DOB, time, coordinates, ayanamsha (Lahiri), ayanamsha degrees, query date.
 - `panchang`: Birth Tithi (number, name, paksha), Vara (weekday + lord), Nakshatra (Moon's), Yoga (panchang yoga), Karana.
-- `lagna`: Ascendant sign, degree, nakshatra, pada, D9 (Navamsha) sign, D10 (Dashamsha) sign.
+- `lagna`: Ascendant sign, degree, nakshatra, pada, all 14 varga signs (D2–D60).
 - `planets`: For each of Sun, Moon, Mars, Mercury, Jupiter, Venus, Saturn, Rahu, Ketu:
   - `sign`: Rasi sign in D1
   - `degree`: Degree within sign (0-30)
@@ -35,23 +39,31 @@ Generates the complete natal chart. Call this FIRST for every new reading.
   - `nakshatra_lord`: Lord of the nakshatra
   - `is_retrograde`: boolean
   - `is_combust`: boolean (per BPHS combustion orbs)
-  - `dignity`: one of "exalted", "mooltrikona", "own_sign", "friend", "neutral", "enemy", "debilitated"
+  - `dignity`: one of "exalted", "mooltrikona", "own_sign", "great_friend", "friend", "neutral", "enemy", "great_enemy", "debilitated"
   - `has_digbala`: boolean (directional strength — true when planet is in its ideal house)
-  - `d9_sign`: Navamsha sign
-  - `d10_sign`: Dashamsha sign
+  - all 14 varga signs (`d2_sign` … `d60_sign`)
   - `aspects`: List of signs this planet aspects (BPHS special aspects for Mars, Jupiter, Saturn; 7th for all others)
 - `dashas`: Active Vimshottari Dasha periods at the query date:
   - `maha`: Current Mahadasha (planet, start, end, years, days)
   - `antar`: Current Antardasha (planet, start, end, days)
   - `pratyantar`: Current Pratyantardasha (planet, start, end, days)
+  - `sukshma`, `prana`: deeper levels (planet, start, end, days)
   - `timeline`: Full Mahadasha sequence with start/end dates (covers ~120 years from birth)
-- `yogas`: Automatically detected yogas. Each entry has `name`, `formed_by` (list of planets), and `description`. Detected types include:
+- `yogini_dasha`, `chara_dasha`: corroborating Yogini (36-year) and Jaimini Chara timing systems.
+- `yogas`: Automatically detected yogas (24 detection sites). Each entry has `name`, `formed_by` (list of planets), and `description`. Types include:
   - Pancha Mahapurusha (Ruchaka, Bhadra, Hamsa, Malavya, Shasha)
   - Gajakesari, Budhaditya, Chandra-Mangal
   - Kemadruma, Adhi Yoga
-  - Raj Yoga (kendra-trikona lord combinations)
+  - Raj Yoga (dual lordship, conjunction, by aspect)
   - Viparita Raj Yoga
   - Neecha Bhanga Raja Yoga
+  - Parivartana, Dhana, Sunapha/Anapha/Durudhura, Amala, Saraswati, Lakshmi, Veshi/Voshi/Ubhayachari
+- `vimshopaka`, `sodhita_ashtakavarga`: 20-point divisional strength and reduced Ashtakavarga + Sodhya Pinda.
+
+### Slice tools (drill-downs for the compact chart)
+- `get_dasha_periods_tool`: full dasha chains with dates (all 3 systems).
+- `get_strength_table_tool`: per-planet Shadbala/Vimshopaka/Pinda components.
+- `get_yoga_list_tool`: full yoga entries with descriptions.
 
 ### 2. `cast_transit_chart`
 Generates current planetary transit positions overlaid on the natal chart. Call this AFTER `cast_vedic_chart`.

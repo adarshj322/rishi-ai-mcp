@@ -5,6 +5,18 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [Unreleased]
+
+### Added
+- Compact chart payloads: `cast_vedic_chart` defaults to a <4KB summary (`detail="full"` restores the complete chart).
+- Three drill-down tools: `get_dasha_periods_tool`, `get_strength_table_tool`, `get_yoga_list_tool`.
+- Optional `gender` parameter on `cast_vedic_chart` for interpretation framing (no calculation changes).
+
+### Changed
+- Errors now raise MCP `ToolError` instead of returning `{"error"}` data payloads.
+- Tool descriptions rewritten with true output keys, full dignity enum, and drill-down pointers; README and `system_prompt.md` synced.
+- Requires `dashaflow>=1.2.0`.
+
 ## [1.1.0] - 2026-04-08
 
 ### Changed
