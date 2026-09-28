@@ -1,9 +1,10 @@
 """
 RishiAI MCP Server — Vedic astrology tools via the Model Context Protocol.
 
-Thin wrapper around the DashaFlow library. Exposes 5 tools:
+Thin wrapper around the DashaFlow library. Exposes 8 tools:
   cast_vedic_chart, cast_transit_chart, calculate_compatibility_tool,
-  check_muhurtha_tool, analyze_career_chart.
+  check_muhurtha_tool, analyze_career_chart, get_dasha_periods_tool,
+  get_strength_table_tool, get_yoga_list_tool.
 
 Install:  pip install rishi-ai-mcp
 Run:      rishi-ai-mcp            (console entry-point)
