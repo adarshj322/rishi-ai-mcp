@@ -10,18 +10,30 @@ Run:      rishi-ai-mcp            (console entry-point)
   or:     python rishi_ai_mcp.py  (direct)
 """
 
-__version__ = "1.1.0"
+__version__ = "1.2.0"
 
-import json
 from typing import Dict, Any
 from mcp.server.fastmcp import FastMCP
+from mcp.server.fastmcp.exceptions import ToolError
 from dashaflow import (
     cast_chart,
     cast_transit,
     calculate_compatibility,
     check_muhurtha,
     analyze_career,
+    summarize_chart,
+    get_dasha_periods,
+    get_strength_table,
+    get_yoga_list,
 )
+from dashaflow.errors import DashaFlowError, InvalidInputError
+
+
+def _raise(err: Exception) -> None:
+    """Convert engine errors to MCP ToolError (isError) with guidance."""
+    if isinstance(err, DashaFlowError):
+        raise ToolError(str(err)) from err
+    raise ToolError(f"Unexpected error: {err}") from err
 
 mcp = FastMCP(
     "vedic-astrology",
@@ -37,39 +49,26 @@ def cast_vedic_chart(
     lon: float,
     timezone: str,
     query_date: str = "",
+    detail: str = "compact",
+    gender: str = "",
 ) -> Dict[str, Any]:
     """
-    Calculate a complete Vedic birth chart (Sidereal Lahiri ayanamsha).
+    Calculate a Vedic birth chart (Sidereal Lahiri ayanamsha).
 
-    Returns (JSON):
-    - `metadata`: DOB, time, coordinates, ayanamsha (Lahiri), ayanamsha degrees, query date.
-    - `panchang`: Tithi (number, name, paksha), Vara (weekday + lord), Nakshatra (Moon's), Yoga, Karana.
-    - `lagna`: sign, degree, nakshatra, pada, D2, D3, D4, D7, D9, D10, D12, D16, D20, D24, D27, D30, D40, D60 signs.
-    - `planets`: For each of Sun, Moon, Mars, Mercury, Jupiter, Venus, Saturn, Rahu, Ketu:
-      - `sign`, `degree`, `house` (whole-sign from Lagna), `nakshatra`, `pada`, `nakshatra_lord`
-      - `is_retrograde`, `is_combust`, `has_digbala`
-      - `dignity`: "exalted" / "mooltrikona" / "own_sign" / "friend" / "neutral" / "enemy" / "debilitated"
-      - `d2_sign`, `d9_sign`, `d10_sign`, `d16_sign`, `d20_sign`, `d24_sign`, `d27_sign`, `d30_sign`, `d40_sign`, `d60_sign`
-      - `aspects`: signs aspected (BPHS special aspects for Mars, Jupiter, Saturn; 7th for all others)
-    - `dashas`:
-      - `maha`: current Mahadasha (planet, start, end)
-      - `antar`: current Antardasha (planet, start, end)
-      - `pratyantar`: current Pratyantardasha (planet, start, end)
-      - `sukshma`: current Sukshma dasha (planet, start, end)
-      - `prana`: current Prana dasha (planet, start, end)
-      - `timeline`: full Mahadasha sequence (~120 years from birth)
-    - `yogas`: array of `{ name, formed_by, description }`. Detected (24 types): Pancha Mahapurusha (5), Gajakesari, Budhaditya, Chandra-Mangal, Kemadruma, Adhi Yoga, Raj Yoga (dual lordship + conjunction), Viparita Raj Yoga, Neecha Bhanga Raja Yoga, Parivartana Yoga (Maha/Khala/Dainya), Dhana Yoga, Sunapha/Anapha/Durudhura, Amala Yoga, Saraswati Yoga, Lakshmi Yoga, Veshi/Voshi/Ubhayachari Yoga.
-    - `ashtakavarga`: SAV (Sarvashtakavarga), BAV (Bhinnashtakavarga), Prashtara Ashtakavarga (source-level bindu contributions), and total bindus (337).
-    - `jaimini_karakas`: 7 Karakas by degree — Atmakaraka, Amatyakaraka, Bhratrukaraka, etc.
-    - `shadbala`: six-fold strength in Rupas and Percentage of required strength per planet, plus `ishta_kashta_phala` (Ishta Phala = auspicious capacity, Kashta Phala = suffering potential).
-    - `bhava_chalit`: Equal-house Bhava Chalit chart (cusps calculated from Lagna midpoint). Lists each house's start/end degree and which planets actually fall in each bhava. Use when a planet near a house cusp may functionally belong to the adjacent house.
-    - `avasthas`: Planetary age-states per BPHS — Bala (infant), Kumara (youth), Yuva (adult), Vriddha (old), Mrita (dead). Odd signs: 0–6° Bala … 24–30° Mrita; even signs reversed. Yuva = full delivery, Bala/Mrita = weak delivery.
-    - `kaal_sarpa`: Kaal Sarpa Dosha detection — `active` boolean, `type` (ascending/descending), `is_partial` (true if any planet shares Rahu/Ketu sign), and `axis` (e.g. "Rahu in Aries / Ketu in Libra").
-    - `graha_yuddha`: Planetary War detection — pairs of true planets (Mars–Saturn) within 1° longitude. Reports `winner` (higher longitude), `loser`, `separation` degrees, and `planets` list.
-    - `gandanta`: Gandanta junction detection — planets or Lagna within 3°20' of water-fire sign boundaries (Cancer→Leo, Scorpio→Sagittarius, Pisces→Aries). Reports affected planet, `degree`, `junction`, and `gap` from boundary.
-    - `arudha_padas`: All 12 Arudha Padas (A1–A12) with sign placements. Includes the BPHS exception rule (same-sign/7th → 10th from house). Key padas: A1 (Arudha Lagna — worldly image), A7 (Dara Pada — spouse perception), A10 (Karma Pada — career reputation).
-    - `upapada`: Upapada Lagna (A12) — sign, its lord (planet + sign), and the 2nd house from UL (sustenance of marriage).
-    - `karakamsha`: Karakamsha analysis — Atmakaraka's Navamsha sign, house from D1 Lagna, Ishta Devata (planet ruling 12th from Karakamsha), and planets placed in the Karakamsha sign.
+    detail="compact" (default, <4KB): lagna, condensed planets
+    (sign/house/nakshatra/dignity), active dasha lords (Vimshottari/Yogini/
+    Chara — no timelines), yoga names, strength totals, SAV, dosha flags.
+    Each section names the slice tool for full data.
+    detail="full": the complete chart (planets with 14 vargas, 5-level
+    dasha timelines for all 3 systems, full yogas, Shadbala, Vimshopaka,
+    Sodhita Ashtakavarga, Jaimini, Bhava Chalit, avasthas, doshas).
+
+    Full output keys: metadata, panchang, lagna, planets, dashas,
+    yogini_dasha, chara_dasha, yogas, ashtakavarga, sodhita_ashtakavarga,
+    jaimini_karakas, shadbala, vimshopaka, bhava_chalit, avasthas,
+    kaal_sarpa, graha_yuddha, gandanta, arudha_padas, upapada, karakamsha.
+    Planet dignity is one of: exalted, mooltrikona, own_sign, great_friend,
+    friend, neutral, enemy, great_enemy, debilitated.
 
     Parameters:
         dob: Date of birth as "YYYY-MM-DD" (e.g. "1990-04-15")
@@ -78,11 +77,24 @@ def cast_vedic_chart(
         lon: Birth longitude as decimal degrees (e.g. 77.2090 for New Delhi)
         timezone: IANA timezone string (e.g. "Asia/Kolkata", "America/New_York")
         query_date: Optional date for Dasha lookup as "YYYY-MM-DD". Defaults to today.
+        detail: "compact" (default) or "full" (complete chart).
+        gender: Optional "male" / "female" — interpretation framing only
+            (e.g. Stree Deergha context). Does not change calculations.
     """
     try:
-        return cast_chart(dob, time, lat, lon, timezone, query_date or None)
+        if gender and gender not in ("male", "female"):
+            raise InvalidInputError(
+                f"Invalid gender '{gender}'. Expected 'male' or 'female'.")
+        if detail not in ("compact", "full"):
+            raise InvalidInputError(
+                f"Invalid detail '{detail}'. Expected 'compact' or 'full'.")
+        chart = cast_chart(dob, time, lat, lon, timezone, query_date or None)
+        result = summarize_chart(chart, detail=detail)
+        if gender:
+            result["interpretation_context"] = {"gender": gender}
+        return result
     except Exception as e:
-        return {"error": str(e)}
+        _raise(e)
 
 
 @mcp.tool()
@@ -116,7 +128,79 @@ def cast_transit_chart(
     try:
         return cast_transit(transit_date, dob, time, lat, lon, timezone)
     except Exception as e:
-        return {"error": str(e)}
+        _raise(e)
+
+
+@mcp.tool()
+def get_dasha_periods_tool(
+    dob: str,
+    time: str,
+    lat: float,
+    lon: float,
+    timezone: str,
+    query_date: str = "",
+) -> Dict[str, Any]:
+    """
+    Full dasha chains with dates for all three timing systems.
+
+    Drill-down for the compact chart's dasha section. Returns Vimshottari
+    (Maha→Prana + 120-year timeline), Yogini (Maha/Antar/Pratyantar +
+    36-year cycles), and Chara (sign Maha/Antar + timeline).
+
+    Parameters: same birth details as cast_vedic_chart.
+    """
+    try:
+        chart = cast_chart(dob, time, lat, lon, timezone, query_date or None)
+        return get_dasha_periods(chart)
+    except Exception as e:
+        _raise(e)
+
+
+@mcp.tool()
+def get_strength_table_tool(
+    dob: str,
+    time: str,
+    lat: float,
+    lon: float,
+    timezone: str,
+    query_date: str = "",
+) -> Dict[str, Any]:
+    """
+    Per-planet strength table: Shadbala rupas + requirement + is_strong,
+    Vimshopaka total + band, Sodhya Pinda.
+
+    Drill-down for the compact chart's strengths section.
+
+    Parameters: same birth details as cast_vedic_chart.
+    """
+    try:
+        chart = cast_chart(dob, time, lat, lon, timezone, query_date or None)
+        return get_strength_table(chart)
+    except Exception as e:
+        _raise(e)
+
+
+@mcp.tool()
+def get_yoga_list_tool(
+    dob: str,
+    time: str,
+    lat: float,
+    lon: float,
+    timezone: str,
+    query_date: str = "",
+) -> Dict[str, Any]:
+    """
+    Full yoga entries: name, formed_by planets, description.
+
+    Drill-down for the compact chart's yoga names.
+
+    Parameters: same birth details as cast_vedic_chart.
+    """
+    try:
+        chart = cast_chart(dob, time, lat, lon, timezone, query_date or None)
+        return {"yogas": get_yoga_list(chart)}
+    except Exception as e:
+        _raise(e)
 
 
 @mcp.tool()
@@ -144,7 +228,7 @@ def calculate_compatibility_tool(
             dob2, time2, lat2, lon2, tz2,
         )
     except Exception as e:
-        return {"error": str(e)}
+        _raise(e)
 
 
 @mcp.tool()
@@ -180,7 +264,7 @@ def check_muhurtha_tool(
     try:
         return check_muhurtha(activity, date, time, lat, lon, timezone)
     except Exception as e:
-        return {"error": str(e)}
+        _raise(e)
 
 
 @mcp.tool()
@@ -210,7 +294,7 @@ def analyze_career_chart(
     try:
         return analyze_career(dob, time, lat, lon, timezone)
     except Exception as e:
-        return {"error": str(e)}
+        _raise(e)
 
 
 def main():

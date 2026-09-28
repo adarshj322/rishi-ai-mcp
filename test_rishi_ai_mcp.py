@@ -26,7 +26,8 @@ class TestCastVedicChart(unittest.TestCase):
         self.assertNotIn("error", data)
 
     def test_has_all_top_level_keys(self):
-        result = cast_vedic_chart("1990-04-15", "14:30", 28.6139, 77.2090, "Asia/Kolkata")
+        result = cast_vedic_chart("1990-04-15", "14:30", 28.6139, 77.2090, "Asia/Kolkata",
+                                  detail="full")
         data = result
         for key in ["metadata", "panchang", "lagna", "planets", "dashas", "yogas",
                      "ashtakavarga", "jaimini_karakas", "shadbala",
@@ -41,19 +42,19 @@ class TestCastVedicChart(unittest.TestCase):
             self.assertIn(planet, data["planets"])
 
     def test_invalid_date_returns_error(self):
-        result = cast_vedic_chart("bad-date", "14:30", 28.6139, 77.2090, "Asia/Kolkata")
-        data = result
-        self.assertIn("error", data)
+        from mcp.server.fastmcp.exceptions import ToolError
+        with self.assertRaises(ToolError):
+            cast_vedic_chart("bad-date", "14:30", 28.6139, 77.2090, "Asia/Kolkata")
 
     def test_invalid_timezone_returns_error(self):
-        result = cast_vedic_chart("1990-04-15", "14:30", 28.6139, 77.2090, "Bogus/Zone")
-        data = result
-        self.assertIn("error", data)
+        from mcp.server.fastmcp.exceptions import ToolError
+        with self.assertRaises(ToolError):
+            cast_vedic_chart("1990-04-15", "14:30", 28.6139, 77.2090, "Bogus/Zone")
 
     def test_invalid_lat_returns_error(self):
-        result = cast_vedic_chart("1990-04-15", "14:30", 999.0, 77.2090, "Asia/Kolkata")
-        data = result
-        self.assertIn("error", data)
+        from mcp.server.fastmcp.exceptions import ToolError
+        with self.assertRaises(ToolError):
+            cast_vedic_chart("1990-04-15", "14:30", 999.0, 77.2090, "Asia/Kolkata")
 
     def test_query_date_parameter(self):
         result = cast_vedic_chart("1990-04-15", "14:30", 28.6139, 77.2090, "Asia/Kolkata", "2025-06-15")
@@ -91,14 +92,14 @@ class TestCastTransitChart(unittest.TestCase):
             self.assertIn("house_from_lagna", pdata)
 
     def test_invalid_date_returns_error(self):
-        result = cast_transit_chart("not-a-date", "1990-04-15", "14:30", 28.6139, 77.2090, "Asia/Kolkata")
-        data = result
-        self.assertIn("error", data)
+        from mcp.server.fastmcp.exceptions import ToolError
+        with self.assertRaises(ToolError):
+            cast_transit_chart("not-a-date", "1990-04-15", "14:30", 28.6139, 77.2090, "Asia/Kolkata")
 
     def test_invalid_dob_returns_error(self):
-        result = cast_transit_chart("2025-06-15", "not-a-date", "14:30", 28.6139, 77.2090, "Asia/Kolkata")
-        data = result
-        self.assertIn("error", data)
+        from mcp.server.fastmcp.exceptions import ToolError
+        with self.assertRaises(ToolError):
+            cast_transit_chart("2025-06-15", "not-a-date", "14:30", 28.6139, 77.2090, "Asia/Kolkata")
 
 
 class TestCalculateCompatibility(unittest.TestCase):
@@ -132,12 +133,12 @@ class TestCalculateCompatibility(unittest.TestCase):
         self.assertLessEqual(data["total_score"], 36)
 
     def test_invalid_input_returns_error(self):
-        result = calculate_compatibility_tool(
-            "bad", "14:30", 28.6139, 77.2090, "Asia/Kolkata",
-            "1992-08-20", "10:00", 19.076, 72.8777, "Asia/Kolkata",
-        )
-        data = result
-        self.assertIn("error", data)
+        from mcp.server.fastmcp.exceptions import ToolError
+        with self.assertRaises(ToolError):
+            calculate_compatibility_tool(
+                "bad", "14:30", 28.6139, 77.2090, "Asia/Kolkata",
+                "1992-08-20", "10:00", 19.076, 72.8777, "Asia/Kolkata",
+            )
 
 
 class TestCheckMuhurtha(unittest.TestCase):
@@ -156,14 +157,14 @@ class TestCheckMuhurtha(unittest.TestCase):
         self.assertIn(data["verdict"], ["auspicious", "mixed_favorable", "mixed", "inauspicious"])
 
     def test_invalid_activity_returns_error(self):
-        result = check_muhurtha_tool("swimming", "2025-06-15", "10:00", 28.6139, 77.2090, "Asia/Kolkata")
-        data = result
-        self.assertIn("error", data)
+        from mcp.server.fastmcp.exceptions import ToolError
+        with self.assertRaises(ToolError):
+            check_muhurtha_tool("swimming", "2025-06-15", "10:00", 28.6139, 77.2090, "Asia/Kolkata")
 
     def test_invalid_date_returns_error(self):
-        result = check_muhurtha_tool("travel", "bad-date", "10:00", 28.6139, 77.2090, "Asia/Kolkata")
-        data = result
-        self.assertIn("error", data)
+        from mcp.server.fastmcp.exceptions import ToolError
+        with self.assertRaises(ToolError):
+            check_muhurtha_tool("travel", "bad-date", "10:00", 28.6139, 77.2090, "Asia/Kolkata")
 
 
 class TestAnalyzeCareerChart(unittest.TestCase):
@@ -181,10 +182,60 @@ class TestAnalyzeCareerChart(unittest.TestCase):
             self.assertIn(key, data)
 
     def test_invalid_input_returns_error(self):
-        result = analyze_career_chart("bad", "14:30", 28.6139, 77.2090, "Asia/Kolkata")
-        data = result
-        self.assertIn("error", data)
+        from mcp.server.fastmcp.exceptions import ToolError
+        with self.assertRaises(ToolError):
+            analyze_career_chart("bad", "14:30", 28.6139, 77.2090, "Asia/Kolkata")
 
 
 if __name__ == "__main__":
     unittest.main()
+
+
+class TestCompactDetail(unittest.TestCase):
+    """Slice 1: compact-by-default payloads."""
+
+    def test_cast_chart_compact_default(self):
+        result = cast_vedic_chart("1990-04-15", "14:30", 28.6139, 77.2090, "Asia/Kolkata")
+        size = len(json.dumps(result).encode("utf-8"))
+        self.assertLess(size, 4096, f"compact chart is {size} bytes")
+
+    def test_cast_chart_full_detail(self):
+        result = cast_vedic_chart("1990-04-15", "14:30", 28.6139, 77.2090,
+                                  "Asia/Kolkata", detail="full")
+        for key in ("planets", "dashas", "shadbala", "vimshopaka"):
+            self.assertIn(key, result)
+
+    def test_get_dasha_periods_tool(self):
+        from rishi_ai_mcp import get_dasha_periods_tool
+        result = get_dasha_periods_tool("1990-04-15", "14:30", 28.6139, 77.2090,
+                                        "Asia/Kolkata")
+        self.assertIn("vimshottari", result)
+        self.assertIn("yogini", result)
+        self.assertIn("chara", result)
+
+
+class TestStructuredErrors(unittest.TestCase):
+    """Slice 1: errors raise ToolError instead of returning data."""
+
+    def test_invalid_date_raises_tool_error(self):
+        from mcp.server.fastmcp.exceptions import ToolError
+        with self.assertRaises(ToolError):
+            cast_vedic_chart("bad-date", "14:30", 28.6139, 77.2090, "Asia/Kolkata")
+
+
+class TestDetailValidationUpfront(unittest.TestCase):
+    """Invalid detail must fail before paying for a full chart cast."""
+
+    def test_invalid_detail_does_not_cast_chart(self):
+        import rishi_ai_mcp
+        from mcp.server.fastmcp.exceptions import ToolError
+        calls = []
+        orig = rishi_ai_mcp.cast_chart
+        rishi_ai_mcp.cast_chart = lambda *a, **k: (calls.append(1), orig(*a, **k))[1]
+        try:
+            with self.assertRaises(ToolError):
+                cast_vedic_chart("1990-04-15", "14:30", 28.6139, 77.2090,
+                                 "Asia/Kolkata", detail="bogus")
+        finally:
+            rishi_ai_mcp.cast_chart = orig
+        self.assertEqual(calls, [], "cast_chart ran before detail validation")
