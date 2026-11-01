@@ -5,7 +5,7 @@ description: Spouse Profiling — Detailed Spouse Blueprint From Native's Chart
 
 When the user wants to know what their future spouse looks like, their personality, archetype, or how to find/recognize them, execute the following steps using **only the native's chart**:
 
-1. **Fetch Chart Data**: Call `cast_vedic_chart` (birth parameters). No transit data or spouse's birth details needed.
+1. **Fetch Chart Data**: Call `cast_vedic_chart(detail="full")` (birth parameters). No transit data or spouse's birth details needed.
 
 2. **Identify Gender**: Confirm native's gender. Male → primary indicator is **Venus**. Female → primary indicator is **Jupiter**.
 

@@ -13,7 +13,7 @@ TRIGGER: Use this skill when the user asks what their spouse will be like, what 
 
 ## Steps
 
-1. **Fetch Chart Data**: Call `cast_vedic_chart` (birth parameters only). Transit data is not required for spouse profiling.
+1. **Fetch Chart Data**: Call `cast_vedic_chart(detail="full")` (birth parameters only). Transit data is not required for spouse profiling.
 
 2. **Identify the Native's Gender** — Ask if not already known. This determines:
    - **Male chart**: Venus = natural significator of the wife. Analyze Venus primarily.
