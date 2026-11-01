@@ -5,7 +5,7 @@ description: Past Life & Karmic Debt Analysis Workflow
 
 When performing a past life and karmic analysis, execute the following steps:
 
-1. **Fetch Chart Data**: Call `cast_vedic_chart` (birth parameters only — no transit needed for past life analysis).
+1. **Fetch Chart Data**: Call `cast_vedic_chart(detail="full")` (birth parameters only — no transit needed for past life analysis).
 
 2. **Ketu — The Past Life Signature Planet**:
    - Read Ketu's `house`, `sign`, `nakshatra`, and `nakshatra_lord` from the natal chart. These are the most direct indicators of the past life scenario.

@@ -9,7 +9,7 @@ TRIGGER: Use this skill when the user asks about past lives, karmic baggage, kar
 
 ## Steps
 
-1. **Fetch Chart Data**: Call `cast_vedic_chart` (birth parameters). This is the primary and sufficient tool — no transit data is needed for past life analysis.
+1. **Fetch Chart Data**: Call `cast_vedic_chart(detail="full")` (birth parameters). This is the primary and sufficient tool — no transit data is needed for past life analysis.
 
 2. **D60 (Shashtiamsha) — The Finest Karmic Record**:
    - Read `d60_sign` for **every planet**. The D60 is the finest divisional chart and the most direct window into past-life karma in BPHS tradition.

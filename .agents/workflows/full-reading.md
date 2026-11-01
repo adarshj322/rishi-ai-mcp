@@ -5,7 +5,7 @@ description: Full Vedic Astrology Reading Workflow
 TRIGGER: Use this workflow when the user asks for a complete natal chart reading, a general life overview, or wants guidance using their full birth details.
 
 ## Steps
-1. Follow Steps 1–4 from the Core Methodology in the system rule (gather info, geocode, fetch chart + transit, synthesize).
+1. Follow Steps 1–4 from the Core Methodology in the system rule (gather info, geocode, fetch chart + transit, synthesize). Fetch the natal chart with `cast_vedic_chart(detail="full")` — this reading uses panchang, vargas, Shadbala, Jaimini and Arudha keys.
 2. Format your response using the Output Structure below.
 
 ---

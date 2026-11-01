@@ -17,7 +17,7 @@ When the user wants a complete Vedic (Jyotish) natal chart reading, execute thes
    - New York: 40.7128, -74.006, America/New_York
    - London: 51.5074, -0.1278, Europe/London
 
-3. **Fetch Chart Data**: Call `cast_vedic_chart` with birth parameters.
+3. **Fetch Chart Data**: Call `cast_vedic_chart(detail="full")` with birth parameters — this reading uses Shadbala and Jaimini keys absent from the compact default.
 
 4. **Read Key Indicators**:
    - `panchang`: tithi, vara, nakshatra, yoga, karana
@@ -47,5 +47,5 @@ When the user wants a complete Vedic (Jyotish) natal chart reading, execute thes
     - **The Key**: Lifestyle shift + spiritual remedy + timing
 
 ## Tools
-- `cast_vedic_chart`: Primary tool — call FIRST
+- `cast_vedic_chart`: Primary tool — call FIRST with `detail="full"` for readings
 - `cast_transit_chart`: Call AFTER natal chart for current influences

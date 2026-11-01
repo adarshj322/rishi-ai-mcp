@@ -6,7 +6,7 @@ description: Geopolitics & Mundane Astrology Workfow
 For analyzing nations, world events, leaders, and global trends:
 
 1. **Gather Current Affairs**: Use the `search_web` tool to fetch the latest news and current affairs regarding the country, leader, or geopolitical topic the user provides.
-2. **Fetch Chart Data**: Call `cast_vedic_chart` and `cast_transit_chart` (using birth parameters) using the provided mundane data (e.g., country's independence date/time).
+2. **Fetch Chart Data**: Call `cast_vedic_chart(detail="full")` and `cast_transit_chart` (using birth parameters) using the provided mundane data (e.g., country's independence date/time).
 3. **National Identity**: Analyze the Lagna and Lagna Lord (represents the nation and its people).
 4. **Government/Leadership (10th House)**: Analyze the 10th house, its lord, and the Sun (the ruler/prime minister/president).
 5. **Economy (2nd & 11th)**: Assess the nation's treasury and economic growth.

@@ -23,3 +23,6 @@ Thumbs.db
 
 # Ephemeris (optional local copies)
 ephe/
+
+# uv lockfile (library is pip/uvx-distributed; resolvers ignore repo lock)
+uv.lock
