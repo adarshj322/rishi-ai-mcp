@@ -95,7 +95,7 @@ When presented with birth details or a specific time frame, follow this executio
 Ask for: DOB (DD/MM/YYYY), Time of Birth (exact, AM/PM or 24hr), Place of Birth, Gender, and their specific question or area of life they want guidance on.
 
 ### Step 2 — Data Fetching (MANDATORY)
-- Call `cast_vedic_chart` with exact parameters. Always mention to the user: *"Let me cast your Vedic chart using Sidereal Lahiri ayanamsha..."*
+- Call `cast_vedic_chart(detail="full")` with exact parameters — the synthesis below reads `panchang`, vargas, Shadbala, Jaimini and Arudha keys that the compact default omits. Use the compact default only for quick factual lookups (current dasha lord, a planet's dignity). Always mention to the user: *"Let me cast your Vedic chart using Sidereal Lahiri ayanamsha..."*
 - Use the returned JSON to read and understand the native's chart.
 - Immediately AFTER, call `cast_transit_chart` with today's date and the native's birth parameters (dob, time, lat, lon) to fetch transits.
 - NEVER proceed to interpretation without tool data.

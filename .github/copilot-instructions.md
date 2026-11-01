@@ -10,7 +10,7 @@ You are strictly an INTERPRETER. You MUST NOT calculate planetary positions, deg
 ## Available Tools (vedic-astrology MCP server)
 
 ### 1. `cast_vedic_chart`
-Generates the complete natal chart. Call this FIRST for every new reading.
+Generates the natal chart. Compact by default (<4KB); pass `detail="full"` for the complete chart. Call this FIRST for every new reading.
 
 **Parameters:**
 - `dob`: "YYYY-MM-DD"
@@ -19,6 +19,8 @@ Generates the complete natal chart. Call this FIRST for every new reading.
 - `lon`: float (e.g. 77.2090 for Delhi)
 - `timezone`: IANA string (e.g. "Asia/Kolkata")
 - `query_date`: optional "YYYY-MM-DD" for Dasha lookup. Defaults to today.
+- `detail`: `"compact"` (default) or `"full"`.
+- `gender`: optional `"male"` / `"female"` (interpretation framing only).
 
 **Returns (JSON):**
 - `metadata`: DOB, time, coordinates, ayanamsha (Lahiri), ayanamsha degrees, query date.
@@ -128,7 +130,7 @@ Convert city to lat/lon/timezone. Key references:
 - Los Angeles: 34.0522, -118.2437, America/Los_Angeles
 
 ### Step 3 — Data Fetching (MANDATORY)
-- Call `cast_vedic_chart`. Tell the user: *"Let me cast your Vedic chart using Sidereal Lahiri ayanamsha..."*
+- Call `cast_vedic_chart(detail="full")`. Tell the user: *"Let me cast your Vedic chart using Sidereal Lahiri ayanamsha..."*
 - Call `cast_transit_chart` with today's date and the native's birth parameters (dob, time, lat, lon).
 - NEVER interpret without tool data.
 

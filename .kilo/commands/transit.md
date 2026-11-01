@@ -8,7 +8,7 @@ When the user wants to know current planetary transits and their influence on th
 
 ## Steps
 
-1. **Confirm Natal Data**: Ensure you have DOB, Time, Lat, Lon from previous `/vedic-chart` call.
+1. **Confirm Natal Data**: Ensure you have DOB, Time, Lat, Lon from previous `/vedic-chart` call. If this report needs natal Ashtakavarga or dasha detail, call `cast_vedic_chart(detail="full")`.
 
 2. **Fetch Transit Data**: Call `cast_transit_chart` with today's date and natal birth parameters.
 

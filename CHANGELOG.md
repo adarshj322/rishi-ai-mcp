@@ -13,6 +13,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Optional `gender` parameter on `cast_vedic_chart` for interpretation framing (no calculation changes).
 
 ### Changed
+- Deep-reading skills, workflows, and instruction files now request `detail="full"` so they read keys the compact default omits (panchang, vargas, Shadbala, Jaimini, Arudha).
 - Errors now raise MCP `ToolError` instead of returning `{"error"}` data payloads.
 - Tool descriptions rewritten with true output keys, full dignity enum, and drill-down pointers; README and `system_prompt.md` synced.
 - Requires `dashaflow>=1.2.0`.
