@@ -11,7 +11,7 @@ Run:      rishi-ai-mcp            (console entry-point)
   or:     python rishi_ai_mcp.py  (direct)
 """
 
-__version__ = "1.2.0"
+__version__ = "1.3.0"
 
 from typing import Dict, Any
 from mcp.server.fastmcp import FastMCP
