@@ -239,3 +239,28 @@ class TestDetailValidationUpfront(unittest.TestCase):
 
 if __name__ == "__main__":
     unittest.main()
+
+
+class TestSlice2Honesty(unittest.TestCase):
+    """Slice 2: seconds input, sensitivity verdict, strength flags."""
+
+    def test_compact_includes_time_sensitivity(self):
+        result = cast_vedic_chart("1990-04-15", "14:30", 28.6139, 77.2090, "Asia/Kolkata")
+        self.assertEqual(result["time_sensitivity"]["verdict"], "robust")
+
+    def test_seconds_birth_time_accepted(self):
+        result = cast_vedic_chart("1990-04-15", "14:30:45", 28.6139, 77.2090, "Asia/Kolkata")
+        self.assertEqual(result["lagna"]["sign"], "Leo")
+
+    def test_full_detail_has_no_sensitivity_section(self):
+        result = cast_vedic_chart("1990-04-15", "14:30", 28.6139, 77.2090,
+                                  "Asia/Kolkata", detail="full")
+        self.assertNotIn("time_sensitivity", result)
+        self.assertTrue(result["planets"]["Sun"]["is_vargottama"])
+
+    def test_sensitivity_tool_fragile_case(self):
+        from rishi_ai_mcp import get_time_sensitivity_tool
+        result = get_time_sensitivity_tool("1990-04-15", "04:30", 28.6139, 77.2090,
+                                           "Asia/Kolkata")
+        self.assertEqual(result["verdict"], "fragile")
+        self.assertFalse(result["lagna_stable"])

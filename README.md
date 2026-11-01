@@ -113,7 +113,7 @@ Generates a Vedic natal chart. Compact by default (<4KB), full on request.
 | Parameter | Type | Description |
 |-----------|------|-------------|
 | `dob` | string | Date of birth — `"YYYY-MM-DD"` |
-| `time` | string | Time of birth — `"HH:MM"` (24-hour) |
+| `time` | string | Time of birth — `"HH:MM[:SS]"` (24-hour; seconds optional) |
 | `lat` | float | Birth latitude (e.g. `28.6139` for Delhi) |
 | `lon` | float | Birth longitude (e.g. `77.2090` for Delhi) |
 | `timezone` | string | IANA timezone (e.g. `"Asia/Kolkata"`) |
@@ -121,15 +121,15 @@ Generates a Vedic natal chart. Compact by default (<4KB), full on request.
 | `detail` | string | `"compact"` (default) or `"full"` |
 | `gender` | string | Optional — `"male"` / `"female"`, interpretation framing only |
 
-**Returns (compact):** `lagna`, condensed `planets` (sign/house/nakshatra/dignity), active dasha lords (Vimshottari/Yogini/Chara), yoga names, strength totals, SAV, dosha flags — each section naming its drill-down tool.
+**Returns (compact):** `lagna`, condensed `planets` (sign/house/nakshatra/dignity + vargottama/yogakaraka flags), active dasha lords (Vimshottari/Yogini/Chara), yoga names, strength totals, SAV, dosha flags, `time_sensitivity` verdict (robust/borderline/fragile) — each section naming its drill-down tool.
 
 **Returns (full):** JSON with `metadata`, `panchang`, `lagna` (with D2–D60 signs), `planets` (with dignity, combustion, Shadbala, all 14 Varga signs, aspects), `dashas` (5 levels: Maha/Antar/Pratyantar/Sukshma/Prana + timeline), `yogini_dasha`, `chara_dasha`, `yogas` (24 detections), `ashtakavarga` (SAV + BAV + Prashtara), `sodhita_ashtakavarga` (reduced + Sodhya Pinda), `jaimini_karakas`, `shadbala` (with Ishta/Kashta Phala), `vimshopaka`, `bhava_chalit`, `avasthas`, `kaal_sarpa`, `graha_yuddha`, `gandanta`, `arudha_padas` (A1–A12), `upapada`, `karakamsha`.
 
 Errors raise MCP `ToolError` (no `{"error"}` data payloads).
 
-### `get_dasha_periods_tool`, `get_strength_table_tool`, `get_yoga_list_tool`
+### `get_dasha_periods_tool`, `get_strength_table_tool`, `get_yoga_list_tool`, `get_time_sensitivity_tool`
 
-Drill-downs for the compact chart: full dasha chains with dates (all 3 systems), per-planet strength components, full yoga entries. Same birth parameters as `cast_vedic_chart`.
+Drill-downs for the compact chart: full dasha chains with dates (all 3 systems), per-planet strength components, full yoga entries, birth-time sensitivity (robust/borderline/fragile verdict with notes). Same birth parameters as `cast_vedic_chart`; time accepts `"HH:MM[:SS]"`.
 
 ### `cast_transit_chart`
 

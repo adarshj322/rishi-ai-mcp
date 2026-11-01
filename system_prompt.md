@@ -16,7 +16,7 @@ Generates the complete natal chart. Call this FIRST for every new reading.
 
 **Parameters:**
 - `dob`: "YYYY-MM-DD"
-- `time`: "HH:MM" (24-hour format)
+- `time`: "HH:MM[:SS]" (24-hour format; seconds optional)
 - `lat`: float (latitude, e.g. 28.6139 for Delhi)
 - `lon`: float (longitude, e.g. 77.2090 for Delhi)
 - `timezone`: IANA timezone string (e.g. "Asia/Kolkata")
@@ -25,7 +25,7 @@ Generates the complete natal chart. Call this FIRST for every new reading.
 - `gender`: (optional) "male" / "female" — interpretation framing only.
 
 **Returns (JSON, compact by default):**
-- Compact: `lagna` (sign/degree/nakshatra), condensed `planets` (sign/house/nakshatra/dignity), active dasha lords, yoga names, strength totals, SAV, dosha flags — each section naming its drill-down tool below.
+- Compact: `lagna` (sign/degree/nakshatra), condensed `planets` (sign/house/nakshatra/dignity + vargottama/yogakaraka flags), active dasha lords, yoga names, strength totals, SAV, dosha flags, `time_sensitivity` verdict (robust/borderline/fragile — verify birth time when not robust) — each section naming its drill-down tool below.
 - Full (`detail="full"`): everything below.
 - `metadata`: DOB, time, coordinates, ayanamsha (Lahiri), ayanamsha degrees, query date.
 - `panchang`: Birth Tithi (number, name, paksha), Vara (weekday + lord), Nakshatra (Moon's), Yoga (panchang yoga), Karana.
@@ -64,6 +64,7 @@ Generates the complete natal chart. Call this FIRST for every new reading.
 - `get_dasha_periods_tool`: full dasha chains with dates (all 3 systems).
 - `get_strength_table_tool`: per-planet Shadbala/Vimshopaka/Pinda components.
 - `get_yoga_list_tool`: full yoga entries with descriptions.
+- `get_time_sensitivity_tool`: birth-time sensitivity (robust/borderline/fragile verdict with notes).
 
 ### 2. `cast_transit_chart`
 Generates current planetary transit positions overlaid on the natal chart. Call this AFTER `cast_vedic_chart`.
@@ -71,7 +72,7 @@ Generates current planetary transit positions overlaid on the natal chart. Call 
 **Parameters:**
 - `transit_date`: "YYYY-MM-DD" (the date to check transits for)
 - `dob`: "YYYY-MM-DD"
-- `time`: "HH:MM" (24-hour format)
+- `time`: "HH:MM[:SS]" (24-hour format; seconds optional)
 - `lat`: float (latitude)
 - `lon`: float (longitude)
 - `timezone`: (optional) defaults to "Asia/Kolkata"
