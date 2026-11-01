@@ -1,17 +1,17 @@
 """
 RishiAI MCP Server — Vedic astrology tools via the Model Context Protocol.
 
-Thin wrapper around the DashaFlow library. Exposes 8 tools:
+Thin wrapper around the DashaFlow library. Exposes 9 tools:
   cast_vedic_chart, cast_transit_chart, calculate_compatibility_tool,
   check_muhurtha_tool, analyze_career_chart, get_dasha_periods_tool,
-  get_strength_table_tool, get_yoga_list_tool.
+  get_strength_table_tool, get_yoga_list_tool, get_time_sensitivity_tool.
 
 Install:  pip install rishi-ai-mcp
 Run:      rishi-ai-mcp            (console entry-point)
   or:     python rishi_ai_mcp.py  (direct)
 """
 
-__version__ = "1.2.0"
+__version__ = "1.3.0"
 
 from typing import Dict, Any
 from mcp.server.fastmcp import FastMCP
@@ -26,6 +26,7 @@ from dashaflow import (
     get_dasha_periods,
     get_strength_table,
     get_yoga_list,
+    get_time_sensitivity,
 )
 from dashaflow.errors import DashaFlowError, InvalidInputError
 
@@ -57,9 +58,11 @@ def cast_vedic_chart(
     Calculate a Vedic birth chart (Sidereal Lahiri ayanamsha).
 
     detail="compact" (default, <4KB): lagna, condensed planets
-    (sign/house/nakshatra/dignity), active dasha lords (Vimshottari/Yogini/
-    Chara — no timelines), yoga names, strength totals, SAV, dosha flags.
-    Each section names the slice tool for full data.
+    (sign/house/nakshatra/dignity + vargottama/yogakaraka flags), active
+    dasha lords (Vimshottari/Yogini/Chara — no timelines), yoga names,
+    strength totals, SAV, dosha flags, birth-time sensitivity verdict
+    (robust/borderline/fragile). Each section names the slice tool for
+    full data.
     detail="full": the complete chart (planets with 14 vargas, 5-level
     dasha timelines for all 3 systems, full yogas, Shadbala, Vimshopaka,
     Sodhita Ashtakavarga, Jaimini, Bhava Chalit, avasthas, doshas).
@@ -73,7 +76,7 @@ def cast_vedic_chart(
 
     Parameters:
         dob: Date of birth as "YYYY-MM-DD" (e.g. "1990-04-15")
-        time: Time of birth as "HH:MM" in 24-hour format (e.g. "14:30")
+        time: Time of birth as "HH:MM[:SS]" in 24-hour format (e.g. "14:30")
         lat: Birth latitude as decimal degrees (e.g. 28.6139 for New Delhi)
         lon: Birth longitude as decimal degrees (e.g. 77.2090 for New Delhi)
         timezone: IANA timezone string (e.g. "Asia/Kolkata", "America/New_York")
@@ -90,7 +93,13 @@ def cast_vedic_chart(
             raise InvalidInputError(
                 f"Invalid detail '{detail}'. Expected 'compact' or 'full'.")
         chart = cast_chart(dob, time, lat, lon, timezone, query_date or None)
-        result = summarize_chart(chart, detail=detail)
+        if detail == "compact":
+            sensitivity = get_time_sensitivity(
+                dob, time, lat, lon, timezone, query_date=query_date or None)
+            result = summarize_chart(chart, detail=detail,
+                                     time_sensitivity=sensitivity)
+        else:
+            result = summarize_chart(chart, detail=detail)
         if gender:
             result["interpretation_context"] = {"gender": gender}
         return result
@@ -177,6 +186,35 @@ def get_strength_table_tool(
     try:
         chart = cast_chart(dob, time, lat, lon, timezone, query_date or None)
         return get_strength_table(chart)
+    except Exception as e:
+        _raise(e)
+
+
+@mcp.tool()
+def get_time_sensitivity_tool(
+    dob: str,
+    time: str,
+    lat: float,
+    lon: float,
+    timezone: str,
+    query_date: str = "",
+) -> Dict[str, Any]:
+    """
+    Birth-time sensitivity: how fragile this chart is to time uncertainty.
+
+    Re-casts at +-4 minutes and reports what moves (Lagna sign/degree,
+    Moon pada, houses, Vimshottari balance lord) with a verdict:
+    robust (nothing structural moves), borderline (a cusp lies within
+    one window of movement — twice the error would flip it), or fragile
+    (a flip inside the window). Advise the user to verify birth time
+    when the verdict is not robust.
+
+    Parameters: same birth details as cast_vedic_chart.
+    time accepts "HH:MM[:SS]".
+    """
+    try:
+        return get_time_sensitivity(
+            dob, time, lat, lon, timezone, query_date=query_date or None)
     except Exception as e:
         _raise(e)
 
