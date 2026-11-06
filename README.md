@@ -146,6 +146,16 @@ Calculates planetary transits overlaid on a natal chart.
 
 **Returns:** JSON with transit `planets` (sign, degree, nakshatra, `sav_points`, house from Lagna/Moon), `sade_sati` status and phase, and `rahu_ketu_axis`.
 
+### `get_transit_ingresses_tool`, `get_sade_sati_timeline_tool`, `get_gochara_tool`
+
+Timing tools for "when" questions. Same birth parameters as `cast_vedic_chart`; time accepts `"HH:MM[:SS]"`.
+
+| Tool | Parameters | Returns |
+|------|------------|---------|
+| `get_transit_ingresses_tool` | `start_date`, `end_date` (inclusive, 15-year cap), optional `bodies` (default Jupiter/Saturn/Rahu) | Chronological `ingresses` with local `date`, `instant_utc`, `from_sign`/`to_sign`, `direction`, houses from Lagna/Moon. Retrograde re-entries appear separately. Moon is rejected. |
+| `get_sade_sati_timeline_tool` | `start_date`, `end_date`, optional `merge_gap_days` (default 180) | `spans` (rising/peak/setting with `days`, `gap_days`, `in_phase_days`, `interruptions`, clipped-range flags), `active_at_start`/`active_at_end`, and every Saturn `crossings` entry. |
+| `get_gochara_tool` | `transit_date` | Per-planet `house_from_moon`, `sav_points`, `house_quality`, `weighted_verdict` (favorable/mixed/unfavorable), and explanatory `notes`. Rahu/Ketu notes carry the "Raman convention (nodes)" provenance. |
+
 ### `calculate_compatibility_tool`
 
 Calculates 16-factor compatibility + Kuja Dosha. Person 1 = Male, Person 2 = Female.
