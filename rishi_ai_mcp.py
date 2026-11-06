@@ -1,17 +1,18 @@
 """
 RishiAI MCP Server — Vedic astrology tools via the Model Context Protocol.
 
-Thin wrapper around the DashaFlow library. Exposes 9 tools:
+Thin wrapper around the DashaFlow library. Exposes 12 tools:
   cast_vedic_chart, cast_transit_chart, calculate_compatibility_tool,
   check_muhurtha_tool, analyze_career_chart, get_dasha_periods_tool,
-  get_strength_table_tool, get_yoga_list_tool, get_time_sensitivity_tool.
+  get_strength_table_tool, get_yoga_list_tool, get_time_sensitivity_tool,
+  get_transit_ingresses_tool, get_sade_sati_timeline_tool, get_gochara_tool.
 
 Install:  pip install rishi-ai-mcp
 Run:      rishi-ai-mcp            (console entry-point)
   or:     python rishi_ai_mcp.py  (direct)
 """
 
-__version__ = "1.3.0"
+__version__ = "1.4.0"
 
 from typing import Dict, Any
 from mcp.server.fastmcp import FastMCP
@@ -27,6 +28,9 @@ from dashaflow import (
     get_strength_table,
     get_yoga_list,
     get_time_sensitivity,
+    get_transit_ingresses,
+    get_sade_sati_timeline,
+    get_gochara,
 )
 from dashaflow.errors import DashaFlowError, InvalidInputError
 
@@ -137,6 +141,126 @@ def cast_transit_chart(
     """
     try:
         return cast_transit(transit_date, dob, time, lat, lon, timezone)
+    except Exception as e:
+        _raise(e)
+
+
+@mcp.tool()
+def get_transit_ingresses_tool(
+    dob: str,
+    time: str,
+    lat: float,
+    lon: float,
+    timezone: str,
+    start_date: str,
+    end_date: str,
+    bodies: list[str] | None = None,
+) -> Dict[str, Any]:
+    """
+    Exact sign-ingress instants for selected bodies over a date range.
+
+    Answers "when does Saturn enter Pisces?" with the precise instant, not
+    just the sign on a given day. Retrograde re-entries appear as separate
+    events, because a body that backs over a boundary really does cross it
+    twice.
+
+    Returns (JSON):
+    - `range`: { `start`, `end` } (inclusive local dates)
+    - `bodies`: the bodies scanned
+    - `ingresses`: chronological list of { `planet`, `date` (local calendar
+      date), `instant_utc` (minute precision), `from_sign`, `to_sign`,
+      `direction` (direct/retrograde), `house_from_lagna`, `house_from_moon` }
+
+    Parameters:
+        dob, time, lat, lon, timezone: birth details (time "HH:MM[:SS]")
+        start_date, end_date: "YYYY-MM-DD", inclusive, 15 years maximum
+        bodies: optional list; default Jupiter, Saturn, Rahu. Allowed: Sun,
+            Mars, Mercury, Jupiter, Venus, Saturn, Rahu, Ketu. Moon is
+            rejected (changes sign every ~2.25 days) — use cast_transit_chart.
+    """
+    try:
+        return get_transit_ingresses(
+            dob, time, lat, lon, timezone, start_date, end_date, bodies=bodies)
+    except Exception as e:
+        _raise(e)
+
+
+@mcp.tool()
+def get_sade_sati_timeline_tool(
+    dob: str,
+    time: str,
+    lat: float,
+    lon: float,
+    timezone: str,
+    start_date: str,
+    end_date: str,
+    merge_gap_days: int = 180,
+) -> Dict[str, Any]:
+    """
+    Sade Sati timeline: Saturn's rising, peak, and setting phases over the
+    natal Moon, as disjoint date spans.
+
+    Answers "when is my Sade Sati and when does it end?". Short gaps where
+    Saturn steps outside the 12th/1st/2nd from the Moon are absorbed into the
+    surrounding span when they are <= `merge_gap_days`; a retrograde excursion
+    into a different phase stays its own span and also appears in `crossings`.
+
+    Returns (JSON):
+    - `natal_moon_sign`, `range`, `merge_gap_days`
+    - `active_at_start`, `active_at_end`: whether Sade Sati is on at each edge
+    - `spans`: { `phase` (rising/peak/setting), `start`, `end`, `days`,
+      `gap_days`, `in_phase_days`, `interruptions`, `starts_before_range`,
+      `ends_after_range` }. Range-edge flags mean the span was clipped, not
+      that it began/ended there.
+    - `crossings`: every Saturn sign change with `date`, `instant_utc`,
+      `from_sign`, `to_sign`, `from_phase`, `to_phase`, `direction`.
+
+    Parameters:
+        dob, time, lat, lon, timezone: birth details (time "HH:MM[:SS]")
+        start_date, end_date: "YYYY-MM-DD", inclusive, 15 years maximum
+        merge_gap_days: absorb off gaps up to this many days (default 180;
+            0 returns literal spans)
+    """
+    try:
+        return get_sade_sati_timeline(
+            dob, time, lat, lon, timezone, start_date, end_date,
+            merge_gap_days=merge_gap_days)
+    except Exception as e:
+        _raise(e)
+
+
+@mcp.tool()
+def get_gochara_tool(
+    dob: str,
+    time: str,
+    lat: float,
+    lon: float,
+    timezone: str,
+    transit_date: str,
+) -> Dict[str, Any]:
+    """
+    Transit quality from the natal Moon on one date, weighted by natal SAV.
+
+    Each transiting planet is scored by its house from the natal Moon against
+    the classical favourable-house table; the natal sign's Sarvashtakavarga
+    points then temper the verdict. Reference is always the Moon, the classical
+    gochara reference.
+
+    Returns (JSON):
+    - `transit_date`, `reference` ("moon"), `natal_moon_sign`
+    - `sav_average`: mean of the 12 natal SAV values
+    - `planets`: per planet { `sign`, `house_from_moon`, `is_retrograde`,
+      `sav_points`, `house_quality` (favorable/unfavorable),
+      `weighted_verdict` (favorable/mixed/unfavorable), `notes` }
+      Notes state the house rule, the SAV comparison, and for Rahu/Ketu the
+      "Raman convention (nodes)" provenance (BPHS gives no node transit rules).
+
+    Parameters:
+        dob, time, lat, lon, timezone: birth details (time "HH:MM[:SS]")
+        transit_date: "YYYY-MM-DD"
+    """
+    try:
+        return get_gochara(dob, time, lat, lon, timezone, transit_date)
     except Exception as e:
         _raise(e)
 

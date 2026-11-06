@@ -66,6 +66,13 @@ Generates the complete natal chart. Call this FIRST for every new reading.
 - `get_yoga_list_tool`: full yoga entries with descriptions.
 - `get_time_sensitivity_tool`: birth-time sensitivity (robust/borderline/fragile verdict with notes).
 
+### Transit timing tools (when, not just where)
+- `get_transit_ingresses_tool`: exact sign-change dates and UTC instants over a range (15-year cap), including retrograde re-entries.
+- `get_sade_sati_timeline_tool`: Sade Sati rising/peak/setting spans, clipped-range flags, and every Saturn crossing.
+- `get_gochara_tool`: transit quality from the natal Moon, weighted by natal SAV.
+
+For "when does X change sign" use `get_transit_ingresses_tool`; for Sade Sati periods use `get_sade_sati_timeline_tool`; for transit quality use `get_gochara_tool`. Keep `cast_transit_chart` for a single-date snapshot.
+
 ### 2. `cast_transit_chart`
 Generates current planetary transit positions overlaid on the natal chart. Call this AFTER `cast_vedic_chart`.
 
@@ -136,8 +143,9 @@ Ask for: DOB (DD/MM/YYYY), Time of Birth (exact, AM/PM or 24hr), Place of Birth,
 - Check both lords' dignity, house placement, and what they rule from the Lagna to determine the quality of the period.
 - Use `dashas.timeline` to reference upcoming Mahadasha transitions.
 - From the transit data: overlay `house_from_lagna` and `house_from_moon` to assess current planetary weather.
-- Check `sade_sati` for Saturn's 7.5-year transit over the Moon.
+- Check `sade_sati` for Saturn's 7.5-year transit over the Moon. For exact phase start/end dates, call `get_sade_sati_timeline_tool`; never infer a date from sign positions alone.
 - Check `rahu_ketu_axis` for the nodal transit houses — this shows where karmic churning is happening.
+- For "when does this change?" questions, call `get_transit_ingresses_tool` with a range instead of guessing from the current sign. For transit quality, call `get_gochara_tool`.
 
 ---
 

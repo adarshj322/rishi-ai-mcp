@@ -264,3 +264,36 @@ class TestSlice2Honesty(unittest.TestCase):
                                            "Asia/Kolkata")
         self.assertEqual(result["verdict"], "fragile")
         self.assertFalse(result["lagna_stable"])
+
+
+class TestSlice3TransitWorkbench(unittest.TestCase):
+    """Slice 3: ingress, Sade Sati, and gochara tools."""
+
+    def test_tool_count_12(self):
+        import asyncio
+        import rishi_ai_mcp
+        tools = asyncio.run(rishi_ai_mcp.mcp.list_tools())
+        self.assertEqual(len(tools), 12)
+
+    def test_ingress_tool_shape(self):
+        from rishi_ai_mcp import get_transit_ingresses_tool
+        out = get_transit_ingresses_tool(
+            dob="1990-04-15", time="14:30", lat=28.6139, lon=77.2090,
+            timezone="Asia/Kolkata", start_date="2023-01-01", end_date="2023-02-01")
+        self.assertEqual(out["ingresses"][0]["to_sign"], "Aquarius")
+
+    def test_gochara_tool_shape(self):
+        from rishi_ai_mcp import get_gochara_tool
+        out = get_gochara_tool(
+            dob="1990-04-15", time="14:30", lat=28.6139, lon=77.2090,
+            timezone="Asia/Kolkata", transit_date="2026-06-02")
+        self.assertEqual(out["planets"]["Jupiter"]["weighted_verdict"], "mixed")
+
+    def test_workbench_tool_error_maps_to_tool_error(self):
+        from rishi_ai_mcp import get_sade_sati_timeline_tool
+        from mcp.server.fastmcp.exceptions import ToolError
+        with self.assertRaises(ToolError):
+            get_sade_sati_timeline_tool(
+                dob="1990-04-15", time="14:30", lat=28.6139, lon=77.2090,
+                timezone="Asia/Kolkata", start_date="2023-02-01",
+                end_date="2023-01-01")
