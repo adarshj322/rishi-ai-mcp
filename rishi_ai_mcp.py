@@ -60,7 +60,7 @@ def cast_vedic_chart(
     ayanamsha: str = "lahiri",
 ) -> Dict[str, Any]:
     """
-    Calculate a Vedic birth chart (Sidereal Lahiri ayanamsha).
+    Calculate a Vedic birth chart (sidereal; Lahiri ayanamsha by default).
 
     detail="compact" (default, <4KB): lagna, condensed planets
     (sign/house/nakshatra/dignity + vargottama/yogakaraka flags), active
