@@ -57,6 +57,7 @@ def cast_vedic_chart(
     query_date: str = "",
     detail: str = "compact",
     gender: str = "",
+    ayanamsha: str = "lahiri",
 ) -> Dict[str, Any]:
     """
     Calculate a Vedic birth chart (Sidereal Lahiri ayanamsha).
@@ -88,6 +89,8 @@ def cast_vedic_chart(
         detail: "compact" (default) or "full" (complete chart).
         gender: Optional "male" / "female" — interpretation framing only
             (e.g. Stree Deergha context). Does not change calculations.
+        ayanamsha: One of lahiri (default), lahiri_icrc, true_citra, raman,
+            krishnamurti, krishnamurti_vp291, yukteshwar, fagan_bradley.
     """
     try:
         if gender and gender not in ("male", "female"):
@@ -96,10 +99,12 @@ def cast_vedic_chart(
         if detail not in ("compact", "full"):
             raise InvalidInputError(
                 f"Invalid detail '{detail}'. Expected 'compact' or 'full'.")
-        chart = cast_chart(dob, time, lat, lon, timezone, query_date or None)
+        chart = cast_chart(dob, time, lat, lon, timezone, query_date or None,
+                           ayanamsha=ayanamsha)
         if detail == "compact":
             sensitivity = get_time_sensitivity(
-                dob, time, lat, lon, timezone, query_date=query_date or None)
+                dob, time, lat, lon, timezone, query_date=query_date or None,
+                ayanamsha=ayanamsha)
             result = summarize_chart(chart, detail=detail,
                                      time_sensitivity=sensitivity)
         else:
@@ -119,6 +124,7 @@ def cast_transit_chart(
     lat: float,
     lon: float,
     timezone: str = "Asia/Kolkata",
+    ayanamsha: str = "lahiri",
 ) -> Dict[str, Any]:
     """
     Calculate planetary transits for a given date overlaid on a natal chart.
@@ -138,9 +144,12 @@ def cast_transit_chart(
         lat: Birth latitude as decimal degrees
         lon: Birth longitude as decimal degrees
         timezone: IANA timezone string (defaults to "Asia/Kolkata")
+        ayanamsha: One of lahiri (default), lahiri_icrc, true_citra, raman,
+            krishnamurti, krishnamurti_vp291, yukteshwar, fagan_bradley.
     """
     try:
-        return cast_transit(transit_date, dob, time, lat, lon, timezone)
+        return cast_transit(transit_date, dob, time, lat, lon, timezone,
+                            ayanamsha=ayanamsha)
     except Exception as e:
         _raise(e)
 
@@ -155,6 +164,7 @@ def get_transit_ingresses_tool(
     start_date: str,
     end_date: str,
     bodies: list[str] | None = None,
+    ayanamsha: str = "lahiri",
 ) -> Dict[str, Any]:
     """
     Exact sign-ingress instants for selected bodies over a date range.
@@ -177,10 +187,13 @@ def get_transit_ingresses_tool(
         bodies: optional list; default Jupiter, Saturn, Rahu. Allowed: Sun,
             Mars, Mercury, Jupiter, Venus, Saturn, Rahu, Ketu. Moon is
             rejected (changes sign every ~2.25 days) — use cast_transit_chart.
+        ayanamsha: One of lahiri (default), lahiri_icrc, true_citra, raman,
+            krishnamurti, krishnamurti_vp291, yukteshwar, fagan_bradley.
     """
     try:
         return get_transit_ingresses(
-            dob, time, lat, lon, timezone, start_date, end_date, bodies=bodies)
+            dob, time, lat, lon, timezone, start_date, end_date, bodies=bodies,
+            ayanamsha=ayanamsha)
     except Exception as e:
         _raise(e)
 
@@ -195,6 +208,7 @@ def get_sade_sati_timeline_tool(
     start_date: str,
     end_date: str,
     merge_gap_days: int = 180,
+    ayanamsha: str = "lahiri",
 ) -> Dict[str, Any]:
     """
     Sade Sati timeline: Saturn's rising, peak, and setting phases over the
@@ -220,11 +234,13 @@ def get_sade_sati_timeline_tool(
         start_date, end_date: "YYYY-MM-DD", inclusive, 15 years maximum
         merge_gap_days: absorb off gaps up to this many days (default 180;
             0 returns literal spans)
+        ayanamsha: One of lahiri (default), lahiri_icrc, true_citra, raman,
+            krishnamurti, krishnamurti_vp291, yukteshwar, fagan_bradley.
     """
     try:
         return get_sade_sati_timeline(
             dob, time, lat, lon, timezone, start_date, end_date,
-            merge_gap_days=merge_gap_days)
+            merge_gap_days=merge_gap_days, ayanamsha=ayanamsha)
     except Exception as e:
         _raise(e)
 
@@ -237,6 +253,7 @@ def get_gochara_tool(
     lon: float,
     timezone: str,
     transit_date: str,
+    ayanamsha: str = "lahiri",
 ) -> Dict[str, Any]:
     """
     Transit quality from the natal Moon on one date, weighted by natal SAV.
@@ -258,9 +275,12 @@ def get_gochara_tool(
     Parameters:
         dob, time, lat, lon, timezone: birth details (time "HH:MM[:SS]")
         transit_date: "YYYY-MM-DD"
+        ayanamsha: One of lahiri (default), lahiri_icrc, true_citra, raman,
+            krishnamurti, krishnamurti_vp291, yukteshwar, fagan_bradley.
     """
     try:
-        return get_gochara(dob, time, lat, lon, timezone, transit_date)
+        return get_gochara(dob, time, lat, lon, timezone, transit_date,
+                           ayanamsha=ayanamsha)
     except Exception as e:
         _raise(e)
 
@@ -273,6 +293,7 @@ def get_dasha_periods_tool(
     lon: float,
     timezone: str,
     query_date: str = "",
+    ayanamsha: str = "lahiri",
 ) -> Dict[str, Any]:
     """
     Full dasha chains with dates for all three timing systems.
@@ -282,9 +303,12 @@ def get_dasha_periods_tool(
     36-year cycles), and Chara (sign Maha/Antar + timeline).
 
     Parameters: same birth details as cast_vedic_chart.
+        ayanamsha: One of lahiri (default), lahiri_icrc, true_citra, raman,
+            krishnamurti, krishnamurti_vp291, yukteshwar, fagan_bradley.
     """
     try:
-        chart = cast_chart(dob, time, lat, lon, timezone, query_date or None)
+        chart = cast_chart(dob, time, lat, lon, timezone, query_date or None,
+                           ayanamsha=ayanamsha)
         return get_dasha_periods(chart)
     except Exception as e:
         _raise(e)
@@ -298,6 +322,7 @@ def get_strength_table_tool(
     lon: float,
     timezone: str,
     query_date: str = "",
+    ayanamsha: str = "lahiri",
 ) -> Dict[str, Any]:
     """
     Per-planet strength table: Shadbala rupas + requirement + is_strong,
@@ -306,9 +331,12 @@ def get_strength_table_tool(
     Drill-down for the compact chart's strengths section.
 
     Parameters: same birth details as cast_vedic_chart.
+        ayanamsha: One of lahiri (default), lahiri_icrc, true_citra, raman,
+            krishnamurti, krishnamurti_vp291, yukteshwar, fagan_bradley.
     """
     try:
-        chart = cast_chart(dob, time, lat, lon, timezone, query_date or None)
+        chart = cast_chart(dob, time, lat, lon, timezone, query_date or None,
+                           ayanamsha=ayanamsha)
         return get_strength_table(chart)
     except Exception as e:
         _raise(e)
@@ -322,6 +350,7 @@ def get_time_sensitivity_tool(
     lon: float,
     timezone: str,
     query_date: str = "",
+    ayanamsha: str = "lahiri",
 ) -> Dict[str, Any]:
     """
     Birth-time sensitivity: how fragile this chart is to time uncertainty.
@@ -335,10 +364,13 @@ def get_time_sensitivity_tool(
 
     Parameters: same birth details as cast_vedic_chart.
     time accepts "HH:MM[:SS]".
+        ayanamsha: One of lahiri (default), lahiri_icrc, true_citra, raman,
+            krishnamurti, krishnamurti_vp291, yukteshwar, fagan_bradley.
     """
     try:
         return get_time_sensitivity(
-            dob, time, lat, lon, timezone, query_date=query_date or None)
+            dob, time, lat, lon, timezone, query_date=query_date or None,
+            ayanamsha=ayanamsha)
     except Exception as e:
         _raise(e)
 
@@ -351,6 +383,7 @@ def get_yoga_list_tool(
     lon: float,
     timezone: str,
     query_date: str = "",
+    ayanamsha: str = "lahiri",
 ) -> Dict[str, Any]:
     """
     Full yoga entries: name, formed_by planets, description.
@@ -358,9 +391,12 @@ def get_yoga_list_tool(
     Drill-down for the compact chart's yoga names.
 
     Parameters: same birth details as cast_vedic_chart.
+        ayanamsha: One of lahiri (default), lahiri_icrc, true_citra, raman,
+            krishnamurti, krishnamurti_vp291, yukteshwar, fagan_bradley.
     """
     try:
-        chart = cast_chart(dob, time, lat, lon, timezone, query_date or None)
+        chart = cast_chart(dob, time, lat, lon, timezone, query_date or None,
+                           ayanamsha=ayanamsha)
         return {"yogas": get_yoga_list(chart)}
     except Exception as e:
         _raise(e)
@@ -370,6 +406,7 @@ def get_yoga_list_tool(
 def calculate_compatibility_tool(
     dob1: str, time1: str, lat1: float, lon1: float, tz1: str,
     dob2: str, time2: str, lat2: float, lon2: float, tz2: str,
+    ayanamsha: str = "lahiri",
 ) -> Dict[str, Any]:
     """
     Calculates traditional 36-point Ashtakoot relationship compatibility between two people.
@@ -384,11 +421,14 @@ def calculate_compatibility_tool(
     Parameters:
         dob1, time1, lat1, lon1, tz1: Birth details for Person 1 (e.g. "1990-04-15", "14:30")
         dob2, time2, lat2, lon2, tz2: Birth details for Person 2
+        ayanamsha: One of lahiri (default), lahiri_icrc, true_citra, raman,
+            krishnamurti, krishnamurti_vp291, yukteshwar, fagan_bradley.
     """
     try:
         return calculate_compatibility(
             dob1, time1, lat1, lon1, tz1,
             dob2, time2, lat2, lon2, tz2,
+            ayanamsha=ayanamsha,
         )
     except Exception as e:
         _raise(e)
@@ -402,6 +442,7 @@ def check_muhurtha_tool(
     lat: float,
     lon: float,
     timezone: str,
+    ayanamsha: str = "lahiri",
 ) -> Dict[str, Any]:
     """
     Check if a date/time is auspicious for a specific activity (electional astrology).
@@ -423,9 +464,12 @@ def check_muhurtha_tool(
         lat: Location latitude
         lon: Location longitude
         timezone: IANA timezone string
+        ayanamsha: One of lahiri (default), lahiri_icrc, true_citra, raman,
+            krishnamurti, krishnamurti_vp291, yukteshwar, fagan_bradley.
     """
     try:
-        return check_muhurtha(activity, date, time, lat, lon, timezone)
+        return check_muhurtha(activity, date, time, lat, lon, timezone,
+                              ayanamsha=ayanamsha)
     except Exception as e:
         _raise(e)
 
@@ -437,6 +481,7 @@ def analyze_career_chart(
     lat: float,
     lon: float,
     timezone: str,
+    ayanamsha: str = "lahiri",
 ) -> Dict[str, Any]:
     """
     Analyze career potential using the 10th house, D10 Dashamsha, and planetary significations.
@@ -453,9 +498,12 @@ def analyze_career_chart(
         lat: Birth latitude
         lon: Birth longitude
         timezone: IANA timezone string
+        ayanamsha: One of lahiri (default), lahiri_icrc, true_citra, raman,
+            krishnamurti, krishnamurti_vp291, yukteshwar, fagan_bradley.
     """
     try:
-        return analyze_career(dob, time, lat, lon, timezone)
+        return analyze_career(dob, time, lat, lon, timezone,
+                              ayanamsha=ayanamsha)
     except Exception as e:
         _raise(e)
 

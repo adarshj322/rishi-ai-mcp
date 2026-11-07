@@ -297,3 +297,35 @@ class TestSlice3TransitWorkbench(unittest.TestCase):
                 dob="1990-04-15", time="14:30", lat=28.6139, lon=77.2090,
                 timezone="Asia/Kolkata", start_date="2023-02-01",
                 end_date="2023-01-01")
+
+
+class TestAyanamshaVariants(unittest.TestCase):
+    BIRTH = ("1990-04-15", "14:30", 28.6139, 77.2090, "Asia/Kolkata")
+
+    def test_compact_chart_names_variant(self):
+        result = cast_vedic_chart(*self.BIRTH, ayanamsha="raman")
+        self.assertEqual(result["ayanamsha_variant"], "raman")
+        self.assertEqual(result["planets"]["Moon"]["sign"], "Sagittarius")
+
+    def test_invalid_variant_is_tool_error(self):
+        from mcp.server.fastmcp.exceptions import ToolError
+        with self.assertRaises(ToolError):
+            cast_vedic_chart(*self.BIRTH, ayanamsha="nope")
+
+    def test_all_tools_accept_ayanamsha(self):
+        import asyncio
+        import rishi_ai_mcp
+        tools = asyncio.run(rishi_ai_mcp.mcp.list_tools())
+        self.assertEqual(len(tools), 12)
+        for tool in tools:
+            self.assertIn("ayanamsha", tool.inputSchema["properties"], tool.name)
+
+    def test_gochara_variant_changes_reference(self):
+        from rishi_ai_mcp import get_gochara_tool
+        common = dict(dob=self.BIRTH[0], time=self.BIRTH[1], lat=self.BIRTH[2],
+                      lon=self.BIRTH[3], timezone=self.BIRTH[4],
+                      transit_date="2026-06-02")
+        self.assertEqual(get_gochara_tool(**common)["natal_moon_sign"], "Scorpio")
+        self.assertEqual(
+            get_gochara_tool(**common, ayanamsha="raman")["natal_moon_sign"],
+            "Sagittarius")
