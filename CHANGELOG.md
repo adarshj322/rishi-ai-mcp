@@ -5,6 +5,16 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.5.0] - 2026-11-07
+
+### Added
+- `ayanamsha` parameter on all 12 tools: `lahiri` (default), `lahiri_icrc`, `true_citra`, `raman`, `krishnamurti`, `krishnamurti_vp291`, `yukteshwar`, `fagan_bradley`.
+- Compact `cast_vedic_chart` output names the active variant.
+- `system_prompt.md` routing rule: Lahiri unless the user names a system; state the variant; KP only with sub-lord analysis.
+
+### Changed
+- Requires `dashaflow>=1.5.0`.
+
 ## [1.4.0] - 2026-11-06
 
 ### Added
