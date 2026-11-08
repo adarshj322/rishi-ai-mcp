@@ -32,6 +32,16 @@ class TestSystemPromptMinimap(unittest.TestCase):
         for phrase in banned:
             self.assertNotIn(phrase.lower(), text.lower(), f"banned phrase present: {phrase}")
 
+
+
+    def test_agents_md_is_pointer_only(self):
+        a=open("AGENTS.md",encoding="utf-8").read()
+        for lit in ["skills/rishi-reading/contract.md","skills/rishi-reading/references"]:
+            self.assertIn(lit,a)
+        banned=["world's greatest","greatest astrologer","yantra","destiny","guaranteed","predestin"]
+        for p in banned:
+            self.assertNotIn(p.lower(),a.lower(),p)
+
     def test_minimap_length_is_compact(self):
         text = open("system_prompt.md", encoding="utf-8").read()
         self.assertLess(len(text.split()), 400, "minimap bloated beyond ~400 words")
