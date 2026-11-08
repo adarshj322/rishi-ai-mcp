@@ -135,7 +135,7 @@ Nothing in the gate — the pilot is not the verdict. What they decide is whethe
 
 1. **Corpus ledger normalization before the first run** — add `tag`, required chart fields, and pre-authored `evals/cases/clauses.json`; §2.1's edit lock applies only after the first run.
 2. **Budget semantics** — `B` = output tokens per item per arm; input recorded, not budgeted; over-budget = arm disqualified for the run (README wins).
-3. **Transport** — OpenRouter API with explicit temperature/seed (the `claude -p` CLI cannot satisfy the shared floor).
+3. **Transport** — OpenAI-compatible API with explicit temperature/seed (`claude -p` cannot satisfy the shared floor). Two verified backends: OpenRouter (default) and OpenCode Go (`https://opencode.ai/inference/go/openai/v1` + `x-opencode-session` header; model ids `deepseek-v4.1-flash` / `muse-spark-1.3-contributor`). The pilot records which transport was used; switching transport is a floor change for later measurements.
 4. **Verifier input** — the draft prompt's CLAIM–GROUND–STANCE contract is the verifier input; no extra extraction call; budget shares 4 × B/4 (draft/verifier/critic/revision) adjusted to B/3, B/6, B/6, B/3.
 5. **Clause decomposition** — pre-authored, committed before the run, not invented by the judge at scoring time.
 6. **Deterministic scope** — mechanical checks only (fabrication + required-ground presence); semantic checks live in the judge.
