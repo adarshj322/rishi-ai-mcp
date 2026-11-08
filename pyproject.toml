@@ -37,7 +37,7 @@ rishi-ai-mcp = "rishi_ai_mcp:main"
 
 [tool.hatch.build.targets.wheel]
 packages = ["."]
-only-include = ["rishi_ai_mcp.py"]
+only-include = ["rishi_ai_mcp.py", "skills/"]
 
 [tool.hatch.version]
 path = "rishi_ai_mcp.py"
