@@ -10,6 +10,9 @@ each other or from __version__.
   python tools/build_plugin.py --check   compare committed files, write nothing
 
 Exit codes: 0 ok, 3 mismatch, 1 unknown template key, 2 version source missing.
+
+The hook reminder line is read from packaging/hooks/reminder.txt at render
+time (cached), not at import, so --help/import never need it.
 """
 
 import argparse
@@ -45,18 +48,21 @@ class UnknownTemplateKey(Exception):
     """A template carries a top-level key the manifest schema does not know."""
 
 
+_reminder_cache: str | None = None
+
+
 def _load_reminder() -> str:
-    path = Path("packaging/hooks/reminder.txt")
-    try:
-        return path.read_text(encoding="utf-8").rstrip("\n")
-    except OSError as exc:
-        raise RuntimeError(
-            f"packaging/hooks/reminder.txt is required "
-            f"(single source of truth for the hook line): {exc}"
-        ) from exc
-
-
-REMINDER = _load_reminder()
+    global _reminder_cache
+    if _reminder_cache is None:
+        path = Path("packaging/hooks/reminder.txt")
+        try:
+            _reminder_cache = path.read_text(encoding="utf-8").rstrip("\n")
+        except OSError as exc:
+            raise RuntimeError(
+                f"packaging/hooks/reminder.txt is required "
+                f"(single source of truth for the hook line): {exc}"
+            ) from exc
+    return _reminder_cache
 
 _DISPLAY_NAME = "RishiAI — Ground-Truth Vedic Astrology"
 _CLAUDE_PLUGIN_BASE = {
@@ -71,16 +77,22 @@ _CLAUDE_PLUGIN_BASE = {
 
 
 def _hooks_template() -> dict:
+    reminder = _load_reminder()
+    command = "echo " + "'" + reminder.replace("'", "'\\''") + "'"
     return {
         "hooks": {
             "UserPromptSubmit": [
-                {"hooks": [{"type": "command", "command": f"echo {REMINDER}"}]}
+                {"hooks": [{"type": "command", "command": command}]}
             ]
         }
     }
 
 
+HOOK_TEMPLATES = ("hooks/hooks.json", "hooks.json")
+
 # Fixed content; render() injects __version__ into VERSIONED_TEMPLATES.
+# Hooks entries are built at render time (see render()) so that importing
+# this module never reads packaging/hooks/reminder.txt.
 TEMPLATES = {
     ".claude-plugin/plugin.json": {
         **_CLAUDE_PLUGIN_BASE,
@@ -120,8 +132,8 @@ TEMPLATES = {
             "vedic-astrology": {"command": "uvx", "args": ["rishi-ai-mcp"]}
         }
     },
-    "hooks/hooks.json": _hooks_template(),
-    "hooks.json": _hooks_template(),
+    "hooks/hooks.json": {},  # built at render time via _hooks_template()
+    "hooks.json": {},
 }
 
 
@@ -148,6 +160,8 @@ def render(name: str, version: str, template: dict) -> str:
     allowed = ALLOWED_KEYS.get(name)
     if allowed is None:
         raise UnknownTemplateKey(f"{name}: unknown template")
+    if name in HOOK_TEMPLATES:
+        template = _hooks_template()
     for key in template:
         if key not in allowed:
             raise UnknownTemplateKey(f"{name}: unknown key {key!r}")
@@ -204,7 +218,12 @@ def main(argv=None) -> None:
     parser.add_argument("--check", action="store_true",
                         help="compare committed manifests against the templates; write nothing")
     args = parser.parse_args(argv)
-    sys.exit(check() if args.check else emit())
+    try:
+        code = check() if args.check else emit()
+    except RuntimeError as exc:  # packaging/hooks/reminder.txt missing
+        print(exc, file=sys.stderr)
+        sys.exit(1)
+    sys.exit(code)
 
 
 if __name__ == "__main__":

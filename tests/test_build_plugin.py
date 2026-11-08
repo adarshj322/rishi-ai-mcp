@@ -70,7 +70,7 @@ class TestRender(unittest.TestCase):
         for name in ("hooks/hooks.json", "hooks.json"):
             hooks = json.loads(build_plugin.render(name, "1.2.3", build_plugin.TEMPLATES[name]))
             command = hooks["hooks"]["UserPromptSubmit"][0]["hooks"][0]["command"]
-            self.assertEqual(command, f"echo {reminder}")
+            self.assertEqual(command, "echo '" + reminder.replace("'", "'\\''") + "'")
 
     def test_render_refuses_unknown_key(self):
         template = dict(build_plugin.TEMPLATES[".mcp.json"])
