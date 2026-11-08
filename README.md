@@ -1,21 +1,72 @@
-# RishiAI MCP Server
+# RishiAI — Ground-Truth Vedic Astrology
 
 [![PyPI version](https://img.shields.io/pypi/v/rishi-ai-mcp.svg?cache=1)](https://pypi.org/project/rishi-ai-mcp/)
 [![CI](https://github.com/adarshj322/rishi-ai-mcp/actions/workflows/ci.yml/badge.svg)](https://github.com/adarshj322/rishi-ai-mcp/actions/workflows/ci.yml)
 [![Python versions](https://img.shields.io/pypi/pyversions/rishi-ai-mcp.svg?cache=1)](https://pypi.org/project/rishi-ai-mcp/)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
-A [Model Context Protocol](https://modelcontextprotocol.io/) server that exposes **Vedic astrology tools** powered by the [DashaFlow](https://github.com/adarshj322/dashaflow) calculation engine.
+Vedic astrology tools powered by the [DashaFlow](https://github.com/adarshj322/dashaflow) calculation engine, served over the [Model Context Protocol](https://modelcontextprotocol.io/) — plus the **ground-truth reading contract** those tools are read under: doctrine that binds the interpreter, a verifier pass on high-stakes slices, and an auditable output format.
 
-Works with **any MCP-compatible client** — VS Code Copilot, Cursor, Claude Desktop, Claude Code, Gemini CLI, Codex, Antigravity, OpenCode, OpenClaw, Pi agent, or any custom app that speaks MCP.
+Works over **stdio** — as a plugin in Claude Code and Codex, or as a pip-installed MCP server for any other MCP-compatible client.
 
 https://github.com/user-attachments/assets/9c183b94-bb54-4af6-867c-fa3daeef2d03
 
 ## Install
 
+### A. Plugin — Claude Code and Codex
+
+**Claude Code**
+
+```bash
+/plugin marketplace add adarshj322/rishi-ai-mcp
+/plugin install rishi-ai@rishi-ai-mcp
+```
+
+**Codex** (CLI v0.128.0, March 2026)
+
+```bash
+codex plugin marketplace add adarshj322/rishi-ai-mcp
+```
+
+Then open the TUI and run `/plugins`.
+
+What the plugin ships:
+
+- `skills/rishi-reading/SKILL.md` + `skills/rishi-reading/references/*.md` — the doctrine, auto-discovered by the host
+- `agents/chart-verifier.md` and `agents/doctrine-critic.md` — bounded verification subagents (gated; see Limitations)
+- `hooks/hooks.json` (Claude Code) and `hooks.json` (Codex, repo root — Codex does not read `hooks/`) — a one-line `UserPromptSubmit` reminder. Echo only, no side effects
+- `.mcp.json` — wires `uvx rishi-ai-mcp`. The plugin bundle carries no Python; the package is resolved on first run
+
+The plugin doctrine is built around **5 tools by design**: `cast_vedic_chart`, `cast_transit_chart`, `calculate_compatibility_tool`, `check_muhurtha_tool`, `analyze_career_chart`. The pip-installed server exposes all 12 (the remaining 7 are drill-downs — see MCP Tools).
+
+### B. pip — everything else
+
 ```bash
 pip install rishi-ai-mcp
 ```
+
+- Console script: `rishi-ai-mcp`
+- Exposes **all 12 tools** over stdio
+- The doctrine is vendored into the wheel at `<site-packages>/rishi_ai_mcp/skills/rishi-reading/` (`contract.md` + `references/`). Read it directly, or paste it into your host's system-prompt field; `system_prompt.md` in this repo is a minimap that points at it
+- Lahiri ayanamsha by default; other variants are named, never mixed
+
+### OpenCode (docs path — no plugin package in this release)
+
+No npm package ships. Wire it by hand after cloning:
+
+```bash
+git clone https://github.com/adarshj322/rishi-ai-mcp.git
+cd rishi-ai-mcp
+opencode mcp add rishi-ai-mcp -- uvx rishi-ai-mcp
+```
+
+OpenCode reads `.opencode/` (project) or `~/.config/opencode/` (global), and supports git-clone-based wiring. No plugin manifests are honored, and no verification binding ships this way — you get the tools and the doctrine text, unenforced. That is a rough edge, stated plainly.
+
+### Other harnesses — Gemini CLI, VS Code Copilot, Cursor, Roo/Kilo
+
+Docs path only: `pip install rishi-ai-mcp`, add the stdio server per your host's MCP documentation, and adapt `system_prompt.md` to the host's instruction format. These are **not** plugins; there is **no verification binding**; the doctrine ships as text, not as an enforced contract.
+
+> **Warning:** there is no published npm/`npx` package and no plugin bundle outside this repository. Any third-party copy of "rishi-ai-mcp" — a fork, a repackaging, a registry listing — is unaffiliated and unverified. Install from this repo or from PyPI only.
 
 ## Quick Start
 
@@ -24,87 +75,11 @@ rishi-ai-mcp                    # console entry point (after pip install)
 python rishi_ai_mcp.py          # or run directly from source
 ```
 
-Communicates over **stdio**. Any MCP client that can spawn a subprocess and speak MCP can use it — no IDE required.
-
----
-
-## Setup
-
-Clone this repo into your workspace to get the MCP config + RishiAI agent rules for your IDE:
-
-```bash
-git clone https://github.com/adarshj322/rishi-ai-mcp.git
-```
-
-The repo includes ready-to-use configs for three IDEs:
-
-### VS Code / GitHub Copilot
-
-- `.vscode/mcp.json` — auto-configures the MCP server
-- `.github/copilot-instructions.md` — RishiAI persona (always-on)
-- `.agents/skills/*/SKILL.md` — 14 workflow skills (auto-triggered by topic, or invoke via `/skill-name`)
-
-VS Code Copilot reads `.github/copilot-instructions.md` for always-on instructions and `.agents/skills/` for skills. Just open the cloned folder and the tools + persona + skills are active.
-
-### Cursor
-
-- `.cursor/mcp.json` — auto-configures the MCP server
-- `.cursor/rules/rishi-ai.mdc` — RishiAI persona (always-on core rule)
-- `.agents/skills/*/SKILL.md` — 14 workflow skills (shared, Cursor reads `.agents/skills/` natively)
-
-Open the cloned folder in Cursor and the tools + persona + skills are active.
-
-### Antigravity
-
-- `.agents/rules/rishi-ai.md` — RishiAI persona (always-on)
-- `.agents/skills/*/SKILL.md` — 14 workflow skills
-- `.agents/workflows/*.md` — 14 slash-command workflows
-
-Antigravity reads `.agents/` natively. Configure the MCP server in your Antigravity settings:
-
-```
-command: uvx
-args: rishi-ai-mcp
-```
-
-### Other MCP Clients (Claude Desktop, Claude Code, Gemini CLI, etc.)
-
-Any MCP-compatible client can connect using the same server. Add to your client's MCP config:
-
-```json
-{
-  "mcpServers": {
-    "vedic-astrology": {
-      "command": "uvx",
-      "args": ["rishi-ai-mcp"]
-    }
-  }
-}
-```
-
-For the RishiAI persona, use `system_prompt.md` as a reference and adapt it to your client's instruction format.
-
-### Standalone / Custom Client
-
-```python
-from mcp import ClientSession, StdioServerParameters
-from mcp.client.stdio import stdio_client
-
-params = StdioServerParameters(command="uvx", args=["rishi-ai-mcp"])
-
-async with stdio_client(params) as (read, write):
-    async with ClientSession(read, write) as session:
-        await session.initialize()
-        result = await session.call_tool("cast_vedic_chart", {
-            "dob": "1990-04-15", "time": "14:30",
-            "lat": 28.6139, "lon": 77.2090, "timezone": "Asia/Kolkata"
-        })
-        print(result)
-```
-
----
+Communicates over **stdio**. Any MCP client that can spawn a subprocess and speak MCP can use it — no IDE required. Plugin installs skip this step; the plugin wires the server for you.
 
 ## MCP Tools
+
+The server exposes **all 12 tools** over stdio. The plugin doctrine is built around 5 by design — `cast_vedic_chart`, `cast_transit_chart`, `calculate_compatibility_tool`, `check_muhurtha_tool`, `analyze_career_chart`; the rest are drill-downs documented for the pip path.
 
 ### `cast_vedic_chart`
 
@@ -196,50 +171,34 @@ Analyzes career potential using the 10th house, D10 Dashamsha, and planetary sig
 
 **Returns:** JSON with `tenth_house` info, `d10_indicators`, `career_themes`, and `strength_factors`.
 
----
+## The RishiAI persona (ground truth, not flattery)
 
-## RishiAI Agent Persona
+RishiAI is a Vedic astrologer (Jyotishi) bound by an explicit contract rather than by vibe. The model is an **interpreter of tool-computed chart data — never a calculator**, working under *Brihat Parashara Hora Shastra* with Desh–Kaal–Patra (person, time, place, circumstance) framing. Birth details come first or not at all; positions, dashas, and divisional charts are never computed by hand — only the tools speak for the chart.
 
-The repo includes the **RishiAI** persona — a Vedic astrologer AI that interprets chart data using BPHS methodology.
+**What it honestly claims:** the consistency and auditability of its interpretation. Every factual claim cites its chart grounds — planet, sign, house, degree, dignity, shadbala, dasha window — or is tagged UNSUPPORTED and cut or printed beside the tag. Its compute layer is checkable: sidereal positions (Lahiri ayanamsha default) via Swiss Ephemeris/pyswisseph, deterministic run to run. Its reading layer is auditable: every reading ends with a grounds appendix, a calibration footer, a disagreement log, and a provenance line — the artifacts make the reading checkable by anyone, not trusted by default.
 
-| IDE | Always-on Rule | Skills |
-|-----|---------------|--------|
-| **VS Code Copilot** | `.github/copilot-instructions.md` | `.agents/skills/*/SKILL.md` (12 skills) |
-| **Cursor** | `.cursor/rules/rishi-ai.mdc` | `.agents/skills/*/SKILL.md` (12 skills) |
-| **Antigravity** | `.agents/rules/rishi-ai.md` | `.agents/skills/*/SKILL.md` + `.agents/workflows/*.md` |
-| **Other clients** | Adapt from `system_prompt.md` | Adapt workflow steps from `.agents/workflows/` |
+**What it honestly refuses:** certainty about the future. No claim in this repository licenses telling someone what will happen to them; the correspondence layer is out of scope until a preregistered prospective registry exists (it does not yet). It refuses medical, legal, or financial advice — those get gentle language and a professional. It never states or hints longevity probabilities; maraka periods read only as deep transformation. It carries no fear framing, never sells or bundles remedies, and treats "no remedy needed" as a valid — often correct — output.
 
-All IDEs share skills from `.agents/skills/` using the [Agent Skills](https://agentskills.io/) open standard.
+The contract — [`skills/rishi-reading/contract.md`](skills/rishi-reading/contract.md) — in one line each:
 
-### Workflows
+1. **R1 Falsifiability** — every claim cites its chart grounds or is tagged UNSUPPORTED; the grounds appendix prints in every reading.
+2. **R2 Uncertainty** — stated in plain words, scored by a separate pass, never as a numeric self-report; the footer counts what was withheld and flagged.
+3. **R3 Discriminating agreement** — never retract a tool-supported claim under challenge without new grounds; never adopt a user premise the chart contradicts.
+4. **R4 Forbidden behaviors** — no fear framing; never a death/longevity probability; medical/financial/crisis deferral to professionals; five checkable-error refusal triggers.
+5. **R5 Remedy restraint** — matched remedies only, after the facts; "no remedy needed" is always a valid output.
+6. **R6 Accountability** — grounds appendix + calibration footer + disagreement log + provenance line in every reading; provenance missing means not a valid reading.
 
-| Command | Description |
-|---------|-------------|
-| `/full-reading` | Complete natal chart reading |
-| `/career-analysis` | Career and professional guidance |
-| `/marriage-analysis` | Marriage timing and compatibility |
-| `/relationship-analysis` | Relationship dynamics |
-| `/children-analysis` | Children and progeny |
-| `/finance-analysis` | Wealth and financial prospects |
-| `/health-analysis` | Health tendencies and remedies |
-| `/education-analysis` | Education and learning |
-| `/spiritual-analysis` | Spiritual path and practices |
-| `/muhurtha-analysis` | Electional astrology timing |
-| `/physicalIntimacy-analysis` | Physical compatibility |
-| `/geopolitics-analysis` | Mundane astrology |
-| `/past-life-analysis` | Past life karma and karmic debts |
-| `/spouse-profiling` | Detailed spouse blueprint — looks, personality, archetype |
+How a reading actually unfolds — intake, cast-before-counsel, verify-by-default on high-stakes slices — lives in the entry skill [`skills/rishi-reading/SKILL.md`](skills/rishi-reading/SKILL.md) and its `references/`. Plugin hosts auto-discover it; pip installs get it vendored in the wheel. Where any file disagrees with the contract, the contract wins.
 
----
+High-stakes slices — marriage, health, career, remedies, fear content — route through the gated verification pair (`agents/chart-verifier.md` re-derives each cited value from tool output; `agents/doctrine-critic.md` checks the prose against the contract). Verification is currently **off** until the pre-committed equal-cost bar clears — see [`evals/README.md`](evals/README.md) and [Limitations](#limitations).
 
 ## Architecture
 
 ```
-rishi_ai_mcp.py            MCP entry point — 5 tools, pip-installable
-  └── dashaflow (pip)      Calculation engine
+rishi_ai_mcp.py            MCP server — all 12 tools, stdio, single file
+  └── dashaflow (pip)      Calculation engine — Swiss Ephemeris via pyswisseph, Moshier fallback (no .se1 files)
         ├── vedic_calculator   Swiss Ephemeris core
         ├── constants          Zodiac, nakshatras, dignities
-        ├── nakshatra          Nakshatra lookup
         ├── panchang           Tithi, Vara, Yoga, Karana
         ├── yoga               24 yoga types + Kaal Sarpa, Graha Yuddha, Gandanta
         ├── dasha              Vimshottari 5-level
@@ -251,25 +210,47 @@ rishi_ai_mcp.py            MCP entry point — 5 tools, pip-installable
         ├── muhurtha           Electional astrology
         └── career             D10 career analysis
 
-.vscode/mcp.json           VS Code Copilot MCP config
-.github/
-  └── copilot-instructions.md  Always-on rule (VS Code Copilot)
-.cursor/
-  ├── mcp.json             Cursor MCP config
-  └── rules/rishi-ai.mdc   Always-on core rule (Cursor)
-.agents/                   Shared across all IDEs
-  ├── rules/rishi-ai.md   Always-on agent rule (Antigravity)
-  ├── skills/              14 workflow skills (SKILL.md per folder)
-  └── workflows/           14 slash-command workflows (Antigravity)
-system_prompt.md           Universal reference prompt (for other clients)
+skills/rishi-reading/       Doctrine — contract.md + references/ (entry skill auto-discovered by plugin hosts;
+                            vendored into the wheel for pip installs)
+agents/                     chart-verifier.md, doctrine-critic.md — gated verification (off until the
+                            equal-cost bar clears; see evals/README.md)
+evals/                      JyotishQA seed set + Tier-1 conformance corpus (300 moments) + the gate pre-commitment
+tools/build_plugin.py       Renders and verifies the per-host manifests (--check runs in CI)
+tools/tier1_check.py        Tier-1 determinism gate (dual invocation, 300 moments)
+.claude-plugin/             Claude Code — plugin.json + marketplace.json (auto-discovers skills/, agents/, hooks/)
+.codex-plugin/              Codex — plugin.json (skills/ and mcpServers pointers + interface block)
+.agents/plugins/            Codex marketplace catalog
+hooks/hooks.json            Claude Code reminder hook (UserPromptSubmit; echo only, no side effects)
+hooks.json                  Codex reminder hook (repo root; Codex does not read hooks/hooks.json)
+.mcp.json                   uvx rishi-ai-mcp wiring (unpinned until the release flow pins it)
+system_prompt.md            Minimap for non-plugin hosts — points at the vendored contract
+AGENTS.md                   Doctrine pointer for agent harnesses
 ```
+
+## Limitations
+
+Stated plainly, because a reading tool that overclaims is worse than none:
+
+- **No ephemeris files.** The engine computes through pyswisseph's **Moshier fallback** (no `.se1` data files). Positions are ~1″-class and deterministic run to run — adequate for Jyotish sign/degree work, but this is not a Swiss Ephemeris Professional setup and no such claim is made.
+- **No astronomical-truth verification.** The Tier-1 corpus (300 pinned moments, 1900–2030) is a regression and determinism gate — the same input produces the same output, path to path. It verifies determinism, not astronomical truth, and must not be cited as doing so.
+- **Lahiri ayanamsha by default.** Other variants are named when used; systems are never mixed within one reading.
+- **No predictions.** No claim here licenses telling someone what will happen. There is no ground truth for outcomes; the correspondence layer is out of scope until a preregistered prospective registry exists — it does not yet.
+- **No interpretive-validity claim.** What a placement means is an interpretation under a stated rulebook, not a measured fact. The claim is consistency and auditability of interpretation — nothing more.
+- **Verification is off by default.** The plugin ships with the verification path disabled. It unlocks only if the pre-committed equal-cost bar clears — delta > seed-set standard error at first measurement, locked, with the set expanded rather than the bar relaxed; the bar is written down in [`evals/README.md`](evals/README.md) before any run. Until then, sample-and-vote plus the deterministic tool-check is what ships.
+- **Not medical, legal, or financial advice.** The chart may frame themes; it may not triage, dose, or time treatment. Crisis language routes to professionals and crisis resources, never to a chart.
+- **OpenCode and other hosts get no binding.** Outside the two plugin hosts, the contract is documentation, not enforcement — the tools and doctrine text are real, but nothing gates the reading.
 
 ## Prerequisites
 
 - **Python 3.10+**
-- **dashaflow** — installed automatically as dependency
-- **mcp** — installed automatically as dependency
+- **dashaflow** — installed automatically as a dependency
+- **mcp** — installed automatically as a dependency
+- Plugin installs: [`uv`](https://docs.astral.sh/uv/) (for `uvx`) — no local Python environment needed for the doctrine; `uvx` resolves the package on first run
+
+## Contributing
+
+Contributions are welcome — see [CONTRIBUTING.md](CONTRIBUTING.md). House rules: new tools go through `dashaflow` first; the single-file `rishi_ai_mcp.py` pattern stays; run `pytest -q` and `ruff --select E,F,W,I,UP,B --ignore E501 .` before opening a PR.
 
 ## License
 
-MIT
+MIT — see [LICENSE](LICENSE).
