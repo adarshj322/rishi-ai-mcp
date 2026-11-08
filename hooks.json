@@ -1,0 +1,14 @@
+{
+  "hooks": {
+    "UserPromptSubmit": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "echo 'No chart, no reading. Cast cast_vedic_chart first; interpret only what tool math produced.'"
+          }
+        ]
+      }
+    ]
+  }
+}

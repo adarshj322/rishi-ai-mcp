@@ -1,0 +1,13 @@
+{
+  "name": "rishi-ai-mcp",
+  "owner": {
+    "name": "Adarsh J"
+  },
+  "plugins": [
+    {
+      "name": "rishi-ai",
+      "source": "./",
+      "description": "Ground-truth Vedic astrology plugin"
+    }
+  ]
+}
