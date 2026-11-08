@@ -10,8 +10,29 @@ import time
 from eval_scoring import deterministic_verdict
 
 OPENROUTER_BASE_URL = "https://openrouter.ai/api/v1"
+OPENCODE_GO_BASE_URL = "https://opencode.ai/inference/go/openai/v1"
 DEFAULT_ARM_MODEL = "deepseek/deepseek-v4.1-flash"
 DEFAULT_JUDGE_MODEL = "meta/muse-spark-1.3-contributor"
+
+TRANSPORTS = {
+    "openrouter": {
+        "base_url": OPENROUTER_BASE_URL,
+        "env": "OPENROUTER_API_KEY",
+        "arm_model": DEFAULT_ARM_MODEL,
+        "judge_model": DEFAULT_JUDGE_MODEL,
+    },
+    "opencode-go": {
+        "base_url": OPENCODE_GO_BASE_URL,
+        "env": "OPENCODE_GO_API_KEY",
+        "arm_model": "deepseek-v4.1-flash",
+        "judge_model": "muse-spark-1.3-contributor",
+    },
+}
+
+
+def models_for_transport(transport):
+    cfg = TRANSPORTS[transport]
+    return cfg["arm_model"], cfg["judge_model"]
 
 
 class BudgetExceeded(Exception):
@@ -21,13 +42,21 @@ class BudgetExceeded(Exception):
 class ChatClient:
     """Thin wrapper over OpenRouter. Reads OPENROUTER_API_KEY at construction."""
 
-    def __init__(self):
-        api_key = os.environ.get("OPENROUTER_API_KEY")
+    def __init__(self, transport="openrouter"):
+        cfg = TRANSPORTS[transport]
+        api_key = os.environ.get(cfg["env"])
         if not api_key:
-            raise RuntimeError("OPENROUTER_API_KEY is not set")
+            raise RuntimeError(f"{cfg['env']} is not set")
         from openai import OpenAI
 
-        self._client = OpenAI(base_url=OPENROUTER_BASE_URL, api_key=api_key)
+        headers = None
+        if transport == "opencode-go":
+            import uuid
+
+            headers = {"x-opencode-session": f"rishi-eval-{uuid.uuid4().hex[:12]}"}
+        self._client = OpenAI(
+            base_url=cfg["base_url"], api_key=api_key, default_headers=headers
+        )
 
     def complete(self, system, user, model, temperature, max_tokens, seed=7, reasoning=None):
         started = time.time()

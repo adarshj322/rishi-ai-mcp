@@ -126,6 +126,47 @@ class TestWithoutArm(unittest.TestCase):
         self.assertEqual({c["system"] for c in client.calls}, {"DOCTRINE-CONTENT-XYZ"})
 
 
+class TestTransport(unittest.TestCase):
+    def test_opencode_go_transport_uses_its_key_and_base_url(self):
+        from eval_arms import ChatClient
+
+        old = {k: os.environ.get(k) for k in ("OPENROUTER_API_KEY", "OPENCODE_GO_API_KEY")}
+        os.environ["OPENCODE_GO_API_KEY"] = "test-go-key"
+        os.environ.pop("OPENROUTER_API_KEY", None)
+        try:
+            client = ChatClient(transport="opencode-go")
+            self.assertEqual(str(client._client.base_url).rstrip("/"),
+                             "https://opencode.ai/inference/go/openai/v1")
+            self.assertIn("x-opencode-session", client._client.default_headers)
+        finally:
+            for k, v in old.items():
+                if v is None:
+                    os.environ.pop(k, None)
+                else:
+                    os.environ[k] = v
+
+    def test_opencode_go_missing_key_raises(self):
+        from eval_arms import ChatClient
+
+        old = os.environ.pop("OPENCODE_GO_API_KEY", None)
+        try:
+            with self.assertRaises(RuntimeError):
+                ChatClient(transport="opencode-go")
+        finally:
+            if old is not None:
+                os.environ["OPENCODE_GO_API_KEY"] = old
+
+    def test_model_ids_per_transport(self):
+        from eval_arms import models_for_transport
+
+        arm, judge = models_for_transport("opencode-go")
+        self.assertEqual(arm, "deepseek-v4.1-flash")
+        self.assertEqual(judge, "muse-spark-1.3-contributor")
+        arm2, judge2 = models_for_transport("openrouter")
+        self.assertEqual(arm2, "deepseek/deepseek-v4.1-flash")
+        self.assertEqual(judge2, "meta/muse-spark-1.3-contributor")
+
+
 class TestChatClient(unittest.TestCase):
     def test_api_key_required(self):
         from eval_arms import ChatClient

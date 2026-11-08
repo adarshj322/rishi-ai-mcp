@@ -16,9 +16,8 @@ import sys
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 
 from eval_arms import (  # noqa: E402
-    DEFAULT_ARM_MODEL,
-    DEFAULT_JUDGE_MODEL,
     ChatClient,
+    models_for_transport,
     run_bare,
     run_with,
     run_without,
@@ -139,10 +138,13 @@ def precompute_chart(item):
     )
 
 
-def run(items, arms, budget, outdir, client=None, judge_client=None):
+def run(items, arms, budget, outdir, client=None, judge_client=None, transport="openrouter"):
     """Execute the three-arm comparison and return the results dict."""
-    client = client or ChatClient()
+    client = client or ChatClient(transport=transport)
     judge_client = judge_client or client
+    arm_model, judge_model = models_for_transport(transport)
+    for item in items:
+        item.setdefault("model", arm_model)
     ledger = load_ledger()
     doctrine_prompt = load_prompt("doctrine_system.md")
     bare_prompt = load_prompt("bare_system.md")
@@ -171,7 +173,7 @@ def run(items, arms, budget, outdir, client=None, judge_client=None):
             det = deterministic_verdict(out["text"], entry, chart)
             judged = judge_response(
                 judge_client, item, entry, chart, out["text"],
-                judge_model=DEFAULT_JUDGE_MODEL,
+                judge_model=judge_model,
             )
             arm_results[arm] = {
                 "text": out["text"],
@@ -196,7 +198,7 @@ def run(items, arms, budget, outdir, client=None, judge_client=None):
         "gate": f"delta > {se:.6f}",
         "delta": delta,
         "engines": _engine_provenance(),
-        "models": {"arm": DEFAULT_ARM_MODEL, "judge": DEFAULT_JUDGE_MODEL},
+        "models": {"arm": arm_model, "judge": judge_model, "transport": transport},
         "budget": budget,
         "generated_at": datetime.datetime.now(datetime.timezone.utc).isoformat(),
     }
@@ -341,6 +343,7 @@ def main(argv=None):
     parser.add_argument("--arms", default="bare,without,with")
     parser.add_argument("--budget", type=int, default=6000)
     parser.add_argument("--items", default="")
+    parser.add_argument("--transport", default="openrouter", choices=["openrouter", "opencode-go"])
     parser.add_argument("--out", default="")
     args = parser.parse_args(argv)
 
@@ -348,7 +351,7 @@ def main(argv=None):
     selected = [i.strip() for i in args.items.split(",") if i.strip()] or None
     items = build_items(selected)
     outdir = args.out or f"evals/results/{datetime.date.today().isoformat()}-pilot"
-    results = run(items, arms, args.budget, outdir)
+    results = run(items, arms, args.budget, outdir, transport=args.transport)
     print(f"SE = {results['se']:.6f} (rule 1); gate: {results['gate']}")
     for arm in ("bare", "without", "with"):
         stats = results["arms"].get(arm)
