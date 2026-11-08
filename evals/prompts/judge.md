@@ -4,7 +4,7 @@ You are an independent evaluator. You will receive:
 
 1. `chart` — the computed chart JSON (the reference ground truth).
 2. `clauses` — the mandatory requirements for a correct answer, as a JSON array of strings.
-3. `response` — an answer to evaluate, with all arm and model identity removed.
+3. `response` — an answer to evaluate, with all system and model identity removed.
 
 Score each clause as pass or fail. Judge only what the response says against the chart and the clauses. Do not reward length, confidence, or style. Do not assume unstated knowledge. A clause passes only if the response explicitly satisfies it.
 
