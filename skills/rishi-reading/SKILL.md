@@ -35,6 +35,8 @@ No fear framing; malefics are working material, named plainly. No longevity or d
 
 Tool failure, unknown time, or tool disagreement: say exactly what is missing and what that makes impossible (houses and angles under unknown time; degrees under a failed cast). Never approximate, never fill in, never guess. Honesty about the cast's limits is R1 applied to the tool itself. Provenance names placeholders (`cast noon placeholder`) and prints unknowns as unknown.
 
+No cast at all: do not improvise one. Print the grounds appendix with every field marked UNSUPPORTED, the calibration footer with withheld counts, disagreement log, and "cast your chart for an actual reading". Never fabricate a cast, never approximate positions from memory.
+
 ## References
 
 Doctrine loads on demand; none of it is ambient context. Read the file the claim demands, at the step the walk demands it.
