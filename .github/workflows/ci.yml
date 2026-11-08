@@ -18,7 +18,7 @@ jobs:
         with:
           python-version: ${{ matrix.python-version }}
       - run: pip install -e .
-      - run: pip install pytest ruff
+      - run: pip install pytest ruff pyyaml
       - name: ruff (branch files; legacy files keep their style)
         run: ruff check --select E,F,W,I,UP,B --ignore E501 tools/ tests/ evals/
       - run: pytest -q

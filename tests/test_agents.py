@@ -13,7 +13,10 @@ import re
 import unittest
 from pathlib import Path
 
-import yaml
+try:
+    import yaml
+except ImportError:  # pragma: no cover - CI installs pyyaml; bare envs skip
+    yaml = None
 
 REPO_ROOT = Path(__file__).resolve().parents[1]
 VERIFIER = REPO_ROOT / "agents" / "chart-verifier.md"
@@ -51,6 +54,8 @@ class AgentFileTestCase(unittest.TestCase):
 
     def test_exists_and_frontmatter(self):
         self.assertTrue(self.path.is_file(), f"{self.path} is missing")
+        if yaml is None:
+            raise unittest.SkipTest("pyyaml not installed — frontmatter parse skipped")
         text = self.text
         self.assertTrue(text.startswith("---\n"), "file must start with YAML frontmatter (---)")
         fm_raw, body_start = frontmatter(text)
