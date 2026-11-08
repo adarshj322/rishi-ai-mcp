@@ -1,0 +1,19 @@
+{
+  "name": "rishi-ai",
+  "version": "1.6.0",
+  "description": "Ground-truth Vedic astrology: doctrine + contract + deterministic tools, in your harness.",
+  "author": {
+    "name": "Adarsh J"
+  },
+  "homepage": "https://github.com/adarshj322/rishi-ai-mcp",
+  "repository": "https://github.com/adarshj322/rishi-ai-mcp",
+  "license": "MIT",
+  "keywords": [
+    "vedic-astrology",
+    "jyotish",
+    "astrology",
+    "ground-truth",
+    "mcp",
+    "plugin"
+  ]
+}

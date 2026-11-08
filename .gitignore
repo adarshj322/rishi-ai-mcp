@@ -26,3 +26,9 @@ ephe/
 
 # uv lockfile (library is pip/uvx-distributed; resolvers ignore repo lock)
 uv.lock
+
+# Hyperresearch (agent research workspace)
+.claude/
+.hyperresearch/
+CLAUDE.md
+research/
