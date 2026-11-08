@@ -66,7 +66,7 @@ pip install rishi-ai-mcp
 
 - Console script: `rishi-ai-mcp`
 - Exposes **all 12 tools** over stdio
-- The doctrine is vendored into the wheel at `<site-packages>/rishi_ai_mcp/skills/rishi-reading/` (`contract.md` + `references/`). Read it directly, or paste it into your host's system-prompt field; `system_prompt.md` in this repo is a minimap that points at it
+- The doctrine is vendored into the wheel at `<site-packages>/skills/rishi-reading/` (`contract.md` + `references/`). Read it directly, or paste it into your host's system-prompt field; `system_prompt.md` in this repo is a minimap that points at it
 - Lahiri ayanamsha by default; other variants are named, never mixed
 
 ### OpenCode (verified 2026-11-08 on v2.2.6)
