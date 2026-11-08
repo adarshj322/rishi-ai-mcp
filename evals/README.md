@@ -19,6 +19,7 @@ Read this file in order, once, and then every clause applies every time. §1 is 
 Read these before the clauses. They are used exactly as defined, everywhere in this file.
 
 - **with / without arms** — `with` = the plugin with tool-grounded verification (hesitation gate, verifier subagents, per-claim approvals). `without` = the plugin with verification disabled; sample-and-vote plus the deterministic tool-check. These are the only two arms. There is no third arm, no variant arm, no "partially verified" arm.
+- **diagnostic arm `bare`** *(added by owner rewrite 2026-11-08)* — a third, DIAGNOSTIC arm: the tools with no doctrine, no contract, no verification, measured only to report the full plugin's lift over a bare-MCP baseline for the owner. It never enters the gate. The gate remains exactly `with` minus `without` under Section 4, unchanged. `bare` results are informational and carry all Section 4.3 reporting discipline.
 - **delta** — with-minus-without per-item correctness on the JyotishQA seed set, expressed as a proportion difference.
 - **standard error (SE)** — the seed-set standard error from Section 4.1, the noise floor against which the gate is locked.
 - **verdict-capable n** — a set size at which a positive margin is possible at all (n large enough that a delta above the locked SE is achievable on the item set). Below verdict-capable n, only the pilot rule applies; no ship decision is taken.
