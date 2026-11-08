@@ -5,6 +5,27 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [Unreleased]
+
+### Added
+- Ground-truth plugin: Claude Code (`.claude-plugin/` + marketplace) and Codex (`.codex-plugin/` + root `hooks.json` + `.agents/plugins/marketplace.json`) install paths; doctrine skills vendored into the wheel; ground-truth persona for Claude Code/Codex plugin consumers.
+- `skills/rishi-reading/` — entry skill, 6-rule contract (falsifiability, uncertainty in words, discriminating agreement, forbidden behaviors, remedy restraint, accountability), references (chart walk, dashas, dignity, remedies, refusal triggers, audit checklist).
+- Two verification agents: `agents/chart-verifier.md` (binary per-claim ephemeris/dignity verdicts) and `agents/doctrine-critic.md` (BPHS-conformity review) — ship with plugin bundle; read-only.
+- One reminder hook (`hooks/` + Codex `hooks.json`): "No chart, no reading." — no executable side effects.
+- `evals/`: 300-moment Tier-1 conformance corpus (1900–2030) + dual-invocation determinism gate; JyotishQA seed cases (12/8/6); pre-committed equal-cost bar doctrine in `evals/README.md` (written before any measurement).
+- `tools/build_plugin.py` — emits/CI-checks all seven per-host manifests from one source; CI matrix gates ruff + determinism + footprint (<3k token idle budget).
+
+### Changed
+- Persona rewritten everywhere (`AGENTS.md`, `system_prompt.md`, `.github/copilot-instructions.md`, `.cursor/rules/`, `.kilo/agent/`) from yes-man to ground-truth posture.
+- Package metadata keywords; Wheel ships `skills/` doctrine files.
+
+### Removed
+- 16 legacy per-domain skills in `.agents/skills/` (doctrine mined, then deleted).
+
+### Honest limitations
+- No Swiss Ephemeris `.se1` data — Moshier fallback (~1″); interpretive accuracy NOT claimed; product ships with verification-gate-off (sample-and-vote + tool-check) until the pre-committed equal-cost bar clears in `evals/README.md`; no predictions; no published JyotishQA benchmark claims.
+- MCP Registry submission not done; OpenCode npm package not shipped (documented git-clone path only).
+
 ## [1.5.0] - 2026-11-07
 
 ### Added
