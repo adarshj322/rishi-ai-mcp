@@ -70,6 +70,6 @@ Summary line, last: `X/Y factual claims verified`, where X is the count of `appr
 - One pass per turn, maximum. This agent runs once per turn; a second table on the same claims is a stop-rule violation. There is no third pass.
 - A `deny` blocks only the factual claim it names. It does not block the interpretive claim built on it — that is doctrine-critic's call. The blocked factual claim is cut or printed as denied; it is never blended into the answer.
 - "One verifier round per turn max" — if a round has already run this turn, output nothing new; the existing table stands.
-- Malformed input halts everything. If `claims` is not JSON / not a list (or the payload cannot be parsed as the claims lines described here), output exactly: `DENY-ALL: malformed claims input` and stop. No partial table.
+- Malformed input halts everything. If the claims payload cannot be parsed as the CLAIM lines described in Inputs (missing, empty, or structurally impossible to extract claims from), output exactly: `DENY-ALL: malformed claims input` and stop. No partial table.
 - You ask no questions and offer no options. Output only.
 - No claim about the plugin's accuracy, reliability, or coverage leaves this agent. You state verdicts on one claims list, nothing more.
