@@ -1,0 +1,2702 @@
+[
+  {
+    "utc": "1900-01-01 00:00:00",
+    "source": "generated",
+    "rationale": "year-start/year-midfield deterministic pin",
+    "place": "Bangalore",
+    "lat": 12.9716,
+    "lon": 77.5946,
+    "timezone": "Asia/Kolkata"
+  },
+  {
+    "utc": "1900-01-01 00:00:00",
+    "source": "manual",
+    "rationale": "epoch boundary — corpus lower limit; also emitted by the generator, hand-tagged deliberately",
+    "place": "Bangalore",
+    "lat": 12.9716,
+    "lon": 77.5946,
+    "timezone": "Asia/Kolkata"
+  },
+  {
+    "utc": "1900-07-01 12:00:00",
+    "source": "generated",
+    "rationale": "year-start/year-midfield deterministic pin",
+    "place": "Bangalore",
+    "lat": 12.9716,
+    "lon": 77.5946,
+    "timezone": "Asia/Kolkata"
+  },
+  {
+    "utc": "1900-07-01 12:00:00",
+    "source": "manual",
+    "rationale": "1900 mid-year boundary; also emitted by the generator, hand-tagged deliberately",
+    "place": "Bangalore",
+    "lat": 12.9716,
+    "lon": 77.5946,
+    "timezone": "Asia/Kolkata"
+  },
+  {
+    "utc": "1900-12-31 23:59:00",
+    "source": "manual",
+    "rationale": "last minute of 1900",
+    "place": "Bangalore",
+    "lat": 12.9716,
+    "lon": 77.5946,
+    "timezone": "Asia/Kolkata"
+  },
+  {
+    "utc": "1901-01-01 00:00:00",
+    "source": "generated",
+    "rationale": "year-start/year-midfield deterministic pin",
+    "place": "Bangalore",
+    "lat": 12.9716,
+    "lon": 77.5946,
+    "timezone": "Asia/Kolkata"
+  },
+  {
+    "utc": "1901-07-01 12:00:00",
+    "source": "generated",
+    "rationale": "year-start/year-midfield deterministic pin",
+    "place": "Bangalore",
+    "lat": 12.9716,
+    "lon": 77.5946,
+    "timezone": "Asia/Kolkata"
+  },
+  {
+    "utc": "1902-01-01 00:00:00",
+    "source": "generated",
+    "rationale": "year-start/year-midfield deterministic pin",
+    "place": "Bangalore",
+    "lat": 12.9716,
+    "lon": 77.5946,
+    "timezone": "Asia/Kolkata"
+  },
+  {
+    "utc": "1902-07-01 12:00:00",
+    "source": "generated",
+    "rationale": "year-start/year-midfield deterministic pin",
+    "place": "Bangalore",
+    "lat": 12.9716,
+    "lon": 77.5946,
+    "timezone": "Asia/Kolkata"
+  },
+  {
+    "utc": "1903-01-01 00:00:00",
+    "source": "generated",
+    "rationale": "year-start/year-midfield deterministic pin",
+    "place": "Bangalore",
+    "lat": 12.9716,
+    "lon": 77.5946,
+    "timezone": "Asia/Kolkata"
+  },
+  {
+    "utc": "1903-07-01 12:00:00",
+    "source": "generated",
+    "rationale": "year-start/year-midfield deterministic pin",
+    "place": "Bangalore",
+    "lat": 12.9716,
+    "lon": 77.5946,
+    "timezone": "Asia/Kolkata"
+  },
+  {
+    "utc": "1904-01-01 00:00:00",
+    "source": "generated",
+    "rationale": "year-start/year-midfield deterministic pin",
+    "place": "Bangalore",
+    "lat": 12.9716,
+    "lon": 77.5946,
+    "timezone": "Asia/Kolkata"
+  },
+  {
+    "utc": "1904-07-01 12:00:00",
+    "source": "generated",
+    "rationale": "year-start/year-midfield deterministic pin",
+    "place": "Bangalore",
+    "lat": 12.9716,
+    "lon": 77.5946,
+    "timezone": "Asia/Kolkata"
+  },
+  {
+    "utc": "1905-01-01 00:00:00",
+    "source": "generated",
+    "rationale": "year-start/year-midfield deterministic pin",
+    "place": "Bangalore",
+    "lat": 12.9716,
+    "lon": 77.5946,
+    "timezone": "Asia/Kolkata"
+  },
+  {
+    "utc": "1905-07-01 12:00:00",
+    "source": "generated",
+    "rationale": "year-start/year-midfield deterministic pin",
+    "place": "Bangalore",
+    "lat": 12.9716,
+    "lon": 77.5946,
+    "timezone": "Asia/Kolkata"
+  },
+  {
+    "utc": "1906-01-01 00:00:00",
+    "source": "generated",
+    "rationale": "year-start/year-midfield deterministic pin",
+    "place": "Bangalore",
+    "lat": 12.9716,
+    "lon": 77.5946,
+    "timezone": "Asia/Kolkata"
+  },
+  {
+    "utc": "1906-07-01 12:00:00",
+    "source": "generated",
+    "rationale": "year-start/year-midfield deterministic pin",
+    "place": "Bangalore",
+    "lat": 12.9716,
+    "lon": 77.5946,
+    "timezone": "Asia/Kolkata"
+  },
+  {
+    "utc": "1907-01-01 00:00:00",
+    "source": "generated",
+    "rationale": "year-start/year-midfield deterministic pin",
+    "place": "Bangalore",
+    "lat": 12.9716,
+    "lon": 77.5946,
+    "timezone": "Asia/Kolkata"
+  },
+  {
+    "utc": "1907-07-01 12:00:00",
+    "source": "generated",
+    "rationale": "year-start/year-midfield deterministic pin",
+    "place": "Bangalore",
+    "lat": 12.9716,
+    "lon": 77.5946,
+    "timezone": "Asia/Kolkata"
+  },
+  {
+    "utc": "1908-01-01 00:00:00",
+    "source": "generated",
+    "rationale": "year-start/year-midfield deterministic pin",
+    "place": "Bangalore",
+    "lat": 12.9716,
+    "lon": 77.5946,
+    "timezone": "Asia/Kolkata"
+  },
+  {
+    "utc": "1908-07-01 12:00:00",
+    "source": "generated",
+    "rationale": "year-start/year-midfield deterministic pin",
+    "place": "Bangalore",
+    "lat": 12.9716,
+    "lon": 77.5946,
+    "timezone": "Asia/Kolkata"
+  },
+  {
+    "utc": "1909-01-01 00:00:00",
+    "source": "generated",
+    "rationale": "year-start/year-midfield deterministic pin",
+    "place": "Bangalore",
+    "lat": 12.9716,
+    "lon": 77.5946,
+    "timezone": "Asia/Kolkata"
+  },
+  {
+    "utc": "1909-07-01 12:00:00",
+    "source": "generated",
+    "rationale": "year-start/year-midfield deterministic pin",
+    "place": "Bangalore",
+    "lat": 12.9716,
+    "lon": 77.5946,
+    "timezone": "Asia/Kolkata"
+  },
+  {
+    "utc": "1910-01-01 00:00:00",
+    "source": "generated",
+    "rationale": "year-start/year-midfield deterministic pin",
+    "place": "Bangalore",
+    "lat": 12.9716,
+    "lon": 77.5946,
+    "timezone": "Asia/Kolkata"
+  },
+  {
+    "utc": "1910-07-01 12:00:00",
+    "source": "generated",
+    "rationale": "year-start/year-midfield deterministic pin",
+    "place": "Bangalore",
+    "lat": 12.9716,
+    "lon": 77.5946,
+    "timezone": "Asia/Kolkata"
+  },
+  {
+    "utc": "1911-01-01 00:00:00",
+    "source": "generated",
+    "rationale": "year-start/year-midfield deterministic pin",
+    "place": "Bangalore",
+    "lat": 12.9716,
+    "lon": 77.5946,
+    "timezone": "Asia/Kolkata"
+  },
+  {
+    "utc": "1911-07-01 12:00:00",
+    "source": "generated",
+    "rationale": "year-start/year-midfield deterministic pin",
+    "place": "Bangalore",
+    "lat": 12.9716,
+    "lon": 77.5946,
+    "timezone": "Asia/Kolkata"
+  },
+  {
+    "utc": "1912-01-01 00:00:00",
+    "source": "generated",
+    "rationale": "year-start/year-midfield deterministic pin",
+    "place": "Bangalore",
+    "lat": 12.9716,
+    "lon": 77.5946,
+    "timezone": "Asia/Kolkata"
+  },
+  {
+    "utc": "1912-07-01 12:00:00",
+    "source": "generated",
+    "rationale": "year-start/year-midfield deterministic pin",
+    "place": "Bangalore",
+    "lat": 12.9716,
+    "lon": 77.5946,
+    "timezone": "Asia/Kolkata"
+  },
+  {
+    "utc": "1913-01-01 00:00:00",
+    "source": "generated",
+    "rationale": "year-start/year-midfield deterministic pin",
+    "place": "Bangalore",
+    "lat": 12.9716,
+    "lon": 77.5946,
+    "timezone": "Asia/Kolkata"
+  },
+  {
+    "utc": "1913-07-01 12:00:00",
+    "source": "generated",
+    "rationale": "year-start/year-midfield deterministic pin",
+    "place": "Bangalore",
+    "lat": 12.9716,
+    "lon": 77.5946,
+    "timezone": "Asia/Kolkata"
+  },
+  {
+    "utc": "1914-01-01 00:00:00",
+    "source": "generated",
+    "rationale": "year-start/year-midfield deterministic pin",
+    "place": "Bangalore",
+    "lat": 12.9716,
+    "lon": 77.5946,
+    "timezone": "Asia/Kolkata"
+  },
+  {
+    "utc": "1914-07-01 12:00:00",
+    "source": "generated",
+    "rationale": "year-start/year-midfield deterministic pin",
+    "place": "Bangalore",
+    "lat": 12.9716,
+    "lon": 77.5946,
+    "timezone": "Asia/Kolkata"
+  },
+  {
+    "utc": "1915-01-01 00:00:00",
+    "source": "generated",
+    "rationale": "year-start/year-midfield deterministic pin",
+    "place": "Bangalore",
+    "lat": 12.9716,
+    "lon": 77.5946,
+    "timezone": "Asia/Kolkata"
+  },
+  {
+    "utc": "1915-07-01 12:00:00",
+    "source": "generated",
+    "rationale": "year-start/year-midfield deterministic pin",
+    "place": "Bangalore",
+    "lat": 12.9716,
+    "lon": 77.5946,
+    "timezone": "Asia/Kolkata"
+  },
+  {
+    "utc": "1916-01-01 00:00:00",
+    "source": "generated",
+    "rationale": "year-start/year-midfield deterministic pin",
+    "place": "Bangalore",
+    "lat": 12.9716,
+    "lon": 77.5946,
+    "timezone": "Asia/Kolkata"
+  },
+  {
+    "utc": "1916-07-01 12:00:00",
+    "source": "generated",
+    "rationale": "year-start/year-midfield deterministic pin",
+    "place": "Bangalore",
+    "lat": 12.9716,
+    "lon": 77.5946,
+    "timezone": "Asia/Kolkata"
+  },
+  {
+    "utc": "1917-01-01 00:00:00",
+    "source": "generated",
+    "rationale": "year-start/year-midfield deterministic pin",
+    "place": "Bangalore",
+    "lat": 12.9716,
+    "lon": 77.5946,
+    "timezone": "Asia/Kolkata"
+  },
+  {
+    "utc": "1917-07-01 12:00:00",
+    "source": "generated",
+    "rationale": "year-start/year-midfield deterministic pin",
+    "place": "Bangalore",
+    "lat": 12.9716,
+    "lon": 77.5946,
+    "timezone": "Asia/Kolkata"
+  },
+  {
+    "utc": "1918-01-01 00:00:00",
+    "source": "generated",
+    "rationale": "year-start/year-midfield deterministic pin",
+    "place": "Bangalore",
+    "lat": 12.9716,
+    "lon": 77.5946,
+    "timezone": "Asia/Kolkata"
+  },
+  {
+    "utc": "1918-07-01 12:00:00",
+    "source": "generated",
+    "rationale": "year-start/year-midfield deterministic pin",
+    "place": "Bangalore",
+    "lat": 12.9716,
+    "lon": 77.5946,
+    "timezone": "Asia/Kolkata"
+  },
+  {
+    "utc": "1918-10-16 14:20:00",
+    "source": "manual",
+    "rationale": "B.V. Raman birth — this repo's canonical native (Bangalore)",
+    "place": "Bangalore",
+    "lat": 12.9716,
+    "lon": 77.5946,
+    "timezone": "Asia/Kolkata"
+  },
+  {
+    "utc": "1919-01-01 00:00:00",
+    "source": "generated",
+    "rationale": "year-start/year-midfield deterministic pin",
+    "place": "Bangalore",
+    "lat": 12.9716,
+    "lon": 77.5946,
+    "timezone": "Asia/Kolkata"
+  },
+  {
+    "utc": "1919-07-01 12:00:00",
+    "source": "generated",
+    "rationale": "year-start/year-midfield deterministic pin",
+    "place": "Bangalore",
+    "lat": 12.9716,
+    "lon": 77.5946,
+    "timezone": "Asia/Kolkata"
+  },
+  {
+    "utc": "1920-01-01 00:00:00",
+    "source": "generated",
+    "rationale": "year-start/year-midfield deterministic pin",
+    "place": "Bangalore",
+    "lat": 12.9716,
+    "lon": 77.5946,
+    "timezone": "Asia/Kolkata"
+  },
+  {
+    "utc": "1920-07-01 12:00:00",
+    "source": "generated",
+    "rationale": "year-start/year-midfield deterministic pin",
+    "place": "Bangalore",
+    "lat": 12.9716,
+    "lon": 77.5946,
+    "timezone": "Asia/Kolkata"
+  },
+  {
+    "utc": "1921-01-01 00:00:00",
+    "source": "generated",
+    "rationale": "year-start/year-midfield deterministic pin",
+    "place": "Bangalore",
+    "lat": 12.9716,
+    "lon": 77.5946,
+    "timezone": "Asia/Kolkata"
+  },
+  {
+    "utc": "1921-07-01 12:00:00",
+    "source": "generated",
+    "rationale": "year-start/year-midfield deterministic pin",
+    "place": "Bangalore",
+    "lat": 12.9716,
+    "lon": 77.5946,
+    "timezone": "Asia/Kolkata"
+  },
+  {
+    "utc": "1922-01-01 00:00:00",
+    "source": "generated",
+    "rationale": "year-start/year-midfield deterministic pin",
+    "place": "Bangalore",
+    "lat": 12.9716,
+    "lon": 77.5946,
+    "timezone": "Asia/Kolkata"
+  },
+  {
+    "utc": "1922-07-01 12:00:00",
+    "source": "generated",
+    "rationale": "year-start/year-midfield deterministic pin",
+    "place": "Bangalore",
+    "lat": 12.9716,
+    "lon": 77.5946,
+    "timezone": "Asia/Kolkata"
+  },
+  {
+    "utc": "1923-01-01 00:00:00",
+    "source": "generated",
+    "rationale": "year-start/year-midfield deterministic pin",
+    "place": "Bangalore",
+    "lat": 12.9716,
+    "lon": 77.5946,
+    "timezone": "Asia/Kolkata"
+  },
+  {
+    "utc": "1923-07-01 12:00:00",
+    "source": "generated",
+    "rationale": "year-start/year-midfield deterministic pin",
+    "place": "Bangalore",
+    "lat": 12.9716,
+    "lon": 77.5946,
+    "timezone": "Asia/Kolkata"
+  },
+  {
+    "utc": "1924-01-01 00:00:00",
+    "source": "generated",
+    "rationale": "year-start/year-midfield deterministic pin",
+    "place": "Bangalore",
+    "lat": 12.9716,
+    "lon": 77.5946,
+    "timezone": "Asia/Kolkata"
+  },
+  {
+    "utc": "1924-07-01 12:00:00",
+    "source": "generated",
+    "rationale": "year-start/year-midfield deterministic pin",
+    "place": "Bangalore",
+    "lat": 12.9716,
+    "lon": 77.5946,
+    "timezone": "Asia/Kolkata"
+  },
+  {
+    "utc": "1925-01-01 00:00:00",
+    "source": "generated",
+    "rationale": "year-start/year-midfield deterministic pin",
+    "place": "Bangalore",
+    "lat": 12.9716,
+    "lon": 77.5946,
+    "timezone": "Asia/Kolkata"
+  },
+  {
+    "utc": "1925-07-01 12:00:00",
+    "source": "generated",
+    "rationale": "year-start/year-midfield deterministic pin",
+    "place": "Bangalore",
+    "lat": 12.9716,
+    "lon": 77.5946,
+    "timezone": "Asia/Kolkata"
+  },
+  {
+    "utc": "1926-01-01 00:00:00",
+    "source": "generated",
+    "rationale": "year-start/year-midfield deterministic pin",
+    "place": "Bangalore",
+    "lat": 12.9716,
+    "lon": 77.5946,
+    "timezone": "Asia/Kolkata"
+  },
+  {
+    "utc": "1926-07-01 12:00:00",
+    "source": "generated",
+    "rationale": "year-start/year-midfield deterministic pin",
+    "place": "Bangalore",
+    "lat": 12.9716,
+    "lon": 77.5946,
+    "timezone": "Asia/Kolkata"
+  },
+  {
+    "utc": "1927-01-01 00:00:00",
+    "source": "generated",
+    "rationale": "year-start/year-midfield deterministic pin",
+    "place": "Bangalore",
+    "lat": 12.9716,
+    "lon": 77.5946,
+    "timezone": "Asia/Kolkata"
+  },
+  {
+    "utc": "1927-07-01 12:00:00",
+    "source": "generated",
+    "rationale": "year-start/year-midfield deterministic pin",
+    "place": "Bangalore",
+    "lat": 12.9716,
+    "lon": 77.5946,
+    "timezone": "Asia/Kolkata"
+  },
+  {
+    "utc": "1928-01-01 00:00:00",
+    "source": "generated",
+    "rationale": "year-start/year-midfield deterministic pin",
+    "place": "Bangalore",
+    "lat": 12.9716,
+    "lon": 77.5946,
+    "timezone": "Asia/Kolkata"
+  },
+  {
+    "utc": "1928-07-01 12:00:00",
+    "source": "generated",
+    "rationale": "year-start/year-midfield deterministic pin",
+    "place": "Bangalore",
+    "lat": 12.9716,
+    "lon": 77.5946,
+    "timezone": "Asia/Kolkata"
+  },
+  {
+    "utc": "1929-01-01 00:00:00",
+    "source": "generated",
+    "rationale": "year-start/year-midfield deterministic pin",
+    "place": "Bangalore",
+    "lat": 12.9716,
+    "lon": 77.5946,
+    "timezone": "Asia/Kolkata"
+  },
+  {
+    "utc": "1929-07-01 12:00:00",
+    "source": "generated",
+    "rationale": "year-start/year-midfield deterministic pin",
+    "place": "Bangalore",
+    "lat": 12.9716,
+    "lon": 77.5946,
+    "timezone": "Asia/Kolkata"
+  },
+  {
+    "utc": "1930-01-01 00:00:00",
+    "source": "generated",
+    "rationale": "year-start/year-midfield deterministic pin",
+    "place": "Bangalore",
+    "lat": 12.9716,
+    "lon": 77.5946,
+    "timezone": "Asia/Kolkata"
+  },
+  {
+    "utc": "1930-07-01 12:00:00",
+    "source": "generated",
+    "rationale": "year-start/year-midfield deterministic pin",
+    "place": "Bangalore",
+    "lat": 12.9716,
+    "lon": 77.5946,
+    "timezone": "Asia/Kolkata"
+  },
+  {
+    "utc": "1931-01-01 00:00:00",
+    "source": "generated",
+    "rationale": "year-start/year-midfield deterministic pin",
+    "place": "Bangalore",
+    "lat": 12.9716,
+    "lon": 77.5946,
+    "timezone": "Asia/Kolkata"
+  },
+  {
+    "utc": "1931-07-01 12:00:00",
+    "source": "generated",
+    "rationale": "year-start/year-midfield deterministic pin",
+    "place": "Bangalore",
+    "lat": 12.9716,
+    "lon": 77.5946,
+    "timezone": "Asia/Kolkata"
+  },
+  {
+    "utc": "1932-01-01 00:00:00",
+    "source": "generated",
+    "rationale": "year-start/year-midfield deterministic pin",
+    "place": "Bangalore",
+    "lat": 12.9716,
+    "lon": 77.5946,
+    "timezone": "Asia/Kolkata"
+  },
+  {
+    "utc": "1932-07-01 12:00:00",
+    "source": "generated",
+    "rationale": "year-start/year-midfield deterministic pin",
+    "place": "Bangalore",
+    "lat": 12.9716,
+    "lon": 77.5946,
+    "timezone": "Asia/Kolkata"
+  },
+  {
+    "utc": "1933-01-01 00:00:00",
+    "source": "generated",
+    "rationale": "year-start/year-midfield deterministic pin",
+    "place": "Bangalore",
+    "lat": 12.9716,
+    "lon": 77.5946,
+    "timezone": "Asia/Kolkata"
+  },
+  {
+    "utc": "1933-07-01 12:00:00",
+    "source": "generated",
+    "rationale": "year-start/year-midfield deterministic pin",
+    "place": "Bangalore",
+    "lat": 12.9716,
+    "lon": 77.5946,
+    "timezone": "Asia/Kolkata"
+  },
+  {
+    "utc": "1934-01-01 00:00:00",
+    "source": "generated",
+    "rationale": "year-start/year-midfield deterministic pin",
+    "place": "Bangalore",
+    "lat": 12.9716,
+    "lon": 77.5946,
+    "timezone": "Asia/Kolkata"
+  },
+  {
+    "utc": "1934-07-01 12:00:00",
+    "source": "generated",
+    "rationale": "year-start/year-midfield deterministic pin",
+    "place": "Bangalore",
+    "lat": 12.9716,
+    "lon": 77.5946,
+    "timezone": "Asia/Kolkata"
+  },
+  {
+    "utc": "1935-01-01 00:00:00",
+    "source": "generated",
+    "rationale": "year-start/year-midfield deterministic pin",
+    "place": "Bangalore",
+    "lat": 12.9716,
+    "lon": 77.5946,
+    "timezone": "Asia/Kolkata"
+  },
+  {
+    "utc": "1935-07-01 12:00:00",
+    "source": "generated",
+    "rationale": "year-start/year-midfield deterministic pin",
+    "place": "Bangalore",
+    "lat": 12.9716,
+    "lon": 77.5946,
+    "timezone": "Asia/Kolkata"
+  },
+  {
+    "utc": "1936-01-01 00:00:00",
+    "source": "generated",
+    "rationale": "year-start/year-midfield deterministic pin",
+    "place": "Bangalore",
+    "lat": 12.9716,
+    "lon": 77.5946,
+    "timezone": "Asia/Kolkata"
+  },
+  {
+    "utc": "1936-07-01 12:00:00",
+    "source": "generated",
+    "rationale": "year-start/year-midfield deterministic pin",
+    "place": "Bangalore",
+    "lat": 12.9716,
+    "lon": 77.5946,
+    "timezone": "Asia/Kolkata"
+  },
+  {
+    "utc": "1937-01-01 00:00:00",
+    "source": "generated",
+    "rationale": "year-start/year-midfield deterministic pin",
+    "place": "Bangalore",
+    "lat": 12.9716,
+    "lon": 77.5946,
+    "timezone": "Asia/Kolkata"
+  },
+  {
+    "utc": "1937-07-01 12:00:00",
+    "source": "generated",
+    "rationale": "year-start/year-midfield deterministic pin",
+    "place": "Bangalore",
+    "lat": 12.9716,
+    "lon": 77.5946,
+    "timezone": "Asia/Kolkata"
+  },
+  {
+    "utc": "1938-01-01 00:00:00",
+    "source": "generated",
+    "rationale": "year-start/year-midfield deterministic pin",
+    "place": "Bangalore",
+    "lat": 12.9716,
+    "lon": 77.5946,
+    "timezone": "Asia/Kolkata"
+  },
+  {
+    "utc": "1938-07-01 12:00:00",
+    "source": "generated",
+    "rationale": "year-start/year-midfield deterministic pin",
+    "place": "Bangalore",
+    "lat": 12.9716,
+    "lon": 77.5946,
+    "timezone": "Asia/Kolkata"
+  },
+  {
+    "utc": "1939-01-01 00:00:00",
+    "source": "generated",
+    "rationale": "year-start/year-midfield deterministic pin",
+    "place": "Bangalore",
+    "lat": 12.9716,
+    "lon": 77.5946,
+    "timezone": "Asia/Kolkata"
+  },
+  {
+    "utc": "1939-07-01 12:00:00",
+    "source": "generated",
+    "rationale": "year-start/year-midfield deterministic pin",
+    "place": "Bangalore",
+    "lat": 12.9716,
+    "lon": 77.5946,
+    "timezone": "Asia/Kolkata"
+  },
+  {
+    "utc": "1939-09-01 00:00:00",
+    "source": "manual",
+    "rationale": "WW2 trigger — Germany invades Poland",
+    "place": "Bangalore",
+    "lat": 12.9716,
+    "lon": 77.5946,
+    "timezone": "Asia/Kolkata"
+  },
+  {
+    "utc": "1940-01-01 00:00:00",
+    "source": "generated",
+    "rationale": "year-start/year-midfield deterministic pin",
+    "place": "Bangalore",
+    "lat": 12.9716,
+    "lon": 77.5946,
+    "timezone": "Asia/Kolkata"
+  },
+  {
+    "utc": "1940-07-01 12:00:00",
+    "source": "generated",
+    "rationale": "year-start/year-midfield deterministic pin",
+    "place": "Bangalore",
+    "lat": 12.9716,
+    "lon": 77.5946,
+    "timezone": "Asia/Kolkata"
+  },
+  {
+    "utc": "1941-01-01 00:00:00",
+    "source": "generated",
+    "rationale": "year-start/year-midfield deterministic pin",
+    "place": "Bangalore",
+    "lat": 12.9716,
+    "lon": 77.5946,
+    "timezone": "Asia/Kolkata"
+  },
+  {
+    "utc": "1941-07-01 12:00:00",
+    "source": "generated",
+    "rationale": "year-start/year-midfield deterministic pin",
+    "place": "Bangalore",
+    "lat": 12.9716,
+    "lon": 77.5946,
+    "timezone": "Asia/Kolkata"
+  },
+  {
+    "utc": "1942-01-01 00:00:00",
+    "source": "generated",
+    "rationale": "year-start/year-midfield deterministic pin",
+    "place": "Bangalore",
+    "lat": 12.9716,
+    "lon": 77.5946,
+    "timezone": "Asia/Kolkata"
+  },
+  {
+    "utc": "1942-07-01 12:00:00",
+    "source": "generated",
+    "rationale": "year-start/year-midfield deterministic pin",
+    "place": "Bangalore",
+    "lat": 12.9716,
+    "lon": 77.5946,
+    "timezone": "Asia/Kolkata"
+  },
+  {
+    "utc": "1943-01-01 00:00:00",
+    "source": "generated",
+    "rationale": "year-start/year-midfield deterministic pin",
+    "place": "Bangalore",
+    "lat": 12.9716,
+    "lon": 77.5946,
+    "timezone": "Asia/Kolkata"
+  },
+  {
+    "utc": "1943-07-01 12:00:00",
+    "source": "generated",
+    "rationale": "year-start/year-midfield deterministic pin",
+    "place": "Bangalore",
+    "lat": 12.9716,
+    "lon": 77.5946,
+    "timezone": "Asia/Kolkata"
+  },
+  {
+    "utc": "1944-01-01 00:00:00",
+    "source": "generated",
+    "rationale": "year-start/year-midfield deterministic pin",
+    "place": "Bangalore",
+    "lat": 12.9716,
+    "lon": 77.5946,
+    "timezone": "Asia/Kolkata"
+  },
+  {
+    "utc": "1944-07-01 12:00:00",
+    "source": "generated",
+    "rationale": "year-start/year-midfield deterministic pin",
+    "place": "Bangalore",
+    "lat": 12.9716,
+    "lon": 77.5946,
+    "timezone": "Asia/Kolkata"
+  },
+  {
+    "utc": "1945-01-01 00:00:00",
+    "source": "generated",
+    "rationale": "year-start/year-midfield deterministic pin",
+    "place": "Bangalore",
+    "lat": 12.9716,
+    "lon": 77.5946,
+    "timezone": "Asia/Kolkata"
+  },
+  {
+    "utc": "1945-07-01 12:00:00",
+    "source": "generated",
+    "rationale": "year-start/year-midfield deterministic pin",
+    "place": "Bangalore",
+    "lat": 12.9716,
+    "lon": 77.5946,
+    "timezone": "Asia/Kolkata"
+  },
+  {
+    "utc": "1946-01-01 00:00:00",
+    "source": "generated",
+    "rationale": "year-start/year-midfield deterministic pin",
+    "place": "Bangalore",
+    "lat": 12.9716,
+    "lon": 77.5946,
+    "timezone": "Asia/Kolkata"
+  },
+  {
+    "utc": "1946-07-01 12:00:00",
+    "source": "generated",
+    "rationale": "year-start/year-midfield deterministic pin",
+    "place": "Bangalore",
+    "lat": 12.9716,
+    "lon": 77.5946,
+    "timezone": "Asia/Kolkata"
+  },
+  {
+    "utc": "1947-01-01 00:00:00",
+    "source": "generated",
+    "rationale": "year-start/year-midfield deterministic pin",
+    "place": "Bangalore",
+    "lat": 12.9716,
+    "lon": 77.5946,
+    "timezone": "Asia/Kolkata"
+  },
+  {
+    "utc": "1947-07-01 12:00:00",
+    "source": "generated",
+    "rationale": "year-start/year-midfield deterministic pin",
+    "place": "Bangalore",
+    "lat": 12.9716,
+    "lon": 77.5946,
+    "timezone": "Asia/Kolkata"
+  },
+  {
+    "utc": "1947-08-15 00:00:00",
+    "source": "manual",
+    "rationale": "India independence midnight",
+    "place": "Bangalore",
+    "lat": 12.9716,
+    "lon": 77.5946,
+    "timezone": "Asia/Kolkata"
+  },
+  {
+    "utc": "1948-01-01 00:00:00",
+    "source": "generated",
+    "rationale": "year-start/year-midfield deterministic pin",
+    "place": "Bangalore",
+    "lat": 12.9716,
+    "lon": 77.5946,
+    "timezone": "Asia/Kolkata"
+  },
+  {
+    "utc": "1948-07-01 12:00:00",
+    "source": "generated",
+    "rationale": "year-start/year-midfield deterministic pin",
+    "place": "Bangalore",
+    "lat": 12.9716,
+    "lon": 77.5946,
+    "timezone": "Asia/Kolkata"
+  },
+  {
+    "utc": "1949-01-01 00:00:00",
+    "source": "generated",
+    "rationale": "year-start/year-midfield deterministic pin",
+    "place": "Bangalore",
+    "lat": 12.9716,
+    "lon": 77.5946,
+    "timezone": "Asia/Kolkata"
+  },
+  {
+    "utc": "1949-07-01 12:00:00",
+    "source": "generated",
+    "rationale": "year-start/year-midfield deterministic pin",
+    "place": "Bangalore",
+    "lat": 12.9716,
+    "lon": 77.5946,
+    "timezone": "Asia/Kolkata"
+  },
+  {
+    "utc": "1950-01-01 00:00:00",
+    "source": "generated",
+    "rationale": "year-start/year-midfield deterministic pin",
+    "place": "Bangalore",
+    "lat": 12.9716,
+    "lon": 77.5946,
+    "timezone": "Asia/Kolkata"
+  },
+  {
+    "utc": "1950-05-10 12:00:00",
+    "source": "manual",
+    "rationale": "Shimla 31.1N — non-equatorial high-latitude probe (tz kept Asia/Kolkata)",
+    "place": "Shimla",
+    "lat": 31.1035,
+    "lon": 77.1734,
+    "timezone": "Asia/Kolkata"
+  },
+  {
+    "utc": "1950-07-01 12:00:00",
+    "source": "generated",
+    "rationale": "year-start/year-midfield deterministic pin",
+    "place": "Bangalore",
+    "lat": 12.9716,
+    "lon": 77.5946,
+    "timezone": "Asia/Kolkata"
+  },
+  {
+    "utc": "1951-01-01 00:00:00",
+    "source": "generated",
+    "rationale": "year-start/year-midfield deterministic pin",
+    "place": "Bangalore",
+    "lat": 12.9716,
+    "lon": 77.5946,
+    "timezone": "Asia/Kolkata"
+  },
+  {
+    "utc": "1951-07-01 12:00:00",
+    "source": "generated",
+    "rationale": "year-start/year-midfield deterministic pin",
+    "place": "Bangalore",
+    "lat": 12.9716,
+    "lon": 77.5946,
+    "timezone": "Asia/Kolkata"
+  },
+  {
+    "utc": "1952-01-01 00:00:00",
+    "source": "generated",
+    "rationale": "year-start/year-midfield deterministic pin",
+    "place": "Bangalore",
+    "lat": 12.9716,
+    "lon": 77.5946,
+    "timezone": "Asia/Kolkata"
+  },
+  {
+    "utc": "1952-07-01 12:00:00",
+    "source": "generated",
+    "rationale": "year-start/year-midfield deterministic pin",
+    "place": "Bangalore",
+    "lat": 12.9716,
+    "lon": 77.5946,
+    "timezone": "Asia/Kolkata"
+  },
+  {
+    "utc": "1953-01-01 00:00:00",
+    "source": "generated",
+    "rationale": "year-start/year-midfield deterministic pin",
+    "place": "Bangalore",
+    "lat": 12.9716,
+    "lon": 77.5946,
+    "timezone": "Asia/Kolkata"
+  },
+  {
+    "utc": "1953-07-01 12:00:00",
+    "source": "generated",
+    "rationale": "year-start/year-midfield deterministic pin",
+    "place": "Bangalore",
+    "lat": 12.9716,
+    "lon": 77.5946,
+    "timezone": "Asia/Kolkata"
+  },
+  {
+    "utc": "1954-01-01 00:00:00",
+    "source": "generated",
+    "rationale": "year-start/year-midfield deterministic pin",
+    "place": "Bangalore",
+    "lat": 12.9716,
+    "lon": 77.5946,
+    "timezone": "Asia/Kolkata"
+  },
+  {
+    "utc": "1954-07-01 12:00:00",
+    "source": "generated",
+    "rationale": "year-start/year-midfield deterministic pin",
+    "place": "Bangalore",
+    "lat": 12.9716,
+    "lon": 77.5946,
+    "timezone": "Asia/Kolkata"
+  },
+  {
+    "utc": "1955-01-01 00:00:00",
+    "source": "generated",
+    "rationale": "year-start/year-midfield deterministic pin",
+    "place": "Bangalore",
+    "lat": 12.9716,
+    "lon": 77.5946,
+    "timezone": "Asia/Kolkata"
+  },
+  {
+    "utc": "1955-07-01 12:00:00",
+    "source": "generated",
+    "rationale": "year-start/year-midfield deterministic pin",
+    "place": "Bangalore",
+    "lat": 12.9716,
+    "lon": 77.5946,
+    "timezone": "Asia/Kolkata"
+  },
+  {
+    "utc": "1956-01-01 00:00:00",
+    "source": "generated",
+    "rationale": "year-start/year-midfield deterministic pin",
+    "place": "Bangalore",
+    "lat": 12.9716,
+    "lon": 77.5946,
+    "timezone": "Asia/Kolkata"
+  },
+  {
+    "utc": "1956-07-01 12:00:00",
+    "source": "generated",
+    "rationale": "year-start/year-midfield deterministic pin",
+    "place": "Bangalore",
+    "lat": 12.9716,
+    "lon": 77.5946,
+    "timezone": "Asia/Kolkata"
+  },
+  {
+    "utc": "1957-01-01 00:00:00",
+    "source": "generated",
+    "rationale": "year-start/year-midfield deterministic pin",
+    "place": "Bangalore",
+    "lat": 12.9716,
+    "lon": 77.5946,
+    "timezone": "Asia/Kolkata"
+  },
+  {
+    "utc": "1957-07-01 12:00:00",
+    "source": "generated",
+    "rationale": "year-start/year-midfield deterministic pin",
+    "place": "Bangalore",
+    "lat": 12.9716,
+    "lon": 77.5946,
+    "timezone": "Asia/Kolkata"
+  },
+  {
+    "utc": "1958-01-01 00:00:00",
+    "source": "generated",
+    "rationale": "year-start/year-midfield deterministic pin",
+    "place": "Bangalore",
+    "lat": 12.9716,
+    "lon": 77.5946,
+    "timezone": "Asia/Kolkata"
+  },
+  {
+    "utc": "1958-07-01 12:00:00",
+    "source": "generated",
+    "rationale": "year-start/year-midfield deterministic pin",
+    "place": "Bangalore",
+    "lat": 12.9716,
+    "lon": 77.5946,
+    "timezone": "Asia/Kolkata"
+  },
+  {
+    "utc": "1959-01-01 00:00:00",
+    "source": "generated",
+    "rationale": "year-start/year-midfield deterministic pin",
+    "place": "Bangalore",
+    "lat": 12.9716,
+    "lon": 77.5946,
+    "timezone": "Asia/Kolkata"
+  },
+  {
+    "utc": "1959-07-01 12:00:00",
+    "source": "generated",
+    "rationale": "year-start/year-midfield deterministic pin",
+    "place": "Bangalore",
+    "lat": 12.9716,
+    "lon": 77.5946,
+    "timezone": "Asia/Kolkata"
+  },
+  {
+    "utc": "1960-01-01 00:00:00",
+    "source": "generated",
+    "rationale": "year-start/year-midfield deterministic pin",
+    "place": "Bangalore",
+    "lat": 12.9716,
+    "lon": 77.5946,
+    "timezone": "Asia/Kolkata"
+  },
+  {
+    "utc": "1960-07-01 12:00:00",
+    "source": "generated",
+    "rationale": "year-start/year-midfield deterministic pin",
+    "place": "Bangalore",
+    "lat": 12.9716,
+    "lon": 77.5946,
+    "timezone": "Asia/Kolkata"
+  },
+  {
+    "utc": "1961-01-01 00:00:00",
+    "source": "generated",
+    "rationale": "year-start/year-midfield deterministic pin",
+    "place": "Bangalore",
+    "lat": 12.9716,
+    "lon": 77.5946,
+    "timezone": "Asia/Kolkata"
+  },
+  {
+    "utc": "1961-07-01 12:00:00",
+    "source": "generated",
+    "rationale": "year-start/year-midfield deterministic pin",
+    "place": "Bangalore",
+    "lat": 12.9716,
+    "lon": 77.5946,
+    "timezone": "Asia/Kolkata"
+  },
+  {
+    "utc": "1962-01-01 00:00:00",
+    "source": "generated",
+    "rationale": "year-start/year-midfield deterministic pin",
+    "place": "Bangalore",
+    "lat": 12.9716,
+    "lon": 77.5946,
+    "timezone": "Asia/Kolkata"
+  },
+  {
+    "utc": "1962-07-01 12:00:00",
+    "source": "generated",
+    "rationale": "year-start/year-midfield deterministic pin",
+    "place": "Bangalore",
+    "lat": 12.9716,
+    "lon": 77.5946,
+    "timezone": "Asia/Kolkata"
+  },
+  {
+    "utc": "1963-01-01 00:00:00",
+    "source": "generated",
+    "rationale": "year-start/year-midfield deterministic pin",
+    "place": "Bangalore",
+    "lat": 12.9716,
+    "lon": 77.5946,
+    "timezone": "Asia/Kolkata"
+  },
+  {
+    "utc": "1963-07-01 12:00:00",
+    "source": "generated",
+    "rationale": "year-start/year-midfield deterministic pin",
+    "place": "Bangalore",
+    "lat": 12.9716,
+    "lon": 77.5946,
+    "timezone": "Asia/Kolkata"
+  },
+  {
+    "utc": "1964-01-01 00:00:00",
+    "source": "generated",
+    "rationale": "year-start/year-midfield deterministic pin",
+    "place": "Bangalore",
+    "lat": 12.9716,
+    "lon": 77.5946,
+    "timezone": "Asia/Kolkata"
+  },
+  {
+    "utc": "1964-07-01 12:00:00",
+    "source": "generated",
+    "rationale": "year-start/year-midfield deterministic pin",
+    "place": "Bangalore",
+    "lat": 12.9716,
+    "lon": 77.5946,
+    "timezone": "Asia/Kolkata"
+  },
+  {
+    "utc": "1965-01-01 00:00:00",
+    "source": "generated",
+    "rationale": "year-start/year-midfield deterministic pin",
+    "place": "Bangalore",
+    "lat": 12.9716,
+    "lon": 77.5946,
+    "timezone": "Asia/Kolkata"
+  },
+  {
+    "utc": "1965-07-01 12:00:00",
+    "source": "generated",
+    "rationale": "year-start/year-midfield deterministic pin",
+    "place": "Bangalore",
+    "lat": 12.9716,
+    "lon": 77.5946,
+    "timezone": "Asia/Kolkata"
+  },
+  {
+    "utc": "1966-01-01 00:00:00",
+    "source": "generated",
+    "rationale": "year-start/year-midfield deterministic pin",
+    "place": "Bangalore",
+    "lat": 12.9716,
+    "lon": 77.5946,
+    "timezone": "Asia/Kolkata"
+  },
+  {
+    "utc": "1966-07-01 12:00:00",
+    "source": "generated",
+    "rationale": "year-start/year-midfield deterministic pin",
+    "place": "Bangalore",
+    "lat": 12.9716,
+    "lon": 77.5946,
+    "timezone": "Asia/Kolkata"
+  },
+  {
+    "utc": "1967-01-01 00:00:00",
+    "source": "generated",
+    "rationale": "year-start/year-midfield deterministic pin",
+    "place": "Bangalore",
+    "lat": 12.9716,
+    "lon": 77.5946,
+    "timezone": "Asia/Kolkata"
+  },
+  {
+    "utc": "1967-07-01 12:00:00",
+    "source": "generated",
+    "rationale": "year-start/year-midfield deterministic pin",
+    "place": "Bangalore",
+    "lat": 12.9716,
+    "lon": 77.5946,
+    "timezone": "Asia/Kolkata"
+  },
+  {
+    "utc": "1968-01-01 00:00:00",
+    "source": "generated",
+    "rationale": "year-start/year-midfield deterministic pin",
+    "place": "Bangalore",
+    "lat": 12.9716,
+    "lon": 77.5946,
+    "timezone": "Asia/Kolkata"
+  },
+  {
+    "utc": "1968-07-01 12:00:00",
+    "source": "generated",
+    "rationale": "year-start/year-midfield deterministic pin",
+    "place": "Bangalore",
+    "lat": 12.9716,
+    "lon": 77.5946,
+    "timezone": "Asia/Kolkata"
+  },
+  {
+    "utc": "1969-01-01 00:00:00",
+    "source": "generated",
+    "rationale": "year-start/year-midfield deterministic pin",
+    "place": "Bangalore",
+    "lat": 12.9716,
+    "lon": 77.5946,
+    "timezone": "Asia/Kolkata"
+  },
+  {
+    "utc": "1969-07-01 12:00:00",
+    "source": "generated",
+    "rationale": "year-start/year-midfield deterministic pin",
+    "place": "Bangalore",
+    "lat": 12.9716,
+    "lon": 77.5946,
+    "timezone": "Asia/Kolkata"
+  },
+  {
+    "utc": "1969-07-20 20:17:00",
+    "source": "manual",
+    "rationale": "Apollo 11 moon landing (20:17 UTC)",
+    "place": "Bangalore",
+    "lat": 12.9716,
+    "lon": 77.5946,
+    "timezone": "Asia/Kolkata"
+  },
+  {
+    "utc": "1970-01-01 00:00:00",
+    "source": "generated",
+    "rationale": "year-start/year-midfield deterministic pin",
+    "place": "Bangalore",
+    "lat": 12.9716,
+    "lon": 77.5946,
+    "timezone": "Asia/Kolkata"
+  },
+  {
+    "utc": "1970-07-01 12:00:00",
+    "source": "generated",
+    "rationale": "year-start/year-midfield deterministic pin",
+    "place": "Bangalore",
+    "lat": 12.9716,
+    "lon": 77.5946,
+    "timezone": "Asia/Kolkata"
+  },
+  {
+    "utc": "1971-01-01 00:00:00",
+    "source": "generated",
+    "rationale": "year-start/year-midfield deterministic pin",
+    "place": "Bangalore",
+    "lat": 12.9716,
+    "lon": 77.5946,
+    "timezone": "Asia/Kolkata"
+  },
+  {
+    "utc": "1971-07-01 12:00:00",
+    "source": "generated",
+    "rationale": "year-start/year-midfield deterministic pin",
+    "place": "Bangalore",
+    "lat": 12.9716,
+    "lon": 77.5946,
+    "timezone": "Asia/Kolkata"
+  },
+  {
+    "utc": "1972-01-01 00:00:00",
+    "source": "generated",
+    "rationale": "year-start/year-midfield deterministic pin",
+    "place": "Bangalore",
+    "lat": 12.9716,
+    "lon": 77.5946,
+    "timezone": "Asia/Kolkata"
+  },
+  {
+    "utc": "1972-07-01 12:00:00",
+    "source": "generated",
+    "rationale": "year-start/year-midfield deterministic pin",
+    "place": "Bangalore",
+    "lat": 12.9716,
+    "lon": 77.5946,
+    "timezone": "Asia/Kolkata"
+  },
+  {
+    "utc": "1973-01-01 00:00:00",
+    "source": "generated",
+    "rationale": "year-start/year-midfield deterministic pin",
+    "place": "Bangalore",
+    "lat": 12.9716,
+    "lon": 77.5946,
+    "timezone": "Asia/Kolkata"
+  },
+  {
+    "utc": "1973-07-01 12:00:00",
+    "source": "generated",
+    "rationale": "year-start/year-midfield deterministic pin",
+    "place": "Bangalore",
+    "lat": 12.9716,
+    "lon": 77.5946,
+    "timezone": "Asia/Kolkata"
+  },
+  {
+    "utc": "1974-01-01 00:00:00",
+    "source": "generated",
+    "rationale": "year-start/year-midfield deterministic pin",
+    "place": "Bangalore",
+    "lat": 12.9716,
+    "lon": 77.5946,
+    "timezone": "Asia/Kolkata"
+  },
+  {
+    "utc": "1974-07-01 12:00:00",
+    "source": "generated",
+    "rationale": "year-start/year-midfield deterministic pin",
+    "place": "Bangalore",
+    "lat": 12.9716,
+    "lon": 77.5946,
+    "timezone": "Asia/Kolkata"
+  },
+  {
+    "utc": "1975-01-01 00:00:00",
+    "source": "generated",
+    "rationale": "year-start/year-midfield deterministic pin",
+    "place": "Bangalore",
+    "lat": 12.9716,
+    "lon": 77.5946,
+    "timezone": "Asia/Kolkata"
+  },
+  {
+    "utc": "1975-07-01 12:00:00",
+    "source": "generated",
+    "rationale": "year-start/year-midfield deterministic pin",
+    "place": "Bangalore",
+    "lat": 12.9716,
+    "lon": 77.5946,
+    "timezone": "Asia/Kolkata"
+  },
+  {
+    "utc": "1975-07-08 00:00:00",
+    "source": "manual",
+    "rationale": "July 1975 pin — mid-decade summer sky",
+    "place": "Bangalore",
+    "lat": 12.9716,
+    "lon": 77.5946,
+    "timezone": "Asia/Kolkata"
+  },
+  {
+    "utc": "1976-01-01 00:00:00",
+    "source": "generated",
+    "rationale": "year-start/year-midfield deterministic pin",
+    "place": "Bangalore",
+    "lat": 12.9716,
+    "lon": 77.5946,
+    "timezone": "Asia/Kolkata"
+  },
+  {
+    "utc": "1976-07-01 12:00:00",
+    "source": "generated",
+    "rationale": "year-start/year-midfield deterministic pin",
+    "place": "Bangalore",
+    "lat": 12.9716,
+    "lon": 77.5946,
+    "timezone": "Asia/Kolkata"
+  },
+  {
+    "utc": "1977-01-01 00:00:00",
+    "source": "generated",
+    "rationale": "year-start/year-midfield deterministic pin",
+    "place": "Bangalore",
+    "lat": 12.9716,
+    "lon": 77.5946,
+    "timezone": "Asia/Kolkata"
+  },
+  {
+    "utc": "1977-07-01 12:00:00",
+    "source": "generated",
+    "rationale": "year-start/year-midfield deterministic pin",
+    "place": "Bangalore",
+    "lat": 12.9716,
+    "lon": 77.5946,
+    "timezone": "Asia/Kolkata"
+  },
+  {
+    "utc": "1978-01-01 00:00:00",
+    "source": "generated",
+    "rationale": "year-start/year-midfield deterministic pin",
+    "place": "Bangalore",
+    "lat": 12.9716,
+    "lon": 77.5946,
+    "timezone": "Asia/Kolkata"
+  },
+  {
+    "utc": "1978-07-01 12:00:00",
+    "source": "generated",
+    "rationale": "year-start/year-midfield deterministic pin",
+    "place": "Bangalore",
+    "lat": 12.9716,
+    "lon": 77.5946,
+    "timezone": "Asia/Kolkata"
+  },
+  {
+    "utc": "1979-01-01 00:00:00",
+    "source": "generated",
+    "rationale": "year-start/year-midfield deterministic pin",
+    "place": "Bangalore",
+    "lat": 12.9716,
+    "lon": 77.5946,
+    "timezone": "Asia/Kolkata"
+  },
+  {
+    "utc": "1979-07-01 12:00:00",
+    "source": "generated",
+    "rationale": "year-start/year-midfield deterministic pin",
+    "place": "Bangalore",
+    "lat": 12.9716,
+    "lon": 77.5946,
+    "timezone": "Asia/Kolkata"
+  },
+  {
+    "utc": "1980-01-01 00:00:00",
+    "source": "generated",
+    "rationale": "year-start/year-midfield deterministic pin",
+    "place": "Bangalore",
+    "lat": 12.9716,
+    "lon": 77.5946,
+    "timezone": "Asia/Kolkata"
+  },
+  {
+    "utc": "1980-07-01 12:00:00",
+    "source": "generated",
+    "rationale": "year-start/year-midfield deterministic pin",
+    "place": "Bangalore",
+    "lat": 12.9716,
+    "lon": 77.5946,
+    "timezone": "Asia/Kolkata"
+  },
+  {
+    "utc": "1981-01-01 00:00:00",
+    "source": "generated",
+    "rationale": "year-start/year-midfield deterministic pin",
+    "place": "Bangalore",
+    "lat": 12.9716,
+    "lon": 77.5946,
+    "timezone": "Asia/Kolkata"
+  },
+  {
+    "utc": "1981-07-01 12:00:00",
+    "source": "generated",
+    "rationale": "year-start/year-midfield deterministic pin",
+    "place": "Bangalore",
+    "lat": 12.9716,
+    "lon": 77.5946,
+    "timezone": "Asia/Kolkata"
+  },
+  {
+    "utc": "1982-01-01 00:00:00",
+    "source": "generated",
+    "rationale": "year-start/year-midfield deterministic pin",
+    "place": "Bangalore",
+    "lat": 12.9716,
+    "lon": 77.5946,
+    "timezone": "Asia/Kolkata"
+  },
+  {
+    "utc": "1982-07-01 12:00:00",
+    "source": "generated",
+    "rationale": "year-start/year-midfield deterministic pin",
+    "place": "Bangalore",
+    "lat": 12.9716,
+    "lon": 77.5946,
+    "timezone": "Asia/Kolkata"
+  },
+  {
+    "utc": "1983-01-01 00:00:00",
+    "source": "generated",
+    "rationale": "year-start/year-midfield deterministic pin",
+    "place": "Bangalore",
+    "lat": 12.9716,
+    "lon": 77.5946,
+    "timezone": "Asia/Kolkata"
+  },
+  {
+    "utc": "1983-07-01 12:00:00",
+    "source": "generated",
+    "rationale": "year-start/year-midfield deterministic pin",
+    "place": "Bangalore",
+    "lat": 12.9716,
+    "lon": 77.5946,
+    "timezone": "Asia/Kolkata"
+  },
+  {
+    "utc": "1984-01-01 00:00:00",
+    "source": "generated",
+    "rationale": "year-start/year-midfield deterministic pin",
+    "place": "Bangalore",
+    "lat": 12.9716,
+    "lon": 77.5946,
+    "timezone": "Asia/Kolkata"
+  },
+  {
+    "utc": "1984-07-01 12:00:00",
+    "source": "generated",
+    "rationale": "year-start/year-midfield deterministic pin",
+    "place": "Bangalore",
+    "lat": 12.9716,
+    "lon": 77.5946,
+    "timezone": "Asia/Kolkata"
+  },
+  {
+    "utc": "1985-01-01 00:00:00",
+    "source": "generated",
+    "rationale": "year-start/year-midfield deterministic pin",
+    "place": "Bangalore",
+    "lat": 12.9716,
+    "lon": 77.5946,
+    "timezone": "Asia/Kolkata"
+  },
+  {
+    "utc": "1985-03-13 07:00:00",
+    "source": "manual",
+    "rationale": "Trivandrum 8.5N — low-latitude southern probe (tz kept Asia/Kolkata)",
+    "place": "Trivandrum",
+    "lat": 8.5241,
+    "lon": 76.9366,
+    "timezone": "Asia/Kolkata"
+  },
+  {
+    "utc": "1985-07-01 12:00:00",
+    "source": "generated",
+    "rationale": "year-start/year-midfield deterministic pin",
+    "place": "Bangalore",
+    "lat": 12.9716,
+    "lon": 77.5946,
+    "timezone": "Asia/Kolkata"
+  },
+  {
+    "utc": "1986-01-01 00:00:00",
+    "source": "generated",
+    "rationale": "year-start/year-midfield deterministic pin",
+    "place": "Bangalore",
+    "lat": 12.9716,
+    "lon": 77.5946,
+    "timezone": "Asia/Kolkata"
+  },
+  {
+    "utc": "1986-07-01 12:00:00",
+    "source": "generated",
+    "rationale": "year-start/year-midfield deterministic pin",
+    "place": "Bangalore",
+    "lat": 12.9716,
+    "lon": 77.5946,
+    "timezone": "Asia/Kolkata"
+  },
+  {
+    "utc": "1987-01-01 00:00:00",
+    "source": "generated",
+    "rationale": "year-start/year-midfield deterministic pin",
+    "place": "Bangalore",
+    "lat": 12.9716,
+    "lon": 77.5946,
+    "timezone": "Asia/Kolkata"
+  },
+  {
+    "utc": "1987-07-01 12:00:00",
+    "source": "generated",
+    "rationale": "year-start/year-midfield deterministic pin",
+    "place": "Bangalore",
+    "lat": 12.9716,
+    "lon": 77.5946,
+    "timezone": "Asia/Kolkata"
+  },
+  {
+    "utc": "1988-01-01 00:00:00",
+    "source": "generated",
+    "rationale": "year-start/year-midfield deterministic pin",
+    "place": "Bangalore",
+    "lat": 12.9716,
+    "lon": 77.5946,
+    "timezone": "Asia/Kolkata"
+  },
+  {
+    "utc": "1988-07-01 12:00:00",
+    "source": "generated",
+    "rationale": "year-start/year-midfield deterministic pin",
+    "place": "Bangalore",
+    "lat": 12.9716,
+    "lon": 77.5946,
+    "timezone": "Asia/Kolkata"
+  },
+  {
+    "utc": "1989-01-01 00:00:00",
+    "source": "generated",
+    "rationale": "year-start/year-midfield deterministic pin",
+    "place": "Bangalore",
+    "lat": 12.9716,
+    "lon": 77.5946,
+    "timezone": "Asia/Kolkata"
+  },
+  {
+    "utc": "1989-07-01 12:00:00",
+    "source": "generated",
+    "rationale": "year-start/year-midfield deterministic pin",
+    "place": "Bangalore",
+    "lat": 12.9716,
+    "lon": 77.5946,
+    "timezone": "Asia/Kolkata"
+  },
+  {
+    "utc": "1989-11-09 23:00:00",
+    "source": "manual",
+    "rationale": "Berlin Wall breach evening",
+    "place": "Bangalore",
+    "lat": 12.9716,
+    "lon": 77.5946,
+    "timezone": "Asia/Kolkata"
+  },
+  {
+    "utc": "1990-01-01 00:00:00",
+    "source": "generated",
+    "rationale": "year-start/year-midfield deterministic pin",
+    "place": "Bangalore",
+    "lat": 12.9716,
+    "lon": 77.5946,
+    "timezone": "Asia/Kolkata"
+  },
+  {
+    "utc": "1990-07-01 12:00:00",
+    "source": "generated",
+    "rationale": "year-start/year-midfield deterministic pin",
+    "place": "Bangalore",
+    "lat": 12.9716,
+    "lon": 77.5946,
+    "timezone": "Asia/Kolkata"
+  },
+  {
+    "utc": "1991-01-01 00:00:00",
+    "source": "generated",
+    "rationale": "year-start/year-midfield deterministic pin",
+    "place": "Bangalore",
+    "lat": 12.9716,
+    "lon": 77.5946,
+    "timezone": "Asia/Kolkata"
+  },
+  {
+    "utc": "1991-01-01 00:00:00",
+    "source": "manual",
+    "rationale": "decade boundary into the 1990s; also emitted by the generator, hand-tagged deliberately",
+    "place": "Bangalore",
+    "lat": 12.9716,
+    "lon": 77.5946,
+    "timezone": "Asia/Kolkata"
+  },
+  {
+    "utc": "1991-07-01 12:00:00",
+    "source": "generated",
+    "rationale": "year-start/year-midfield deterministic pin",
+    "place": "Bangalore",
+    "lat": 12.9716,
+    "lon": 77.5946,
+    "timezone": "Asia/Kolkata"
+  },
+  {
+    "utc": "1992-01-01 00:00:00",
+    "source": "generated",
+    "rationale": "year-start/year-midfield deterministic pin",
+    "place": "Bangalore",
+    "lat": 12.9716,
+    "lon": 77.5946,
+    "timezone": "Asia/Kolkata"
+  },
+  {
+    "utc": "1992-07-01 12:00:00",
+    "source": "generated",
+    "rationale": "year-start/year-midfield deterministic pin",
+    "place": "Bangalore",
+    "lat": 12.9716,
+    "lon": 77.5946,
+    "timezone": "Asia/Kolkata"
+  },
+  {
+    "utc": "1993-01-01 00:00:00",
+    "source": "generated",
+    "rationale": "year-start/year-midfield deterministic pin",
+    "place": "Bangalore",
+    "lat": 12.9716,
+    "lon": 77.5946,
+    "timezone": "Asia/Kolkata"
+  },
+  {
+    "utc": "1993-07-01 12:00:00",
+    "source": "generated",
+    "rationale": "year-start/year-midfield deterministic pin",
+    "place": "Bangalore",
+    "lat": 12.9716,
+    "lon": 77.5946,
+    "timezone": "Asia/Kolkata"
+  },
+  {
+    "utc": "1994-01-01 00:00:00",
+    "source": "generated",
+    "rationale": "year-start/year-midfield deterministic pin",
+    "place": "Bangalore",
+    "lat": 12.9716,
+    "lon": 77.5946,
+    "timezone": "Asia/Kolkata"
+  },
+  {
+    "utc": "1994-07-01 12:00:00",
+    "source": "generated",
+    "rationale": "year-start/year-midfield deterministic pin",
+    "place": "Bangalore",
+    "lat": 12.9716,
+    "lon": 77.5946,
+    "timezone": "Asia/Kolkata"
+  },
+  {
+    "utc": "1995-01-01 00:00:00",
+    "source": "generated",
+    "rationale": "year-start/year-midfield deterministic pin",
+    "place": "Bangalore",
+    "lat": 12.9716,
+    "lon": 77.5946,
+    "timezone": "Asia/Kolkata"
+  },
+  {
+    "utc": "1995-07-01 12:00:00",
+    "source": "generated",
+    "rationale": "year-start/year-midfield deterministic pin",
+    "place": "Bangalore",
+    "lat": 12.9716,
+    "lon": 77.5946,
+    "timezone": "Asia/Kolkata"
+  },
+  {
+    "utc": "1995-10-17 00:00:00",
+    "source": "manual",
+    "rationale": "October 1995 pin — post-monsoon sky",
+    "place": "Bangalore",
+    "lat": 12.9716,
+    "lon": 77.5946,
+    "timezone": "Asia/Kolkata"
+  },
+  {
+    "utc": "1996-01-01 00:00:00",
+    "source": "generated",
+    "rationale": "year-start/year-midfield deterministic pin",
+    "place": "Bangalore",
+    "lat": 12.9716,
+    "lon": 77.5946,
+    "timezone": "Asia/Kolkata"
+  },
+  {
+    "utc": "1996-07-01 12:00:00",
+    "source": "generated",
+    "rationale": "year-start/year-midfield deterministic pin",
+    "place": "Bangalore",
+    "lat": 12.9716,
+    "lon": 77.5946,
+    "timezone": "Asia/Kolkata"
+  },
+  {
+    "utc": "1997-01-01 00:00:00",
+    "source": "generated",
+    "rationale": "year-start/year-midfield deterministic pin",
+    "place": "Bangalore",
+    "lat": 12.9716,
+    "lon": 77.5946,
+    "timezone": "Asia/Kolkata"
+  },
+  {
+    "utc": "1997-07-01 12:00:00",
+    "source": "generated",
+    "rationale": "year-start/year-midfield deterministic pin",
+    "place": "Bangalore",
+    "lat": 12.9716,
+    "lon": 77.5946,
+    "timezone": "Asia/Kolkata"
+  },
+  {
+    "utc": "1998-01-01 00:00:00",
+    "source": "generated",
+    "rationale": "year-start/year-midfield deterministic pin",
+    "place": "Bangalore",
+    "lat": 12.9716,
+    "lon": 77.5946,
+    "timezone": "Asia/Kolkata"
+  },
+  {
+    "utc": "1998-07-01 12:00:00",
+    "source": "generated",
+    "rationale": "year-start/year-midfield deterministic pin",
+    "place": "Bangalore",
+    "lat": 12.9716,
+    "lon": 77.5946,
+    "timezone": "Asia/Kolkata"
+  },
+  {
+    "utc": "1999-01-01 00:00:00",
+    "source": "generated",
+    "rationale": "year-start/year-midfield deterministic pin",
+    "place": "Bangalore",
+    "lat": 12.9716,
+    "lon": 77.5946,
+    "timezone": "Asia/Kolkata"
+  },
+  {
+    "utc": "1999-07-01 12:00:00",
+    "source": "generated",
+    "rationale": "year-start/year-midfield deterministic pin",
+    "place": "Bangalore",
+    "lat": 12.9716,
+    "lon": 77.5946,
+    "timezone": "Asia/Kolkata"
+  },
+  {
+    "utc": "1999-12-31 23:59:00",
+    "source": "manual",
+    "rationale": "last minute before Y2K midnight",
+    "place": "Bangalore",
+    "lat": 12.9716,
+    "lon": 77.5946,
+    "timezone": "Asia/Kolkata"
+  },
+  {
+    "utc": "2000-01-01 00:00:00",
+    "source": "generated",
+    "rationale": "year-start/year-midfield deterministic pin",
+    "place": "Bangalore",
+    "lat": 12.9716,
+    "lon": 77.5946,
+    "timezone": "Asia/Kolkata"
+  },
+  {
+    "utc": "2000-01-01 00:00:00",
+    "source": "manual",
+    "rationale": "Y2K millennium midnight; also emitted by the generator, hand-tagged deliberately",
+    "place": "Bangalore",
+    "lat": 12.9716,
+    "lon": 77.5946,
+    "timezone": "Asia/Kolkata"
+  },
+  {
+    "utc": "2000-07-01 12:00:00",
+    "source": "generated",
+    "rationale": "year-start/year-midfield deterministic pin",
+    "place": "Bangalore",
+    "lat": 12.9716,
+    "lon": 77.5946,
+    "timezone": "Asia/Kolkata"
+  },
+  {
+    "utc": "2001-01-01 00:00:00",
+    "source": "generated",
+    "rationale": "year-start/year-midfield deterministic pin",
+    "place": "Bangalore",
+    "lat": 12.9716,
+    "lon": 77.5946,
+    "timezone": "Asia/Kolkata"
+  },
+  {
+    "utc": "2001-07-01 12:00:00",
+    "source": "generated",
+    "rationale": "year-start/year-midfield deterministic pin",
+    "place": "Bangalore",
+    "lat": 12.9716,
+    "lon": 77.5946,
+    "timezone": "Asia/Kolkata"
+  },
+  {
+    "utc": "2001-09-11 12:46:00",
+    "source": "manual",
+    "rationale": "2001-09-11 first World Trade Center impact window (~12:46 UTC)",
+    "place": "Bangalore",
+    "lat": 12.9716,
+    "lon": 77.5946,
+    "timezone": "Asia/Kolkata"
+  },
+  {
+    "utc": "2002-01-01 00:00:00",
+    "source": "generated",
+    "rationale": "year-start/year-midfield deterministic pin",
+    "place": "Bangalore",
+    "lat": 12.9716,
+    "lon": 77.5946,
+    "timezone": "Asia/Kolkata"
+  },
+  {
+    "utc": "2002-07-01 12:00:00",
+    "source": "generated",
+    "rationale": "year-start/year-midfield deterministic pin",
+    "place": "Bangalore",
+    "lat": 12.9716,
+    "lon": 77.5946,
+    "timezone": "Asia/Kolkata"
+  },
+  {
+    "utc": "2003-01-01 00:00:00",
+    "source": "generated",
+    "rationale": "year-start/year-midfield deterministic pin",
+    "place": "Bangalore",
+    "lat": 12.9716,
+    "lon": 77.5946,
+    "timezone": "Asia/Kolkata"
+  },
+  {
+    "utc": "2003-07-01 12:00:00",
+    "source": "generated",
+    "rationale": "year-start/year-midfield deterministic pin",
+    "place": "Bangalore",
+    "lat": 12.9716,
+    "lon": 77.5946,
+    "timezone": "Asia/Kolkata"
+  },
+  {
+    "utc": "2004-01-01 00:00:00",
+    "source": "generated",
+    "rationale": "year-start/year-midfield deterministic pin",
+    "place": "Bangalore",
+    "lat": 12.9716,
+    "lon": 77.5946,
+    "timezone": "Asia/Kolkata"
+  },
+  {
+    "utc": "2004-07-01 12:00:00",
+    "source": "generated",
+    "rationale": "year-start/year-midfield deterministic pin",
+    "place": "Bangalore",
+    "lat": 12.9716,
+    "lon": 77.5946,
+    "timezone": "Asia/Kolkata"
+  },
+  {
+    "utc": "2005-01-01 00:00:00",
+    "source": "generated",
+    "rationale": "year-start/year-midfield deterministic pin",
+    "place": "Bangalore",
+    "lat": 12.9716,
+    "lon": 77.5946,
+    "timezone": "Asia/Kolkata"
+  },
+  {
+    "utc": "2005-05-20 18:00:00",
+    "source": "manual",
+    "rationale": "May 2005 pin (evening)",
+    "place": "Bangalore",
+    "lat": 12.9716,
+    "lon": 77.5946,
+    "timezone": "Asia/Kolkata"
+  },
+  {
+    "utc": "2005-07-01 12:00:00",
+    "source": "generated",
+    "rationale": "year-start/year-midfield deterministic pin",
+    "place": "Bangalore",
+    "lat": 12.9716,
+    "lon": 77.5946,
+    "timezone": "Asia/Kolkata"
+  },
+  {
+    "utc": "2006-01-01 00:00:00",
+    "source": "generated",
+    "rationale": "year-start/year-midfield deterministic pin",
+    "place": "Bangalore",
+    "lat": 12.9716,
+    "lon": 77.5946,
+    "timezone": "Asia/Kolkata"
+  },
+  {
+    "utc": "2006-07-01 12:00:00",
+    "source": "generated",
+    "rationale": "year-start/year-midfield deterministic pin",
+    "place": "Bangalore",
+    "lat": 12.9716,
+    "lon": 77.5946,
+    "timezone": "Asia/Kolkata"
+  },
+  {
+    "utc": "2007-01-01 00:00:00",
+    "source": "generated",
+    "rationale": "year-start/year-midfield deterministic pin",
+    "place": "Bangalore",
+    "lat": 12.9716,
+    "lon": 77.5946,
+    "timezone": "Asia/Kolkata"
+  },
+  {
+    "utc": "2007-07-01 12:00:00",
+    "source": "generated",
+    "rationale": "year-start/year-midfield deterministic pin",
+    "place": "Bangalore",
+    "lat": 12.9716,
+    "lon": 77.5946,
+    "timezone": "Asia/Kolkata"
+  },
+  {
+    "utc": "2008-01-01 00:00:00",
+    "source": "generated",
+    "rationale": "year-start/year-midfield deterministic pin",
+    "place": "Bangalore",
+    "lat": 12.9716,
+    "lon": 77.5946,
+    "timezone": "Asia/Kolkata"
+  },
+  {
+    "utc": "2008-07-01 12:00:00",
+    "source": "generated",
+    "rationale": "year-start/year-midfield deterministic pin",
+    "place": "Bangalore",
+    "lat": 12.9716,
+    "lon": 77.5946,
+    "timezone": "Asia/Kolkata"
+  },
+  {
+    "utc": "2008-09-15 06:00:00",
+    "source": "manual",
+    "rationale": "Lehman Brothers bankruptcy filing (morning, US)",
+    "place": "Bangalore",
+    "lat": 12.9716,
+    "lon": 77.5946,
+    "timezone": "Asia/Kolkata"
+  },
+  {
+    "utc": "2009-01-01 00:00:00",
+    "source": "generated",
+    "rationale": "year-start/year-midfield deterministic pin",
+    "place": "Bangalore",
+    "lat": 12.9716,
+    "lon": 77.5946,
+    "timezone": "Asia/Kolkata"
+  },
+  {
+    "utc": "2009-07-01 12:00:00",
+    "source": "generated",
+    "rationale": "year-start/year-midfield deterministic pin",
+    "place": "Bangalore",
+    "lat": 12.9716,
+    "lon": 77.5946,
+    "timezone": "Asia/Kolkata"
+  },
+  {
+    "utc": "2010-01-01 00:00:00",
+    "source": "generated",
+    "rationale": "year-start/year-midfield deterministic pin",
+    "place": "Bangalore",
+    "lat": 12.9716,
+    "lon": 77.5946,
+    "timezone": "Asia/Kolkata"
+  },
+  {
+    "utc": "2010-01-01 00:00:00",
+    "source": "manual",
+    "rationale": "decade boundary into the 2010s; also emitted by the generator, hand-tagged deliberately",
+    "place": "Bangalore",
+    "lat": 12.9716,
+    "lon": 77.5946,
+    "timezone": "Asia/Kolkata"
+  },
+  {
+    "utc": "2010-07-01 12:00:00",
+    "source": "generated",
+    "rationale": "year-start/year-midfield deterministic pin",
+    "place": "Bangalore",
+    "lat": 12.9716,
+    "lon": 77.5946,
+    "timezone": "Asia/Kolkata"
+  },
+  {
+    "utc": "2011-01-01 00:00:00",
+    "source": "generated",
+    "rationale": "year-start/year-midfield deterministic pin",
+    "place": "Bangalore",
+    "lat": 12.9716,
+    "lon": 77.5946,
+    "timezone": "Asia/Kolkata"
+  },
+  {
+    "utc": "2011-07-01 12:00:00",
+    "source": "generated",
+    "rationale": "year-start/year-midfield deterministic pin",
+    "place": "Bangalore",
+    "lat": 12.9716,
+    "lon": 77.5946,
+    "timezone": "Asia/Kolkata"
+  },
+  {
+    "utc": "2012-01-01 00:00:00",
+    "source": "generated",
+    "rationale": "year-start/year-midfield deterministic pin",
+    "place": "Bangalore",
+    "lat": 12.9716,
+    "lon": 77.5946,
+    "timezone": "Asia/Kolkata"
+  },
+  {
+    "utc": "2012-06-21 11:09:00",
+    "source": "manual",
+    "rationale": "June solstice 2012 (~11:09 UTC)",
+    "place": "Bangalore",
+    "lat": 12.9716,
+    "lon": 77.5946,
+    "timezone": "Asia/Kolkata"
+  },
+  {
+    "utc": "2012-07-01 12:00:00",
+    "source": "generated",
+    "rationale": "year-start/year-midfield deterministic pin",
+    "place": "Bangalore",
+    "lat": 12.9716,
+    "lon": 77.5946,
+    "timezone": "Asia/Kolkata"
+  },
+  {
+    "utc": "2013-01-01 00:00:00",
+    "source": "generated",
+    "rationale": "year-start/year-midfield deterministic pin",
+    "place": "Bangalore",
+    "lat": 12.9716,
+    "lon": 77.5946,
+    "timezone": "Asia/Kolkata"
+  },
+  {
+    "utc": "2013-07-01 12:00:00",
+    "source": "generated",
+    "rationale": "year-start/year-midfield deterministic pin",
+    "place": "Bangalore",
+    "lat": 12.9716,
+    "lon": 77.5946,
+    "timezone": "Asia/Kolkata"
+  },
+  {
+    "utc": "2014-01-01 00:00:00",
+    "source": "generated",
+    "rationale": "year-start/year-midfield deterministic pin",
+    "place": "Bangalore",
+    "lat": 12.9716,
+    "lon": 77.5946,
+    "timezone": "Asia/Kolkata"
+  },
+  {
+    "utc": "2014-07-01 12:00:00",
+    "source": "generated",
+    "rationale": "year-start/year-midfield deterministic pin",
+    "place": "Bangalore",
+    "lat": 12.9716,
+    "lon": 77.5946,
+    "timezone": "Asia/Kolkata"
+  },
+  {
+    "utc": "2015-01-01 00:00:00",
+    "source": "generated",
+    "rationale": "year-start/year-midfield deterministic pin",
+    "place": "Bangalore",
+    "lat": 12.9716,
+    "lon": 77.5946,
+    "timezone": "Asia/Kolkata"
+  },
+  {
+    "utc": "2015-07-01 12:00:00",
+    "source": "generated",
+    "rationale": "year-start/year-midfield deterministic pin",
+    "place": "Bangalore",
+    "lat": 12.9716,
+    "lon": 77.5946,
+    "timezone": "Asia/Kolkata"
+  },
+  {
+    "utc": "2015-09-28 02:30:00",
+    "source": "manual",
+    "rationale": "supermoon + total lunar eclipse night 2015-09-27/28",
+    "place": "Bangalore",
+    "lat": 12.9716,
+    "lon": 77.5946,
+    "timezone": "Asia/Kolkata"
+  },
+  {
+    "utc": "2015-12-25 00:00:00",
+    "source": "manual",
+    "rationale": "London 51.5N — northern 51.5N probe (tz kept Asia/Kolkata — determinism fixture, not civil local time)",
+    "place": "London",
+    "lat": 51.5074,
+    "lon": -0.1278,
+    "timezone": "Asia/Kolkata"
+  },
+  {
+    "utc": "2016-01-01 00:00:00",
+    "source": "generated",
+    "rationale": "year-start/year-midfield deterministic pin",
+    "place": "Bangalore",
+    "lat": 12.9716,
+    "lon": 77.5946,
+    "timezone": "Asia/Kolkata"
+  },
+  {
+    "utc": "2016-07-01 12:00:00",
+    "source": "generated",
+    "rationale": "year-start/year-midfield deterministic pin",
+    "place": "Bangalore",
+    "lat": 12.9716,
+    "lon": 77.5946,
+    "timezone": "Asia/Kolkata"
+  },
+  {
+    "utc": "2016-08-31 08:30:00",
+    "source": "manual",
+    "rationale": "August 2016 pin — late-summer planetary geometry",
+    "place": "Bangalore",
+    "lat": 12.9716,
+    "lon": 77.5946,
+    "timezone": "Asia/Kolkata"
+  },
+  {
+    "utc": "2017-01-01 00:00:00",
+    "source": "generated",
+    "rationale": "year-start/year-midfield deterministic pin",
+    "place": "Bangalore",
+    "lat": 12.9716,
+    "lon": 77.5946,
+    "timezone": "Asia/Kolkata"
+  },
+  {
+    "utc": "2017-07-01 12:00:00",
+    "source": "generated",
+    "rationale": "year-start/year-midfield deterministic pin",
+    "place": "Bangalore",
+    "lat": 12.9716,
+    "lon": 77.5946,
+    "timezone": "Asia/Kolkata"
+  },
+  {
+    "utc": "2017-08-21 23:30:00",
+    "source": "manual",
+    "rationale": "2017-08-21 North America eclipse day (23:30 UTC, post-maximum)",
+    "place": "Bangalore",
+    "lat": 12.9716,
+    "lon": 77.5946,
+    "timezone": "Asia/Kolkata"
+  },
+  {
+    "utc": "2018-01-01 00:00:00",
+    "source": "generated",
+    "rationale": "year-start/year-midfield deterministic pin",
+    "place": "Bangalore",
+    "lat": 12.9716,
+    "lon": 77.5946,
+    "timezone": "Asia/Kolkata"
+  },
+  {
+    "utc": "2018-07-01 12:00:00",
+    "source": "generated",
+    "rationale": "year-start/year-midfield deterministic pin",
+    "place": "Bangalore",
+    "lat": 12.9716,
+    "lon": 77.5946,
+    "timezone": "Asia/Kolkata"
+  },
+  {
+    "utc": "2019-01-01 00:00:00",
+    "source": "generated",
+    "rationale": "year-start/year-midfield deterministic pin",
+    "place": "Bangalore",
+    "lat": 12.9716,
+    "lon": 77.5946,
+    "timezone": "Asia/Kolkata"
+  },
+  {
+    "utc": "2019-07-01 12:00:00",
+    "source": "generated",
+    "rationale": "year-start/year-midfield deterministic pin",
+    "place": "Bangalore",
+    "lat": 12.9716,
+    "lon": 77.5946,
+    "timezone": "Asia/Kolkata"
+  },
+  {
+    "utc": "2019-07-16 08:00:00",
+    "source": "manual",
+    "rationale": "Apollo 11 launch 50th anniversary day (launch was 13:32 UTC 1969-07-16)",
+    "place": "Bangalore",
+    "lat": 12.9716,
+    "lon": 77.5946,
+    "timezone": "Asia/Kolkata"
+  },
+  {
+    "utc": "2019-12-31 23:59:00",
+    "source": "manual",
+    "rationale": "last minute of 2019",
+    "place": "Bangalore",
+    "lat": 12.9716,
+    "lon": 77.5946,
+    "timezone": "Asia/Kolkata"
+  },
+  {
+    "utc": "2020-01-01 00:00:00",
+    "source": "generated",
+    "rationale": "year-start/year-midfield deterministic pin",
+    "place": "Bangalore",
+    "lat": 12.9716,
+    "lon": 77.5946,
+    "timezone": "Asia/Kolkata"
+  },
+  {
+    "utc": "2020-03-11 18:00:00",
+    "source": "manual",
+    "rationale": "WHO COVID-19 pandemic declaration (2020-03-11)",
+    "place": "Bangalore",
+    "lat": 12.9716,
+    "lon": 77.5946,
+    "timezone": "Asia/Kolkata"
+  },
+  {
+    "utc": "2020-07-01 12:00:00",
+    "source": "generated",
+    "rationale": "year-start/year-midfield deterministic pin",
+    "place": "Bangalore",
+    "lat": 12.9716,
+    "lon": 77.5946,
+    "timezone": "Asia/Kolkata"
+  },
+  {
+    "utc": "2020-12-31 23:59:00",
+    "source": "manual",
+    "rationale": "end of 2020 — pandemic-year boundary",
+    "place": "Bangalore",
+    "lat": 12.9716,
+    "lon": 77.5946,
+    "timezone": "Asia/Kolkata"
+  },
+  {
+    "utc": "2021-01-01 00:00:00",
+    "source": "generated",
+    "rationale": "year-start/year-midfield deterministic pin",
+    "place": "Bangalore",
+    "lat": 12.9716,
+    "lon": 77.5946,
+    "timezone": "Asia/Kolkata"
+  },
+  {
+    "utc": "2021-07-01 12:00:00",
+    "source": "generated",
+    "rationale": "year-start/year-midfield deterministic pin",
+    "place": "Bangalore",
+    "lat": 12.9716,
+    "lon": 77.5946,
+    "timezone": "Asia/Kolkata"
+  },
+  {
+    "utc": "2022-01-01 00:00:00",
+    "source": "generated",
+    "rationale": "year-start/year-midfield deterministic pin",
+    "place": "Bangalore",
+    "lat": 12.9716,
+    "lon": 77.5946,
+    "timezone": "Asia/Kolkata"
+  },
+  {
+    "utc": "2022-02-24 04:00:00",
+    "source": "manual",
+    "rationale": "Russia full-scale invasion of Ukraine (early hours UTC)",
+    "place": "Bangalore",
+    "lat": 12.9716,
+    "lon": 77.5946,
+    "timezone": "Asia/Kolkata"
+  },
+  {
+    "utc": "2022-07-01 12:00:00",
+    "source": "generated",
+    "rationale": "year-start/year-midfield deterministic pin",
+    "place": "Bangalore",
+    "lat": 12.9716,
+    "lon": 77.5946,
+    "timezone": "Asia/Kolkata"
+  },
+  {
+    "utc": "2023-01-01 00:00:00",
+    "source": "generated",
+    "rationale": "year-start/year-midfield deterministic pin",
+    "place": "Bangalore",
+    "lat": 12.9716,
+    "lon": 77.5946,
+    "timezone": "Asia/Kolkata"
+  },
+  {
+    "utc": "2023-07-01 12:00:00",
+    "source": "generated",
+    "rationale": "year-start/year-midfield deterministic pin",
+    "place": "Bangalore",
+    "lat": 12.9716,
+    "lon": 77.5946,
+    "timezone": "Asia/Kolkata"
+  },
+  {
+    "utc": "2024-01-01 00:00:00",
+    "source": "generated",
+    "rationale": "year-start/year-midfield deterministic pin",
+    "place": "Bangalore",
+    "lat": 12.9716,
+    "lon": 77.5946,
+    "timezone": "Asia/Kolkata"
+  },
+  {
+    "utc": "2024-04-08 18:02:00",
+    "source": "manual",
+    "rationale": "2024-04-08 total solar eclipse day (18:02 UTC, pre-maximum phase)",
+    "place": "Bangalore",
+    "lat": 12.9716,
+    "lon": 77.5946,
+    "timezone": "Asia/Kolkata"
+  },
+  {
+    "utc": "2024-07-01 12:00:00",
+    "source": "generated",
+    "rationale": "year-start/year-midfield deterministic pin",
+    "place": "Bangalore",
+    "lat": 12.9716,
+    "lon": 77.5946,
+    "timezone": "Asia/Kolkata"
+  },
+  {
+    "utc": "2024-11-05 12:00:00",
+    "source": "manual",
+    "rationale": "US election day 2024 (midday)",
+    "place": "Bangalore",
+    "lat": 12.9716,
+    "lon": 77.5946,
+    "timezone": "Asia/Kolkata"
+  },
+  {
+    "utc": "2025-01-01 00:00:00",
+    "source": "generated",
+    "rationale": "year-start/year-midfield deterministic pin",
+    "place": "Bangalore",
+    "lat": 12.9716,
+    "lon": 77.5946,
+    "timezone": "Asia/Kolkata"
+  },
+  {
+    "utc": "2025-01-01 00:00:00",
+    "source": "manual",
+    "rationale": "new year 2025; also emitted by the generator, hand-tagged deliberately",
+    "place": "Bangalore",
+    "lat": 12.9716,
+    "lon": 77.5946,
+    "timezone": "Asia/Kolkata"
+  },
+  {
+    "utc": "2025-06-21 02:42:00",
+    "source": "manual",
+    "rationale": "June solstice 2025 (02:42 UTC)",
+    "place": "Bangalore",
+    "lat": 12.9716,
+    "lon": 77.5946,
+    "timezone": "Asia/Kolkata"
+  },
+  {
+    "utc": "2025-07-01 12:00:00",
+    "source": "generated",
+    "rationale": "year-start/year-midfield deterministic pin",
+    "place": "Bangalore",
+    "lat": 12.9716,
+    "lon": 77.5946,
+    "timezone": "Asia/Kolkata"
+  },
+  {
+    "utc": "2026-01-01 00:00:00",
+    "source": "generated",
+    "rationale": "year-start/year-midfield deterministic pin",
+    "place": "Bangalore",
+    "lat": 12.9716,
+    "lon": 77.5946,
+    "timezone": "Asia/Kolkata"
+  },
+  {
+    "utc": "2026-07-01 12:00:00",
+    "source": "generated",
+    "rationale": "year-start/year-midfield deterministic pin",
+    "place": "Bangalore",
+    "lat": 12.9716,
+    "lon": 77.5946,
+    "timezone": "Asia/Kolkata"
+  },
+  {
+    "utc": "2026-08-12 17:47:00",
+    "source": "manual",
+    "rationale": "2026-08-12 total solar eclipse, Iceland/Spain (~17:47 UTC)",
+    "place": "Bangalore",
+    "lat": 12.9716,
+    "lon": 77.5946,
+    "timezone": "Asia/Kolkata"
+  },
+  {
+    "utc": "2027-01-01 00:00:00",
+    "source": "generated",
+    "rationale": "year-start/year-midfield deterministic pin",
+    "place": "Bangalore",
+    "lat": 12.9716,
+    "lon": 77.5946,
+    "timezone": "Asia/Kolkata"
+  },
+  {
+    "utc": "2027-02-06 16:00:00",
+    "source": "manual",
+    "rationale": "February 2027 pin — deep-winter sky",
+    "place": "Bangalore",
+    "lat": 12.9716,
+    "lon": 77.5946,
+    "timezone": "Asia/Kolkata"
+  },
+  {
+    "utc": "2027-07-01 12:00:00",
+    "source": "generated",
+    "rationale": "year-start/year-midfield deterministic pin",
+    "place": "Bangalore",
+    "lat": 12.9716,
+    "lon": 77.5946,
+    "timezone": "Asia/Kolkata"
+  },
+  {
+    "utc": "2028-01-01 00:00:00",
+    "source": "generated",
+    "rationale": "year-start/year-midfield deterministic pin",
+    "place": "Bangalore",
+    "lat": 12.9716,
+    "lon": 77.5946,
+    "timezone": "Asia/Kolkata"
+  },
+  {
+    "utc": "2028-07-01 12:00:00",
+    "source": "generated",
+    "rationale": "year-start/year-midfield deterministic pin",
+    "place": "Bangalore",
+    "lat": 12.9716,
+    "lon": 77.5946,
+    "timezone": "Asia/Kolkata"
+  },
+  {
+    "utc": "2028-07-22 02:30:00",
+    "source": "manual",
+    "rationale": "2028-07-22 total solar eclipse, Australia (eclipse-day pin, 02:30 UTC)",
+    "place": "Bangalore",
+    "lat": 12.9716,
+    "lon": 77.5946,
+    "timezone": "Asia/Kolkata"
+  },
+  {
+    "utc": "2029-01-01 00:00:00",
+    "source": "generated",
+    "rationale": "year-start/year-midfield deterministic pin",
+    "place": "Bangalore",
+    "lat": 12.9716,
+    "lon": 77.5946,
+    "timezone": "Asia/Kolkata"
+  },
+  {
+    "utc": "2029-07-01 12:00:00",
+    "source": "generated",
+    "rationale": "year-start/year-midfield deterministic pin",
+    "place": "Bangalore",
+    "lat": 12.9716,
+    "lon": 77.5946,
+    "timezone": "Asia/Kolkata"
+  },
+  {
+    "utc": "2029-12-31 23:59:00",
+    "source": "manual",
+    "rationale": "last minute of 2029",
+    "place": "Bangalore",
+    "lat": 12.9716,
+    "lon": 77.5946,
+    "timezone": "Asia/Kolkata"
+  },
+  {
+    "utc": "2030-01-01 00:00:00",
+    "source": "manual",
+    "rationale": "2030 boundary — corpus upper-edge decade; outside generator range (1900-2029)",
+    "place": "Bangalore",
+    "lat": 12.9716,
+    "lon": 77.5946,
+    "timezone": "Asia/Kolkata"
+  },
+  {
+    "utc": "2030-06-21 11:30:00",
+    "source": "manual",
+    "rationale": "2030-06-21 pin — solstice season (exact solstice instant not asserted)",
+    "place": "Bangalore",
+    "lat": 12.9716,
+    "lon": 77.5946,
+    "timezone": "Asia/Kolkata"
+  },
+  {
+    "utc": "2030-07-01 12:00:00",
+    "source": "manual",
+    "rationale": "2030 mid-year pin — outside generator range (1900-2029)",
+    "place": "Bangalore",
+    "lat": 12.9716,
+    "lon": 77.5946,
+    "timezone": "Asia/Kolkata"
+  }
+]
