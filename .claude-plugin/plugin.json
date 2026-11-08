@@ -15,8 +15,5 @@
     "ground-truth",
     "mcp",
     "plugin"
-  ],
-  "interface": {
-    "displayName": "RishiAI — Ground-Truth Vedic Astrology"
-  }
+  ]
 }

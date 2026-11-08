@@ -28,7 +28,7 @@ ALLOWED_KEYS = {
         "name", "version", "description", "author", "homepage", "repository",
         "license", "keywords",
     },
-    ".claude-plugin/marketplace.json": {"name", "owner", "plugins"},
+    ".claude-plugin/marketplace.json": {"name", "owner", "plugins", "description"},
     ".codex-plugin/plugin.json": {
         "name", "version", "description", "author", "homepage", "repository",
         "license", "keywords", "skills", "mcpServers", "interface",

@@ -3,6 +3,7 @@
   "owner": {
     "name": "Adarsh J"
   },
+  "description": "Ground-truth Vedic astrology plugin for Claude Code and Codex.",
   "plugins": [
     {
       "name": "rishi-ai",
