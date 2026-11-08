@@ -28,12 +28,13 @@ https://github.com/user-attachments/assets/9c183b94-bb54-4af6-867c-fa3daeef2d03
 codex plugin marketplace add adarshj322/rishi-ai-mcp
 ```
 
-**Limit:** this CLI version ships only `marketplace` subcommands — no `plugin add`, `plugin list`, or `plugin install`. The marketplace is registered, and the repo carries `.codex-plugin/plugin.json` + root `hooks.json` + `.agents/plugins/marketplace.json` (all validated by `claude plugin validate` equivalent discipline), but **Codex cannot install the plugin bundle from the CLI today**. The practical path: `codex mcp list` already shows `vedic-astrology` once you point `~/.codex/config.toml` at it, and the doctrine goes in by hand:
+**Limit:** this CLI version ships only `marketplace` subcommands — no `plugin add`, `plugin list`, or `plugin install`. The marketplace registers, and the repo carries `.codex-plugin/plugin.json` + root `hooks.json` + `.agents/plugins/marketplace.json` for when a newer CLI adds install support, but **Codex cannot install the plugin bundle from the CLI today**. The working path is pip + a copied skill (no clone needed):
 
 ```bash
+pip install rishi-ai-mcp
+SRC=$(python -c "import rishi_ai_mcp, os; print(os.path.join(os.path.dirname(rishi_ai_mcp.__file__), 'skills', 'rishi-reading'))")
 mkdir -p ~/.codex/skills/rishi-reading
-cp -r skills/rishi-reading/SKILL.md skills/rishi-reading/contract.md skills/rishi-reading/references ~/.codex/skills/rishi-reading/
-cp agents/chart-verifier.md agents/doctrine-critic.md ~/.codex/skills/rishi-reading/
+cp -r "$SRC/SKILL.md" "$SRC/contract.md" "$SRC/references" ~/.codex/skills/rishi-reading/
 ```
 
 `~/.codex/config.toml` needs:
@@ -44,7 +45,7 @@ command = "uvx"
 args = ["rishi-ai-mcp"]
 ```
 
-So: **Codex = MCP server + doctrine as a copied skill — fully working, but not through the plugin marketplace flow Phase-4 intended.** If a newer Codex CLI adds `plugin add`, the manifests in this repo are ready for it.
+Verify with `codex mcp list` (shows `vedic-astrology ... enabled`). The two verification subagent definitions (`agents/chart-verifier.md`, `agents/doctrine-critic.md`) ship in the plugin bundle and the repo — not in the pip wheel; fetch them from the repo if you want them as reference. No verification binding ships on this path; the contract is read, not enforced.
 
 What the plugin ships:
 
@@ -70,23 +71,25 @@ pip install rishi-ai-mcp
 
 ### OpenCode (verified 2026-11-08 on v2.2.6)
 
-No plugin bundle ships for OpenCode. The working install is two steps: copy the doctrine into OpenCode's global skills directory, and add the MCP server to `opencode.jsonc`.
+No plugin bundle ships for OpenCode — a plugin cannot register an MCP server or a skills directory (verified against the plugin API), so there is nothing to `npx install`. The working path is the same two pieces by hand (no clone needed):
 
 ```bash
+pip install rishi-ai-mcp
+SRC=$(python -c "import rishi_ai_mcp, os; print(os.path.join(os.path.dirname(rishi_ai_mcp.__file__), 'skills', 'rishi-reading'))")
 mkdir -p ~/.config/opencode/skills/rishi-reading
-cp -r skills/rishi-reading/SKILL.md skills/rishi-reading/contract.md skills/rishi-reading/references ~/.config/opencode/skills/rishi-reading/
+cp -r "$SRC/SKILL.md" "$SRC/contract.md" "$SRC/references" ~/.config/opencode/skills/rishi-reading/
 ```
 
-Then edit `~/.config/opencode/opencode.jsonc` and add this under the top-level `"mcp"` object:
+Then add to `~/.config/opencode/opencode.jsonc`, inside the top-level `"mcp"` object (flat keys — a nested `mcp.servers` object is ignored):
 
 ```jsonc
 "vedic-astrology": {
   "type": "local",
   "command": ["uvx", "rishi-ai-mcp"]
-}
+},
 ```
 
-**Verified:** the session then lists `rishi-reading` in its available skills, exposes `tools["vedic-astrology"]` with exactly the 5 plugin-frozen tools (not 12), and `opencode mcp list --print-logs` reports `vedic-astrology: connected`. No verification binding ships this way — the contract is read; it is not enforced — and no npm package exists. There is one pre-existing oddity in that config file (a nested `mcp.servers` key alongside top-level `mcp.*`) — harmless, but don't copy it into new setups.
+**Verified:** the session then lists `rishi-reading` in its available skills, and `opencode mcp list --print-logs` reports `vedic-astrology: connected`. No verification binding ships this way — the contract is read; it is not enforced. (The doctrine covers 5 core tools by design; the pip server itself exposes all 12 — see MCP Tools.)
 
 ### Other harnesses — Gemini CLI, VS Code Copilot, Cursor, Roo/Kilo
 
