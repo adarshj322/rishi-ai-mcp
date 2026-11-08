@@ -139,7 +139,7 @@ Run: `pytest tests/test_build_plugin.py -v` → expected FAIL (module missing).
 
 **Files:** Create generated `.claude-plugin/plugin.json`, `.claude-plugin/marketplace.json`, `.codex-plugin/plugin.json`, `.agents/plugins/marketplace.json`, `.mcp.json`, `hooks/hooks.json`, `hooks.json`
 
-- [ ] **Step 1:** Run `python tools/build_plugin.py`; inspect diffs; verify `jq` parses all; `version` equal across all seven files and equals `rishi_ai_mcp.__version__`.
+- [ ] **Step 1:** Extend Task 9's `tools/build_plugin.py` default mode (no flag) to emit templates rendered with `__version__`; keep `--check` compare-only. The `.mcp.json` emitted during development uses unpinned `uvx rishi-ai-mcp`; version pinning is a release-flow concern, not a committed artifact (Task 22/25). Run `python tools/build_plugin.py`; inspect diffs; verify `jq` parses all; `version` equal across all seven files and equals `rishi_ai_mcp.__version__`.
 - [ ] **Step 2:** Verify `.codex-plugin/plugin.json` has `"skills": "./skills/"` and `"mcpServers": "./.mcp.json"`; `.claude-plugin/plugin.json` has none of those; both have `version`.
 - [ ] **Step 3: Commit** (git add the seven files + templates, message `chore(plugin): generated per-host manifests`).
 
@@ -159,7 +159,7 @@ Run: `pytest tests/test_build_plugin.py -v` → expected FAIL (module missing).
 **Files:** Create `evals/README.md`
 
 - [ ] **Step 1:** Sections: (1) corpus description — JyotishQA seed set built by this project, 10–30 items, construction rule, no publication claim; (2) equal-cost bar: delta > seed-set standard error at first measurement, locked, not revisited; expand set not bar; (3) failure branch — verification off + sample-and-vote ships; (4) pilot rule — first run measures noise not verdict; (5) Tier-1 caveat stamped verbatim: "Shared lineage (dashaflow → pyswisseph → Moshier fallback): this is a regression/determinism gate, NOT astronomical-truth verification."; (6) shared inference floor; (7) metrics reported w/ CIs, never trophies.
-- [ ] **Step 2: Commit** `docs: eval gate pre-commitment`.
+- [ ] **Step 2: Commit** `docs: eval gate pre-commitment`. (Executed before Task 13: the doctrine doc must exist before any corpus-related commands run, keeping the pre-commitment honest by sequence, not just by timing.)
 
 ---
 
