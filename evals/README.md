@@ -134,12 +134,23 @@ Record of Tier-1 runs. The first run is filled by Task 13 (execution), not by th
 
 | field | value |
 |---|---|
-| first run | `__PENDING_FIRST_RUN__` |
-| date | `__PENDING_FIRST_RUN__` |
-| commit | `__PENDING_FIRST_RUN__` |
-| engine versions | `__PENDING_FIRST_RUN__` |
-| moments passed / failed | `__PENDING_FIRST_RUN__` |
-| delta vs zero-pin | `__PENDING_FIRST_RUN__` |
+| first run | filled — see run record below |
+| date | 2026-11-08 |
+| commit | 119d7a6 |
+| engine versions | dashaflow 1.5.0 (import-time `dashaflow.__file__` → editable sibling checkout `/home/adarsh/cursorProjects/dashaflow/src/dashaflow/__init__.py`; pip dist-info 1.5.0 records the release) · swisseph 2.10.03 (bundled, Moshier fallback, no `.se1`) · Python 3.12.9 |
+| moments passed / failed | 300 / 0 |
+| delta vs zero-pin | 0 |
+
+| date | commit | result | notes |
+|---|---|---|---|
+| 2026-11-08 | 119d7a6 | 300/300 OK (exit 0) | First full pin pass, executed on the tree that became 119d7a6 (pre-commit). Gate re-run on the amended 300-moment corpus (J2000 landmark added; one filler manual entry removed — count unchanged) → 300/300 OK, 2026-11-08, before the fix commit carrying this entry. |
+
+Mechanics and honesty notes (binding on any re-run):
+
+- Dual invocation = one fresh subprocess per cast (`python tools/tier1_check.py`); no dashaflow import in the parent process. `metadata.computed_at_utc` (wall clock) stripped before comparison; `yogas` array order canonicalized. No values altered.
+- `PYTHONHASHSEED=0` is pinned in the dump subprocesses: dashaflow 1.5.0 `yoga.py` iterates `BENEFICS = {"Jupiter", "Venus", "Mercury"}` (a set) with a `break`, so the Amala Yoga benefic named is hash-seed dependent when two or more benefics occupy the 10th. Before the pin, 5/300 moments (`1906-07-01 12:00`, `1925-01-01 00:00`, `1952-01-01 00:00`, `1971-01-01 00:00`, `2016-08-31 08:30`) differed only in that selection; every other field was byte-identical. The upstream fix is deterministic iteration (`sorted(BENEFICS)`); the pin is a workaround, not a repair. Residual risk: the gate cannot detect set-iteration-order nondeterminism elsewhere while the pin holds.
+- No lower-level / second-engine comparison is implemented; the subprocess dual-invocation path is the accepted gate. Both invocations read the same pyswisseph → Moshier lineage, so the shared-lineage caveat (§2.2) applies unchanged — this is a regression/determinism gate, NOT astronomical-truth verification.
+- Engine provenance is logged as observed at run time (paper-tape symbolic): gate behavior is governed by the live editable sibling checkout at `/home/adarsh/cursorProjects/dashaflow/src/dashaflow`; the site-packages dist-info 1.5.0 records the release only. Corpus provenance: `evals/tier1/moments.json` — 260 generated pins + 40 hand-tagged manual landmarks; 294 unique instants; the 6 generated∩manual overlaps are intentional and hand-tagged.
 
 Tier-1 gate criterion (locked, from the design spec): 100% deterministic pass; delta zero-vs-pin. A Tier-1 failure blocks the computational claims of the release. A Tier-1 pass changes nothing about the equal-cost bar.
 

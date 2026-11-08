@@ -1944,6 +1944,15 @@
     "timezone": "Asia/Kolkata"
   },
   {
+    "utc": "2000-01-01 12:00:00",
+    "source": "manual",
+    "rationale": "2000-01-01 J2000 epoch landmark",
+    "place": "Bangalore",
+    "lat": 12.9716,
+    "lon": 77.5946,
+    "timezone": "Asia/Kolkata"
+  },
+  {
     "utc": "2000-07-01 12:00:00",
     "source": "generated",
     "rationale": "year-start/year-midfield deterministic pin",
@@ -2037,15 +2046,6 @@
     "utc": "2005-01-01 00:00:00",
     "source": "generated",
     "rationale": "year-start/year-midfield deterministic pin",
-    "place": "Bangalore",
-    "lat": 12.9716,
-    "lon": 77.5946,
-    "timezone": "Asia/Kolkata"
-  },
-  {
-    "utc": "2005-05-20 18:00:00",
-    "source": "manual",
-    "rationale": "May 2005 pin (evening)",
     "place": "Bangalore",
     "lat": 12.9716,
     "lon": 77.5946,
