@@ -49,6 +49,7 @@ class ChatClient:
             raise RuntimeError(f"{cfg['env']} is not set")
         from openai import OpenAI
 
+        self._transport = transport
         headers = None
         if transport == "opencode-go":
             import uuid
@@ -60,7 +61,13 @@ class ChatClient:
 
     def complete(self, system, user, model, temperature, max_tokens, seed=7, reasoning=None):
         started = time.time()
-        extra = {"reasoning": {"effort": "none"}} if reasoning == "none" else None
+        # OpenRouter accepts an explicit reasoning effort; the OpenCode Go gateway
+        # rejects unknown fields (400), so the parameter stays OpenRouter-only.
+        extra = (
+            {"reasoning": {"effort": "none"}}
+            if reasoning == "none" and self._transport == "openrouter"
+            else None
+        )
         response = self._client.chat.completions.create(
             model=model,
             messages=[
