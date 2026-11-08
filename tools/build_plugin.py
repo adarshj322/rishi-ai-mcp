@@ -26,7 +26,7 @@ VERSIONED_TEMPLATES = (".claude-plugin/plugin.json", ".codex-plugin/plugin.json"
 ALLOWED_KEYS = {
     ".claude-plugin/plugin.json": {
         "name", "version", "description", "author", "homepage", "repository",
-        "license", "keywords", "interface",
+        "license", "keywords",
     },
     ".claude-plugin/marketplace.json": {"name", "owner", "plugins"},
     ".codex-plugin/plugin.json": {
@@ -96,11 +96,11 @@ HOOK_TEMPLATES = ("hooks/hooks.json", "hooks.json")
 TEMPLATES = {
     ".claude-plugin/plugin.json": {
         **_CLAUDE_PLUGIN_BASE,
-        "interface": {"displayName": _DISPLAY_NAME},
     },
     ".claude-plugin/marketplace.json": {
         "name": "rishi-ai-mcp",
         "owner": {"name": "Adarsh J"},
+        "description": "Ground-truth Vedic astrology plugin for Claude Code and Codex.",
         "plugins": [
             {
                 "name": "rishi-ai",
