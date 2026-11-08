@@ -28,7 +28,7 @@ ALLOWED_KEYS = {
         "name", "version", "description", "author", "homepage", "repository",
         "license", "keywords",
     },
-    ".claude-plugin/marketplace.json": {"name", "owner", "plugins", "description"},
+    ".claude-plugin/marketplace.json": {"name", "owner", "plugins"},
     ".codex-plugin/plugin.json": {
         "name", "version", "description", "author", "homepage", "repository",
         "license", "keywords", "skills", "mcpServers", "interface",
@@ -100,7 +100,6 @@ TEMPLATES = {
     ".claude-plugin/marketplace.json": {
         "name": "rishi-ai-mcp",
         "owner": {"name": "Adarsh J"},
-        "description": "Ground-truth Vedic astrology plugin for Claude Code and Codex.",
         "plugins": [
             {
                 "name": "rishi-ai",
