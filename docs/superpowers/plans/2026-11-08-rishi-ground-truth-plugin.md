@@ -149,7 +149,7 @@ Run: `pytest tests/test_build_plugin.py -v` → expected FAIL (module missing).
 
 **Files:** Create `tests/test_agents.py`
 
-- [ ] **Step 1: Write test** asserting: both files exist; each has YAML-less H2 contract with inputs/outputs/stop-rule; verifying chart-verifier deny→factual-block rule present; `doctrine-critic` has anti-reward-hacking line; no `python` executable blocks; no network endpoints. FAIL initially.
+- [ ] **Step 1: Write test** asserting: both files exist; each starts with YAML frontmatter (name/description/tools:[Read]) and carries an H2 body contract with inputs/output/stop-rule; verifying chart-verifier deny→factual-block rule present; `doctrine-critic` has anti-reward-hacking line; no `python` executable blocks; no network endpoints. FAIL initially.
 - [ ] **Step 2:** Implement — refine Task 6/7 files until PASS. Commit.
 
 ---
