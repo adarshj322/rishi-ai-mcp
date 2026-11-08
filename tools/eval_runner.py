@@ -64,15 +64,32 @@ def load_prompt(name):
 
 
 def _extract_json(text):
-    """Parse the judge's JSON, tolerating fences and surrounding prose."""
+    """Parse the judge's JSON, tolerating fences and surrounding prose.
+
+    Tries: direct parse, fenced block, then each balanced object candidate
+    from the end of the text (the verdict is the last thing emitted).
+    """
     candidate = text.strip()
     if candidate.startswith("```"):
         candidate = re.sub(r"^```(?:json)?\s*|\s*```$", "", candidate, flags=re.S)
-    start = candidate.find("{")
-    end = candidate.rfind("}")
-    if start == -1 or end == -1 or end <= start:
-        raise ValueError("no JSON object found")
-    return json.loads(candidate[start: end + 1])
+    try:
+        return json.loads(candidate)
+    except json.JSONDecodeError:
+        pass
+    starts = [i for i, ch in enumerate(candidate) if ch == "{"]
+    for start in reversed(starts):
+        depth = 0
+        for end in range(start, len(candidate)):
+            if candidate[end] == "{":
+                depth += 1
+            elif candidate[end] == "}":
+                depth -= 1
+                if depth == 0:
+                    try:
+                        return json.loads(candidate[start: end + 1])
+                    except json.JSONDecodeError:
+                        break
+    raise ValueError("no JSON object found")
 
 
 def judge_response(client, item, ledger_entry, chart, response_text, judge_model):
@@ -92,6 +109,11 @@ def judge_response(client, item, ledger_entry, chart, response_text, judge_model
         try:
             parsed = _extract_json(out["text"])
             clauses = parsed.get("clauses", [])
+            expected = len(ledger_entry.get("clauses", []))
+            # One verdict per mandatory clause; an empty/partial list is a
+            # judge failure, never a silent free pass.
+            if expected and len(clauses) != expected:
+                raise ValueError(f"judge returned {len(clauses)} clause verdicts, expected {expected}")
             passed = parsed.get("overall") == "pass" and all(
                 c.get("verdict") == "pass" for c in clauses
             )
@@ -317,7 +339,7 @@ def main(argv=None):
     parser = argparse.ArgumentParser(description="Equal-cost bar runner")
     parser.add_argument("--mode", default="pilot", choices=["pilot", "dry-run"])
     parser.add_argument("--arms", default="bare,without,with")
-    parser.add_argument("--budget", type=int, default=3000)
+    parser.add_argument("--budget", type=int, default=6000)
     parser.add_argument("--items", default="")
     parser.add_argument("--out", default="")
     args = parser.parse_args(argv)

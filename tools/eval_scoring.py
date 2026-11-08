@@ -23,7 +23,7 @@ _MONTH_TO_NUM = {
     "jan": 1, "feb": 2, "mar": 3, "apr": 4, "may": 5, "jun": 6,
     "jul": 7, "aug": 8, "sep": 9, "oct": 10, "nov": 11, "dec": 12,
 }
-_ADJACENCY = 40
+_ADJACENCY = 120
 
 
 def compute_se(n: int) -> float:
@@ -120,14 +120,21 @@ def find_fabrications(text: str, chart: dict) -> list:
     values = set()
     _chart_values(chart, values)
 
+    body_names = [(name, r"\b" + name + r"\b") for name in _PLANET_NAMES]
+    body_names += [("Lagna", r"\bLagna\b"), ("Ascendant", r"\bAscendant\b")]
+
     for m in _DEGREE_RE.finditer(text):
         deg = _degree_value(m)
-        window = text[max(0, m.start() - _ADJACENCY): m.end() + _ADJACENCY].lower()
-        nearby = [p for p in _PLANET_NAMES if p.lower() in window]
+        window = text[max(0, m.start() - _ADJACENCY): m.end() + _ADJACENCY]
+        nearby = [
+            name.lower() if name not in ("Lagna", "Ascendant") else "lagna"
+            for name, pattern in body_names
+            if re.search(pattern, window, re.I)
+        ]
         if nearby:
             ok = any(
-                any(_angular_delta(deg, known) <= 0.5 for known in planet_degrees.get(p.lower(), []))
-                for p in nearby
+                any(_angular_delta(deg, known) <= 0.5 for known in planet_degrees.get(name, []))
+                for name in nearby
             )
         else:
             ok = any(

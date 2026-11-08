@@ -29,8 +29,9 @@ class ChatClient:
 
         self._client = OpenAI(base_url=OPENROUTER_BASE_URL, api_key=api_key)
 
-    def complete(self, system, user, model, temperature, max_tokens, seed=7):
+    def complete(self, system, user, model, temperature, max_tokens, seed=7, reasoning=None):
         started = time.time()
+        extra = {"reasoning": {"effort": "none"}} if reasoning == "none" else None
         response = self._client.chat.completions.create(
             model=model,
             messages=[
@@ -40,6 +41,7 @@ class ChatClient:
             temperature=temperature,
             max_tokens=max_tokens,
             seed=seed,
+            extra_body=extra,
         )
         latency = time.time() - started
         usage = response.usage
@@ -69,6 +71,7 @@ def run_without(client, item, chart, ledger_entry, budget, doctrine_prompt):
             model=item.get("model", DEFAULT_ARM_MODEL),
             temperature=0.7,
             max_tokens=share,
+            reasoning="none",
         )
         total += out["output_tokens"]
         _check_budget(total, budget)
@@ -129,6 +132,7 @@ def run_bare(client, item, chart, budget, bare_prompt=None):
         model=_agent_model(item),
         temperature=0,
         max_tokens=budget,
+        reasoning="none",
     )
     _check_budget(out["output_tokens"], budget)
     return {
@@ -164,7 +168,8 @@ def run_with(client, item, chart, ledger_entry, budget, doctrine_prompt):
     total = 0
 
     draft = client.complete(
-        system=doctrine_prompt, user=user, model=model, temperature=0, max_tokens=budget // 3
+        system=doctrine_prompt, user=user, model=model, temperature=0, max_tokens=budget // 3,
+        reasoning="none",
     )
     total += draft["output_tokens"]
     _check_budget(total, budget)
@@ -175,6 +180,7 @@ def run_with(client, item, chart, ledger_entry, budget, doctrine_prompt):
         model=model,
         temperature=0,
         max_tokens=budget // 6,
+        reasoning="none",
     )
     total += verifier["output_tokens"]
     _check_budget(total, budget)
@@ -185,6 +191,7 @@ def run_with(client, item, chart, ledger_entry, budget, doctrine_prompt):
         model=model,
         temperature=0,
         max_tokens=budget // 6,
+        reasoning="none",
     )
     total += critic["output_tokens"]
     _check_budget(total, budget)
@@ -195,6 +202,7 @@ def run_with(client, item, chart, ledger_entry, budget, doctrine_prompt):
         model=model,
         temperature=0,
         max_tokens=budget // 3,
+        reasoning="none",
     )
     total += revision["output_tokens"]
     _check_budget(total, budget)

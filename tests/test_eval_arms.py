@@ -31,7 +31,7 @@ class FakeClient:
         self.tokens_per_call = tokens_per_call
         self.calls = []
 
-    def complete(self, system, user, model, temperature, max_tokens, seed=7):
+    def complete(self, system, user, model, temperature, max_tokens, seed=7, reasoning=None):
         self.calls.append(
             {
                 "system": system,

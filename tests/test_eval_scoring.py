@@ -109,6 +109,23 @@ class TestFabrication(unittest.TestCase):
 
 
 class TestDeterministicVerdict(unittest.TestCase):
+
+    def test_lagna_degree_is_not_fabrication(self):
+        from eval_scoring import find_fabrications
+
+        chart = chart_with({"Sun": 10.5, "Moon": 3.87}, lagna_degree=28.8)
+        text = "Moon Pisces 3.87° h10; Lagna Gemini 28.8°."
+        self.assertEqual(find_fabrications(text, chart), [])
+
+    def test_degree_binds_to_nearest_planet_not_any_nearby(self):
+        from eval_scoring import find_fabrications
+
+        # "dead state, 25.9°" belongs to Jupiter (25.93); "Sun" appears later in
+        # "combust by the Sun" and must not hijack the association.
+        chart = chart_with({"Jupiter": 25.93, "Sun": 24.14})
+        text = "Jupiter is in Cancer at its condition: Mrita avastha (dead state, 25.9°), combust by the Sun at 24.14° Cancer."
+        self.assertEqual(find_fabrications(text, chart), [])
+
     def test_deterministic_verdict_missing_required_ground(self):
         from eval_scoring import deterministic_verdict
 

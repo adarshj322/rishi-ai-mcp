@@ -22,7 +22,7 @@ class FakeJudgeClient:
         self.tokens = tokens
         self.calls = []
 
-    def complete(self, system, user, model, temperature, max_tokens, seed=7):
+    def complete(self, system, user, model, temperature, max_tokens, seed=7, reasoning=None):
         self.calls.append({"system": system, "user": user, "model": model})
         payload = self.payloads.pop(0) if self.payloads else _judge_json("pass")
         return {
