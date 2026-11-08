@@ -27,7 +27,9 @@ class TestSkillManifest(unittest.TestCase):
         doctrine = [f for f in on_disk if f != "README.md"]
         self.assertEqual(len(doctrine), 7)
 
-        listed = set(re.findall(r"references/[A-Za-z0-9._-]+\.md", text))
+        ref_block_m = re.search(r"^## References\b[^\n]*\n(.*?)(?=^## |\Z)", text, re.M | re.S)
+        self.assertIsNotNone(ref_block_m, "SKILL.md must carry a '## References' block")
+        listed = set(re.findall(r"references/[A-Za-z0-9._-]+\.md", ref_block_m.group(1)))
         for f in doctrine:
             self.assertIn(f"references/{f}", listed,
                           f"references/{f} exists on disk but is not listed in SKILL.md")
