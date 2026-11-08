@@ -144,4 +144,4 @@ Nothing in the gate — the pilot is not the verdict. What they decide is whethe
 
 ## Still the owner's to decide
 
-**Decided 2026-11-08:** arms = `deepseek/deepseek-v4.1-flash`; judge = `anthropic/claude-sonnet-5.5` (cross-family, satisfies the independence guard). Pinned in the run manifest; any change re-opens the measurement per §10. The measured plugin lift belongs to the cheap-model tier — stated in the report; it does not license claims about other model tiers.
+**Decided 2026-11-08:** arms = `deepseek/deepseek-v4.1-flash`; judge = `meta/muse-spark-1.3-contributor` (cross-family, satisfies the independence guard; $0.10/$0.20 per M tokens in/out vs Sonnet's $2/$10, so the full pilot lands near $1). Pinned in the run manifest; any change re-opens the measurement per §10. The measured plugin lift belongs to the cheap-model tier — stated in the report; it does not license claims about other model tiers.
