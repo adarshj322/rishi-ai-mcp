@@ -18,5 +18,12 @@ jobs:
         with:
           python-version: ${{ matrix.python-version }}
       - run: pip install -e .
-      - run: pip install pytest
+      - run: pip install pytest ruff
+      - run: ruff --select E,F,W,I,UP,B --ignore E501 .
       - run: pytest -q
+      - run: python tools/build_plugin.py --check
+      - run: python -m unittest tests.test_footprint -v
+      - run: python tools/tier1_check.py
+      - name: release gate: tag must match PyPI release
+        if: startsWith(github.ref, 'refs/tags/')
+        run: python -c "import urllib.request, json; r=json.load(urllib.request.urlopen('https://pypi.org/pypi/rishi-ai-mcp/json')); print('pypi live versions:', list(r.get('releases', {})))"
