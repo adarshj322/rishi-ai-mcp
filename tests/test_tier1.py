@@ -97,7 +97,7 @@ class Tier1Determinism(unittest.TestCase):
         except Exception as exc:  # degrade explicitly, never silently pass
             raise unittest.SkipTest(
                 f"dashaflow not importable — Tier-1 gate skipped (reason: {exc}); "
-                "degradation to be recorded in evals/README.md by the maintainer")
+                "degradation to be recorded in evals/README.md by the maintainer") from exc
 
     def test_corpus_pinned_deterministically(self):
         full = os.environ.get("TIER1_FULL") == "1"

@@ -3,7 +3,6 @@ plugin-wired tool schemas, word-count × 1.4 worst case, must stay < 3000.
 """
 
 import ast
-import json
 import unittest
 
 PLUGIN_TOOLS = [

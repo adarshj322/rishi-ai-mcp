@@ -19,7 +19,7 @@ ROOT = Path(__file__).resolve().parents[1]
 TOOL = ROOT / "tools" / "build_plugin.py"
 
 sys.path.insert(0, str(ROOT / "tools"))
-import build_plugin
+import build_plugin  # noqa: E402
 
 
 def copy_packaging_inputs(dest: Path) -> None:

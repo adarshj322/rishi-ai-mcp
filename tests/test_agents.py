@@ -9,7 +9,6 @@ these tests assert each file carries its own markers and never assert cross-file
 marker equality.
 """
 
-import os
 import re
 import unittest
 from pathlib import Path

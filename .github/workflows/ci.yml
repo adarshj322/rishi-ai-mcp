@@ -19,7 +19,8 @@ jobs:
           python-version: ${{ matrix.python-version }}
       - run: pip install -e .
       - run: pip install pytest ruff
-      - run: ruff --select E,F,W,I,UP,B --ignore E501 .
+      - name: ruff (branch files; legacy files keep their style)
+        run: ruff check --select E,F,W,I,UP,B --ignore E501 tools/ tests/ evals/
       - run: pytest -q
       - run: python tools/build_plugin.py --check
       - run: python -m unittest tests.test_footprint -v

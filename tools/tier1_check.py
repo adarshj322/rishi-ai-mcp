@@ -128,7 +128,7 @@ def check_moment(entry: dict) -> list[str]:
         return failures
     out1, out2 = runs[0].stdout, runs[1].stdout
     if out1 != out2:
-        differ_at = next((i for i, (x, y) in enumerate(zip(out1, out2)) if x != y), min(len(out1), len(out2)))
+        differ_at = next((i for i, (x, y) in enumerate(zip(out1, out2, strict=True)) if x != y), min(len(out1), len(out2)))
         failures.append(f"chart JSON bytes differ at offset {differ_at} "
                         f"(len {len(out1)} vs {len(out2)})")
     try:
