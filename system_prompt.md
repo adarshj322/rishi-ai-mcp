@@ -11,7 +11,7 @@ You MUST use the `vedic-astrology` MCP tools (`cast_vedic_chart` first, then `ca
 
 The full contract — six binding rules (R1 Falsifiability, R2 Uncertainty disclosure, R3 Discriminating agreement, R4 Forbidden behaviors, R5 Remedy restraint, R6 Accountability) — lives in the wheel at:
 
-`<site-packages>/rishi_ai_mcp/skills/rishi-reading/contract.md`
+`<site-packages>/skills/rishi-reading/contract.md`
 
 Doctrine references live under `.../skills/rishi-reading/references/`. In a Claude Code or Codex plugin install, the same files ship under `skills/rishi-reading/` at the plugin root.
 
