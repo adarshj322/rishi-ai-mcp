@@ -24,20 +24,20 @@ Method, per moment in evals/tier1/moments.json:
      the two invocations: |a-b| / max(|b|, 1.0) <= 1e-6, i.e. relative with a
      1-degree floor (sub-degree positions are effectively absolute, 1e-6 deg).
 
-Hash randomization is PINNED (PYTHONHASHSEED=0) in the dump subprocesses —
-deliberately, and narrowly for this reason: dashaflow 1.5.0 yoga.py iterates
-the set BENEFICS = {"Jupiter", "Venus", "Mercury"} with a `break` when a
-natural benefic sits in the 10th from Lagna/Moon, so WHICH benefic is named
-("Amala Yoga") otherwise depends on the interpreter's hash seed (observed:
-5/300 corpus moments differ only in that selection; everything else in the
-chart is byte-identical across fresh interpreters). Pinning the seed makes
-runs byte-identical without touching engine output. Known residual risk: the
-gate can no longer detect set-iteration-order nondeterminism elsewhere in the
-engine — those are stable under the pinned seed and therefore invisible. The
-`yogas` order is additionally canonicalized in the dump so order noise alone
-cannot fail the gate. Fix belongs upstream in dashaflow (deterministic
-iteration, e.g. sorted(BENEFICS)); until then this gate pins the environment,
-not the engine bug.
+Hash randomization is NOT pinned: each dump subprocess inherits a fresh random
+hash seed, so the gate itself guards against hash-seed nondeterminism anywhere
+in the engine (verified: the 5 historically seed-sensitive moments are
+byte-identical across seeds 0/1/42 after the upstream fix). History: dashaflow
+1.5.0 yoga.py iterated the set BENEFICS = {"Jupiter", "Venus", "Mercury"}
+with a `break`, so the Amala Yoga benefic named was hash-seed dependent
+(observed: 5/300 corpus moments differed only in that selection; everything
+else byte-identical). The pin (PYTHONHASHSEED=0) was a workaround, not a
+repair; dashaflow 1.5.1 fixed it upstream by iterating BENEFIC_ORDER in
+canonical significance order, and the pin was removed here. The `yogas`
+order is additionally canonicalized in the dump so order noise alone cannot
+fail the gate. Residual risk: none known beyond what the gate now measures —
+any future set-iteration-order defect fails the gate loudly instead of hiding
+under a pin.
 
 Usage:
   python tools/tier1_check.py             # all 300 moments
@@ -50,7 +50,6 @@ Prints "N moments OK" on success.
 
 import argparse
 import json
-import os
 import subprocess
 import sys
 from datetime import datetime, timezone
@@ -80,14 +79,16 @@ def dump_chart(utc: str, lat: str, lon: str, tz: str) -> None:
 
 
 def cast_subprocess(utc: str, lat: float, lon: float, tz: str) -> subprocess.CompletedProcess:
-    env = {**os.environ, "PYTHONHASHSEED": "0"}  # pinned for dashaflow BENEFICS set-order defect; see module docstring
+    # No PYTHONHASHSEED pin: each fresh interpreter hashes differently, so the
+    # gate itself guards against hash-seed nondeterminism anywhere in the engine.
+    # (The pin existed for dashaflow <= 1.5.0's BENEFICS set-order defect, fixed
+    # upstream in 1.5.1 by iterating BENEFIC_ORDER. See module docstring.)
     return subprocess.run(
         [sys.executable, str(Path(__file__).resolve()),
          "--dump", utc, repr(lat), repr(lon), tz],
         capture_output=True,
         timeout=120,
         check=False,
-        env=env,
     )
 
 
