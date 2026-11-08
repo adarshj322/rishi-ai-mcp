@@ -13,7 +13,7 @@ https://github.com/user-attachments/assets/9c183b94-bb54-4af6-867c-fa3daeef2d03
 
 ## Install
 
-### A. Plugin — Claude Code and Codex
+### A. Host install — Claude Code (plugin) · Codex (MCP + skill) · OpenCode (MCP + skill)
 
 **Claude Code**
 
@@ -22,20 +22,38 @@ https://github.com/user-attachments/assets/9c183b94-bb54-4af6-867c-fa3daeef2d03
 /plugin install rishi-ai@rishi-ai-mcp
 ```
 
-**Codex** (CLI v0.128.0, March 2026)
+**Codex** (CLI v0.128.0, verified 2026-11-08)
 
 ```bash
 codex plugin marketplace add adarshj322/rishi-ai-mcp
 ```
 
-Then open the TUI and run `/plugins`.
+**Limit:** this CLI version ships only `marketplace` subcommands — no `plugin add`, `plugin list`, or `plugin install`. The marketplace is registered, and the repo carries `.codex-plugin/plugin.json` + root `hooks.json` + `.agents/plugins/marketplace.json` (all validated by `claude plugin validate` equivalent discipline), but **Codex cannot install the plugin bundle from the CLI today**. The practical path: `codex mcp list` already shows `vedic-astrology` once you point `~/.codex/config.toml` at it, and the doctrine goes in by hand:
+
+```bash
+mkdir -p ~/.codex/skills/rishi-reading
+cp -r skills/rishi-reading/SKILL.md skills/rishi-reading/contract.md skills/rishi-reading/references ~/.codex/skills/rishi-reading/
+cp agents/chart-verifier.md agents/doctrine-critic.md ~/.codex/skills/rishi-reading/
+```
+
+`~/.codex/config.toml` needs:
+
+```toml
+[mcp_servers.vedic-astrology]
+command = "uvx"
+args = ["rishi-ai-mcp"]
+```
+
+So: **Codex = MCP server + doctrine as a copied skill — fully working, but not through the plugin marketplace flow Phase-4 intended.** If a newer Codex CLI adds `plugin add`, the manifests in this repo are ready for it.
 
 What the plugin ships:
 
 - `skills/rishi-reading/SKILL.md` + `skills/rishi-reading/references/*.md` — the doctrine, auto-discovered by the host
 - `agents/chart-verifier.md` and `agents/doctrine-critic.md` — bounded verification subagents (gated; see Limitations)
-- `hooks/hooks.json` (Claude Code) and `hooks.json` (Codex, repo root — Codex does not read `hooks/`) — a one-line `UserPromptSubmit` reminder. Echo only, no side effects
+- `hooks/hooks.json` (Claude Code; Codex uses root `hooks.json`) — a one-line `UserPromptSubmit` reminder. Echo only, no side effects
 - `.mcp.json` — wires `uvx rishi-ai-mcp`. The plugin bundle carries no Python; the package is resolved on first run
+
+Verified: Claude Code plugin install cached at 1.6.0 with skill, agent definitions, reminder hook, and `.mcp.json` all present; `claude mcp list` shows `vedic-astrology: connected`.
 
 The plugin doctrine is built around **5 tools by design**: `cast_vedic_chart`, `cast_transit_chart`, `calculate_compatibility_tool`, `check_muhurtha_tool`, `analyze_career_chart`. The pip-installed server exposes all 12 (the remaining 7 are drill-downs — see MCP Tools).
 
@@ -50,17 +68,25 @@ pip install rishi-ai-mcp
 - The doctrine is vendored into the wheel at `<site-packages>/rishi_ai_mcp/skills/rishi-reading/` (`contract.md` + `references/`). Read it directly, or paste it into your host's system-prompt field; `system_prompt.md` in this repo is a minimap that points at it
 - Lahiri ayanamsha by default; other variants are named, never mixed
 
-### OpenCode (docs path — no plugin package in this release)
+### OpenCode (verified 2026-11-08 on v2.2.6)
 
-No npm package ships. Wire it by hand after cloning:
+No plugin bundle ships for OpenCode. The working install is two steps: copy the doctrine into OpenCode's global skills directory, and add the MCP server to `opencode.jsonc`.
 
 ```bash
-git clone https://github.com/adarshj322/rishi-ai-mcp.git
-cd rishi-ai-mcp
-opencode mcp add rishi-ai-mcp -- uvx rishi-ai-mcp
+mkdir -p ~/.config/opencode/skills/rishi-reading
+cp -r skills/rishi-reading/SKILL.md skills/rishi-reading/contract.md skills/rishi-reading/references ~/.config/opencode/skills/rishi-reading/
 ```
 
-OpenCode reads `.opencode/` (project) or `~/.config/opencode/` (global), and supports git-clone-based wiring. No plugin manifests are honored, and no verification binding ships this way — you get the tools and the doctrine text, unenforced. That is a rough edge, stated plainly.
+Then edit `~/.config/opencode/opencode.jsonc` and add this under the top-level `"mcp"` object:
+
+```jsonc
+"vedic-astrology": {
+  "type": "local",
+  "command": ["uvx", "rishi-ai-mcp"]
+}
+```
+
+**Verified:** the session then lists `rishi-reading` in its available skills, exposes `tools["vedic-astrology"]` with exactly the 5 plugin-frozen tools (not 12), and `opencode mcp list --print-logs` reports `vedic-astrology: connected`. No verification binding ships this way — the contract is read; it is not enforced — and no npm package exists. There is one pre-existing oddity in that config file (a nested `mcp.servers` key alongside top-level `mcp.*`) — harmless, but don't copy it into new setups.
 
 ### Other harnesses — Gemini CLI, VS Code Copilot, Cursor, Roo/Kilo
 
