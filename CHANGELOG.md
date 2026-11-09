@@ -8,7 +8,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [1.6.1] - 2026-11-09
 
 ### Changed
-- Equal-cost bar verdict recorded: the pre-committed gate (`delta > 0.098058`, rule 1, n = 26) did not clear — delta 0.000 [−0.2498, 0.2498]. **Tripwire 1 (equal-cost failure) fired**; the pre-registered response — removal, not tuning — was applied. Per `evals/README.md` §4.2(c), the verification path is cut: `chart-verifier`, `doctrine-critic`, the hesitation gate, and the per-claim approval machinery do not ship.
+- Equal-cost bar verdict recorded: the pre-committed gate (`delta > 0.098058`, rule 1, n = 26) did not clear — with 3/26 vs without 3/26, delta 0.000 [−0.2498, 0.2498]. Per `evals/README.md` §4.2(c), the verification path is cut: `chart-verifier`, `doctrine-critic`, the hesitation gate, and the per-claim approval machinery do not ship.
 - The two agent definitions move to `evals/agents/` as eval fixtures only; the plugin bundle no longer ships an `agents/` directory.
 - README, `skills/rishi-reading/SKILL.md`, `skills/rishi-reading/contract.md`, `AGENTS.md`, and `system_prompt.md` updated: the deterministic ground check is the shipped check; sample-and-vote is the shipped selection path.
 
