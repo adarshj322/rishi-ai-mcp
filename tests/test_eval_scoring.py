@@ -103,9 +103,29 @@ class TestFabrication(unittest.TestCase):
 
         chart = chart_with({"Sun": 10.5})
         self.assertEqual(find_fabrications("The period runs 2026-01-01 to 2028-06-30.", chart), [])
-        self.assertEqual(find_fabrications("Marriage will happen in 2031-05-04.", chart), ["2031-05-04"])
-        self.assertEqual(find_fabrications("It lifts in March 2031.", chart), ["March 2031"])
+        # inside the chart's 2020-2036 maha range: allowed as a window reference
+        self.assertEqual(find_fabrications("It lifts in March 2031.", chart), [])
         self.assertEqual(find_fabrications("It began in January 2020.", chart), [])
+        # outside every chart range: fabricated
+        self.assertEqual(find_fabrications("Marriage will happen in 2041-05-04.", chart), ["2041-05-04"])
+        self.assertEqual(find_fabrications("It returns in March 2041.", chart), ["March 2041"])
+
+    def test_derived_separation_degree_is_not_fabrication(self):
+        from eval_scoring import find_fabrications
+
+        chart = chart_with({"Sun": 10.5, "Moon": 100.0})
+        self.assertEqual(
+            find_fabrications("The Moon is 3.3° from the Capricorn cusp.", chart), []
+        )
+        self.assertEqual(
+            find_fabrications("Saturn is within 1° of the Sun.", chart), []
+        )
+
+    def test_absolute_unknown_degree_still_flagged(self):
+        from eval_scoring import find_fabrications
+
+        chart = chart_with({"Sun": 10.5})
+        self.assertEqual(find_fabrications("Sun at 29° in Aries.", chart), ["29°"])
 
 
 class TestDeterministicVerdict(unittest.TestCase):
@@ -161,3 +181,32 @@ class TestDeterministicVerdict(unittest.TestCase):
 
 if __name__ == "__main__":
     unittest.main()
+
+class TestGroundAliases(unittest.TestCase):
+    def test_required_ground_prose_aliases(self):
+        from eval_scoring import deterministic_verdict
+
+        chart = chart_with({"Sun": 10.5})
+        cases = [
+            ("sav_points", "SAV bindus for the sign are 28."),
+            ("arudha_padas", "The arudha padas A1 and A10 are cited."),
+            ("D9", "the navamsha (D9) shows the same lord."),
+            ("10th lord", "the tenth lord Saturn sits there."),
+            ("6th", "the sixth house is afflicted."),
+            ("graha_yuddha", "graha yuddha between Mars and Saturn."),
+            ("gandanta", "the gandanta list is empty."),
+            ("bhava_chalit", "the bhava chalit shifts it."),
+            ("maha", "the mahadasha runs to 2035."),
+            ("antar", "the antardasha is Sun."),
+        ]
+        for ground, text in cases:
+            entry = {"clauses": [], "required_grounds": [ground]}
+            verdict = deterministic_verdict(text, entry, chart)
+            self.assertTrue(verdict["pass"], (ground, verdict["failures"]))
+
+    def test_missing_ground_still_fails(self):
+        from eval_scoring import deterministic_verdict
+
+        entry = {"clauses": [], "required_grounds": ["sav_points"]}
+        verdict = deterministic_verdict("Career looks steady.", entry, chart_with({"Sun": 10.5}))
+        self.assertFalse(verdict["pass"])

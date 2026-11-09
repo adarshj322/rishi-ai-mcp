@@ -5,6 +5,8 @@ chart whitelist, and mechanical required-ground presence. Everything
 semantic belongs to the judge (tools/eval_runner.py).
 """
 
+import calendar
+import datetime
 import math
 import re
 
@@ -24,6 +26,92 @@ _MONTH_TO_NUM = {
     "jul": 7, "aug": 8, "sep": 9, "oct": 10, "nov": 11, "dec": 12,
 }
 _ADJACENCY = 120
+_RELATIONAL_RE = re.compile(
+    r"\b(?:within|from|orb|separation|distance|away|cusp|gap|difference)\b", re.I
+)
+_ORDINALS = {
+    "1st": "first", "2nd": "second", "3rd": "third", "4th": "fourth",
+    "5th": "fifth", "6th": "sixth", "7th": "seventh", "8th": "eighth",
+    "9th": "ninth", "10th": "tenth", "11th": "eleventh", "12th": "twelfth",
+}
+_GROUND_ALIASES = {
+    "sav_points": ["sav", "sav bindus", "sarvashtakavarga"],
+    "arudha_padas": ["arudha", "arudha pada", "arudha padas"],
+    "graha_yuddha": ["graha yuddha", "planetary war"],
+    "bhava_chalit": ["bhava chalit", "chalit"],
+    "D2": ["d2", "hora"],
+    "D9": ["d9", "navamsha", "navamsa"],
+    "D10": ["d10", "dashamsha", "dashamsa"],
+    "D24": ["d24", "chaturvimshamsha", "chaturvimshamsa"],
+    "kaal_sarpa": ["kaal sarpa", "kal sarpa", "kala sarpa"],
+    "maha": ["maha", "mahadasha", "major period"],
+    "antar": ["antar", "antardasha", "sub period"],
+    "pratyantar": ["pratyantar", "pratyantardasha"],
+    "upapada": ["upapada", "ul"],
+}
+
+
+def _normalize_ground_text(value: str) -> str:
+    lowered = value.lower().replace("_", " ").replace("-", " ")
+    for ordinal, word in _ORDINALS.items():
+        lowered = re.sub(rf"\b{ordinal}\b", word, lowered)
+    return re.sub(r"\s+", " ", lowered).strip()
+
+
+def _ground_variants(ground: str) -> set:
+    variants = {ground, ground.replace("_", " ")}
+    variants.update(_GROUND_ALIASES.get(ground, []))
+    return {_normalize_ground_text(v) for v in variants}
+
+
+def _ground_present(ground: str, normalized_text: str) -> bool:
+    return any(
+        re.search(rf"(?<!\w){re.escape(variant)}(?!\w)", normalized_text)
+        for variant in _ground_variants(ground)
+    )
+
+
+def _parse_iso(value: str):
+    try:
+        return datetime.date.fromisoformat(value)
+    except ValueError:
+        return None
+
+
+def _chart_dates(chart: dict, out: set = None, depth: int = 0) -> set:
+    if out is None:
+        out = set()
+    if depth > 40:
+        return out
+    if isinstance(chart, dict):
+        for value in chart.values():
+            _chart_dates(value, out, depth + 1)
+    elif isinstance(chart, (list, tuple)):
+        for value in chart:
+            _chart_dates(value, out, depth + 1)
+    elif isinstance(chart, str):
+        parsed = _parse_iso(chart.strip())
+        if parsed is not None:
+            out.add(parsed)
+    return out
+
+
+def _chart_date_ranges(chart: dict, out: list = None, depth: int = 0) -> list:
+    if out is None:
+        out = []
+    if depth > 40:
+        return out
+    if isinstance(chart, dict):
+        start = _parse_iso(str(chart.get("start", "")))
+        end = _parse_iso(str(chart.get("end", "")))
+        if start and end:
+            out.append((start, end))
+        for value in chart.values():
+            _chart_date_ranges(value, out, depth + 1)
+    elif isinstance(chart, (list, tuple)):
+        for value in chart:
+            _chart_date_ranges(value, out, depth + 1)
+    return out
 
 
 def compute_se(n: int) -> float:
@@ -126,6 +214,10 @@ def find_fabrications(text: str, chart: dict) -> list:
     for m in _DEGREE_RE.finditer(text):
         deg = _degree_value(m)
         window = text[max(0, m.start() - _ADJACENCY): m.end() + _ADJACENCY]
+        if _RELATIONAL_RE.search(window):
+            # "within 1°", "3.3° from the cusp", "10° away" are derived
+            # relations, not claimed absolute positions.
+            continue
         nearby = [
             name.lower() if name not in ("Lagna", "Ascendant") else "lagna"
             for name, pattern in body_names
@@ -145,21 +237,25 @@ def find_fabrications(text: str, chart: dict) -> list:
         if not ok:
             fabricated.append(m.group(0).strip())
 
+    date_values = _chart_dates(chart)
+    date_ranges = _chart_date_ranges(chart)
+
     for m in _ISO_DATE_RE.finditer(text):
-        if m.group(0).lower() not in values:
+        parsed = _parse_iso(m.group(0))
+        in_range = parsed in date_values or any(
+            start <= parsed <= end for start, end in date_ranges
+        )
+        if not in_range:
             fabricated.append(m.group(0))
 
     for m in _MONTH_DATE_RE.finditer(text):
         month = _MONTH_TO_NUM[m.group(1).lower()[:3]]
         year = int(m.group(2))
-        iso_ok = any(
-            isinstance(v, str)
-            and _ISO_DATE_RE.fullmatch(v)
-            and int(v[0:4]) == year
-            and int(v[5:7]) == month
-            for v in values
-        )
-        if not iso_ok:
+        first = datetime.date(year, month, 1)
+        last = datetime.date(year, month, calendar.monthrange(year, month)[1])
+        overlaps = any(first <= end and last >= start for start, end in date_ranges)
+        same_month = any(d.year == year and d.month == month for d in date_values)
+        if not (overlaps or same_month):
             fabricated.append(m.group(0))
 
     seen = set()
@@ -186,10 +282,10 @@ def deterministic_verdict(text: str, ledger_entry: dict, chart: dict) -> dict:
     checked.append("fabrication")
     failures.extend(f"fabricated: {item}" for item in fabricated)
 
-    lowered = text.lower()
+    normalized_text = _normalize_ground_text(text)
     for ground in ledger_entry.get("required_grounds", []):
         checked.append(f"required_ground: {ground}")
-        if ground.lower() not in lowered:
+        if not _ground_present(ground, normalized_text):
             failures.append(f"missing required ground: {ground}")
 
     return {"pass": not failures, "failures": failures, "checked": checked}
