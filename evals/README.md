@@ -162,7 +162,7 @@ One row per measurement; `with` and `without` arms are recorded separately; inte
 
 | date | commit | corpus size | SE rule | arm (with/without) | margin observed | verdict (informational only) | notes |
 |---|---|---|---|---|---|---|---|
-| `__PENDING__` | `__PENDING__` | `__PENDING__` | `__PENDING__` | `__PENDING__` | `__PENDING__` | `__PENDING__` | `__PENDING__` |
+| 2026-11-09 | 74efce7 | 26 | rule 1: SE = sqrt(0.5×0.5/26) = 0.098058; locked gate delta > 0.098058 | with 4/26 = 0.154 [0.0615, 0.3353]; without 5/26 = 0.192 [0.0851, 0.3788] | delta = −0.0385 [−0.3173, 0.2502]; consumed 86,170 with-arm tokens / 72,513 without-arm tokens | pilot — no verdict | opencode-go transport; arm deepseek-v4.1-flash (reasoning_effort none; without = 3×2000 @ temp 0.7, with = 2000/1000/1000/2000 @ temp 0); judge muse-spark-1.3-contributor (8000 max_tokens, mandatory reasoning); budget 6000 output tokens/item/arm; p_observed with 0.1538, without 0.1923 (recorded, rule 2 not used); items g-01…g-12, s-01…s-08, r-01…r-06; no exclusions, disqualifications, judge errors, or outputs at the 6000 cap; dashaflow 1.5.1 (Moshier fallback) |
 
 Column definitions:
 
