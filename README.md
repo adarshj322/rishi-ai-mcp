@@ -5,7 +5,7 @@
 [![Python versions](https://img.shields.io/pypi/pyversions/rishi-ai-mcp.svg?cache=1)](https://pypi.org/project/rishi-ai-mcp/)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
-Vedic astrology tools powered by the [DashaFlow](https://github.com/adarshj322/dashaflow) calculation engine, served over the [Model Context Protocol](https://modelcontextprotocol.io/) — plus the **ground-truth reading contract** those tools are read under: doctrine that binds the interpreter, a verifier pass on high-stakes slices, and an auditable output format.
+Vedic astrology tools powered by the [DashaFlow](https://github.com/adarshj322/dashaflow) calculation engine, served over the [Model Context Protocol](https://modelcontextprotocol.io/) — plus the **ground-truth reading contract** those tools are read under: doctrine that binds the interpreter, a deterministic ground check on factual claims, and an auditable output format.
 
 Works over **stdio** — as a plugin in Claude Code and Codex, or as a pip-installed MCP server for any other MCP-compatible client.
 
@@ -45,12 +45,11 @@ command = "uvx"
 args = ["rishi-ai-mcp"]
 ```
 
-Verify with `codex mcp list` (shows `vedic-astrology ... enabled`). The two verification subagent definitions (`agents/chart-verifier.md`, `agents/doctrine-critic.md`) ship in the plugin bundle and the repo — not in the pip wheel; fetch them from the repo if you want them as reference. No verification binding ships on this path; the contract is read, not enforced.
+Verify with `codex mcp list` (shows `vedic-astrology ... enabled`). No verification subagents ship. The pre-committed equal-cost bar was measured and **not cleared**, so the verification path was cut; the two agent definitions survive only as eval fixtures under `evals/agents/` for reproducing the measurement. The contract is read, not enforced.
 
 What the plugin ships:
 
 - `skills/rishi-reading/SKILL.md` + `skills/rishi-reading/references/*.md` — the doctrine, auto-discovered by the host
-- `agents/chart-verifier.md` and `agents/doctrine-critic.md` — bounded verification subagents (gated; see Limitations)
 - `hooks/hooks.json` (Claude Code; Codex uses root `hooks.json`) — a one-line `UserPromptSubmit` reminder. Echo only, no side effects
 - `.mcp.json` — wires `uvx rishi-ai-mcp`. The plugin bundle carries no Python; the package is resolved on first run
 
@@ -217,9 +216,9 @@ The contract — [`skills/rishi-reading/contract.md`](skills/rishi-reading/contr
 5. **R5 Remedy restraint** — matched remedies only, after the facts; "no remedy needed" is always a valid output.
 6. **R6 Accountability** — grounds appendix + calibration footer + disagreement log + provenance line in every reading; provenance missing means not a valid reading.
 
-How a reading actually unfolds — intake, cast-before-counsel, verify-by-default on high-stakes slices — lives in the entry skill [`skills/rishi-reading/SKILL.md`](skills/rishi-reading/SKILL.md) and its `references/`. Plugin hosts auto-discover it; pip installs get it vendored in the wheel. Where any file disagrees with the contract, the contract wins.
+How a reading actually unfolds — intake, cast-before-counsel, deterministic ground-check on factual claims — lives in the entry skill [`skills/rishi-reading/SKILL.md`](skills/rishi-reading/SKILL.md) and its `references/`. Plugin hosts auto-discover it; pip installs get it vendored in the wheel. Where any file disagrees with the contract, the contract wins.
 
-High-stakes slices — marriage, health, career, remedies, fear content — route through the gated verification pair (`agents/chart-verifier.md` re-derives each cited value from tool output; `agents/doctrine-critic.md` checks the prose against the contract). Verification is currently **off** until the pre-committed equal-cost bar clears — see [`evals/README.md`](evals/README.md) and [Limitations](#limitations).
+High-stakes slices — marriage, health, career, remedies, fear content — still carry the contract's extra care, but there is no model verification pass. The pre-committed equal-cost bar was measured on 2026-11-09 and **not cleared** (delta 0.000 [−0.2498, 0.2498] against the locked gate 0.098058); per §4.2(c), the verification subagents, hesitation gate, and per-claim approval machinery do not ship. What ships is sample-and-vote plus the deterministic tool-check. See [`evals/README.md`](evals/README.md) and [Limitations](#limitations).
 
 ## Architecture
 
@@ -241,12 +240,10 @@ rishi_ai_mcp.py            MCP server — all 12 tools, stdio, single file
 
 skills/rishi-reading/       Doctrine — contract.md + references/ (entry skill auto-discovered by plugin hosts;
                             vendored into the wheel for pip installs)
-agents/                     chart-verifier.md, doctrine-critic.md — gated verification (off until the
-                            equal-cost bar clears; see evals/README.md)
 evals/                      JyotishQA seed set + Tier-1 conformance corpus (300 moments) + the gate pre-commitment
 tools/build_plugin.py       Renders and verifies the per-host manifests (--check runs in CI)
 tools/tier1_check.py        Tier-1 determinism gate (dual invocation, 300 moments)
-.claude-plugin/             Claude Code — plugin.json + marketplace.json (auto-discovers skills/, agents/, hooks/)
+.claude-plugin/             Claude Code — plugin.json + marketplace.json (auto-discovers skills/, hooks/)
 .codex-plugin/              Codex — plugin.json (skills/ and mcpServers pointers + interface block)
 .agents/plugins/            Codex marketplace catalog
 hooks/hooks.json            Claude Code reminder hook (UserPromptSubmit; echo only, no side effects)
@@ -265,7 +262,7 @@ Stated plainly, because a reading tool that overclaims is worse than none:
 - **Lahiri ayanamsha by default.** Other variants are named when used; systems are never mixed within one reading.
 - **No predictions.** No claim here licenses telling someone what will happen. There is no ground truth for outcomes; the correspondence layer is out of scope until a preregistered prospective registry exists — it does not yet.
 - **No interpretive-validity claim.** What a placement means is an interpretation under a stated rulebook, not a measured fact. The claim is consistency and auditability of interpretation — nothing more.
-- **Verification is off by default.** The plugin ships with the verification path disabled. It unlocks only if the pre-committed equal-cost bar clears — delta > seed-set standard error at first measurement, locked, with the set expanded rather than the bar relaxed; the bar is written down in [`evals/README.md`](evals/README.md) before any run. Until then, sample-and-vote plus the deterministic tool-check is what ships.
+- **Verification was measured and cut.** The pre-committed equal-cost bar ran on the 26-item seed set: with 3/26 vs without 3/26, delta 0.000 [−0.2498, 0.2498], against a locked gate of delta > 0.098058. The gate did not clear, so the verification path — chart-verifier, doctrine-critic, hesitation gate, per-claim approval — does not ship. Sample-and-vote plus the deterministic tool-check is the shipped path. The bar and both Evidence Log rows are in [`evals/README.md`](evals/README.md); it is not re-tuned.
 - **Not medical, legal, or financial advice.** The chart may frame themes; it may not triage, dose, or time treatment. Crisis language routes to professionals and crisis resources, never to a chart.
 - **OpenCode and other hosts get no binding.** Outside the two plugin hosts, the contract is documentation, not enforcement — the tools and doctrine text are real, but nothing gates the reading.
 
