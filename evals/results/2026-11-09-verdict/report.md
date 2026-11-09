@@ -1,3 +1,5 @@
+> **INVALID AS A VERDICT — see `CORRECTION.md`.** The base model changed after the pilot; `evals/README.md` §10 requires a new pilot and a re-derived gate first. This is a floor-change experiment, not a verdict. The verification cut based on it was reverted.
+
 # Equal-cost bar — verdict report
 
 Verdict run under the locked gate (evals/README.md §4.2). The gate value was locked at first measurement and is not re-derived here.
