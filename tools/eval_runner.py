@@ -10,7 +10,9 @@ import datetime
 import json
 import os
 import pathlib
+import random
 import re
+import subprocess
 import sys
 
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
@@ -32,7 +34,9 @@ ROOT = pathlib.Path(__file__).resolve().parent.parent
 CASES = ROOT / "evals" / "cases"
 PROMPTS = ROOT / "evals" / "prompts"
 
-ARM_LABEL_RE = re.compile(r"(?:answer\s*)?\((?:with|without|bare)[^)]*\)\s*:?\s*", re.I)
+ARM_LABEL_RE = re.compile(
+    r"^\s*(?:answer\s*)?\((?:with|without|bare)(?:\s+arm)?\)\s*:?\s*", re.I
+)
 ARM_WORD_RE = re.compile(r"\b(?:arm|bare|without|with)\b", re.I)
 
 
@@ -129,13 +133,19 @@ def judge_response(client, item, ledger_entry, chart, response_text, judge_model
 
 
 def precompute_chart(item):
-    """Cast the item's chart once — shared by every arm."""
+    """Cast the item's chart (and transit, when the item names a date) once."""
     import dashaflow
 
     birth = item["birth"]
-    return dashaflow.cast_chart(
+    chart = dashaflow.cast_chart(
         birth["dob"], birth["time"], birth["lat"], birth["lon"], birth["tz"]
     )
+    if item.get("transit_date"):
+        chart["transit"] = dashaflow.cast_transit(
+            item["transit_date"], birth["dob"], birth["time"],
+            birth["lat"], birth["lon"], birth["tz"],
+        )
+    return chart
 
 
 def _resolve_models(transport, arm_model=None, judge_model=None):
@@ -156,12 +166,17 @@ def run(items, arms, budget, outdir, client=None, judge_client=None, transport="
     ledger = load_ledger()
     doctrine_prompt = load_prompt("doctrine_system.md")
     bare_prompt = load_prompt("bare_system.md")
+    se = compute_se(len(items))
+    if mode == "verdict":
+        _assert_verdict_ready(items)
 
     item_results = []
+    charts = {}
     total = len(items)
     for index, item in enumerate(items, 1):
         entry = ledger[item["id"]]
         chart = precompute_chart(item)
+        charts[item["id"]] = chart
         arm_results = {}
         for arm in arms:
             try:
@@ -201,11 +216,13 @@ def run(items, arms, budget, outdir, client=None, judge_client=None, transport="
         _write_partial(outdir, item_results, total, index)
         print(f"[{index}/{total}] {item['id']}", flush=True)
 
-    se = compute_se(len(items))
     summary = tally(item_results, arms)
-    delta = _delta(summary, arms)
+    valid = not summary.get("excluded")
+    delta = _delta(item_results, summary, arms)
     results = {
         "mode": mode,
+        "valid": valid,
+        "locked_gate": _locked_gate(),
         "items": item_results,
         "arms": summary,
         "se": se,
@@ -219,6 +236,9 @@ def run(items, arms, budget, outdir, client=None, judge_client=None, transport="
         "generated_at": datetime.datetime.now(datetime.timezone.utc).isoformat(),
     }
     os.makedirs(outdir, exist_ok=True)
+    with open(os.path.join(outdir, "charts.json"), "w", encoding="utf-8") as fh:
+        json.dump(charts, fh, sort_keys=True)
+    _write_manifest(outdir, results, [item["id"] for item in items])
     write_report(results, outdir)
     return results
 
@@ -266,7 +286,99 @@ def tally(item_results, arms):
     return out
 
 
-def _delta(summary, arms):
+LOCKED_GATE_PATH = ROOT / "evals" / "locked_gate.json"
+
+
+def _locked_gate():
+    with open(LOCKED_GATE_PATH, encoding="utf-8") as fh:
+        return json.load(fh)
+
+
+def _assert_verdict_ready(items):
+    """A verdict needs the full corpus and the locked gate; subsets are refused."""
+    locked = _locked_gate()
+    if len(items) != locked["n"]:
+        raise ValueError(
+            f"verdict mode requires the locked corpus of {locked['n']} items; got {len(items)}"
+        )
+    se = compute_se(len(items))
+    if abs(se - locked["se"]) > 1e-5:
+        raise ValueError(f"computed SE {se} does not match locked SE {locked['se']}")
+
+
+def _repo_commit():
+    try:
+        return subprocess.check_output(
+            ["git", "rev-parse", "HEAD"], cwd=ROOT, text=True
+        ).strip()
+    except (OSError, subprocess.CalledProcessError):
+        return "unknown"
+
+
+def _prompt_hashes():
+    import hashlib
+
+    paths = [
+        PROMPTS / "bare_system.md",
+        PROMPTS / "doctrine_system.md",
+        PROMPTS / "judge.md",
+        ROOT / "agents" / "chart-verifier.md",
+        ROOT / "agents" / "doctrine-critic.md",
+    ]
+    return {
+        str(path.relative_to(ROOT)): hashlib.sha256(path.read_bytes()).hexdigest()
+        for path in paths
+        if path.is_file()
+    }
+
+
+def _write_manifest(outdir, results, item_ids):
+    os.makedirs(outdir, exist_ok=True)
+    payload = {
+        "repo_commit": _repo_commit(),
+        "generated_at": results.get("generated_at"),
+        "mode": results.get("mode"),
+        "transport": results.get("models", {}).get("transport"),
+        "models": results.get("models"),
+        "budget": results.get("budget"),
+        "item_ids": item_ids,
+        "prompt_hashes": _prompt_hashes(),
+        "engine": results.get("engines"),
+    }
+    with open(os.path.join(outdir, "manifest.json"), "w", encoding="utf-8") as fh:
+        json.dump(payload, fh, indent=1, sort_keys=True)
+
+
+def _paired_delta_interval(item_results, arms, resamples=2000, seed=12345):
+    """Paired bootstrap over items; returns a 95% interval for with-minus-without."""
+    pairs = []
+    for item in item_results:
+        with_arm = item["arms"].get("with", {})
+        without_arm = item["arms"].get("without", {})
+        if with_arm.get("judge_error") or without_arm.get("judge_error"):
+            continue
+        pairs.append(
+            (1.0 if with_arm.get("pass") else 0.0,
+             1.0 if without_arm.get("pass") else 0.0)
+        )
+    if not pairs:
+        return [0.0, 0.0]
+    rng = random.Random(seed)
+    n = len(pairs)
+    deltas = []
+    for _ in range(resamples):
+        with_sum = without_sum = 0.0
+        for _ in range(n):
+            with_pass, without_pass = pairs[rng.randrange(n)]
+            with_sum += with_pass
+            without_sum += without_pass
+        deltas.append((with_sum - without_sum) / n)
+    deltas.sort()
+    return [round(deltas[int(0.025 * resamples)], 4),
+            round(deltas[int(0.975 * resamples) - 1], 4)]
+
+
+def _delta(item_results, summary, arms):
     if "with" not in arms or "without" not in arms:
         return {"value": None, "interval": None, "note": "gate arms not both run"}
     a, b = summary.get("with", {}), summary.get("without", {})
@@ -274,10 +386,7 @@ def _delta(summary, arms):
         return {"value": None, "interval": None, "note": "an arm was disqualified"}
     return {
         "value": round(a["proportion"] - b["proportion"], 4),
-        "interval": [
-            round(a["interval"][0] - b["interval"][1], 4),
-            round(a["interval"][1] - b["interval"][0], 4),
-        ],
+        "interval": _paired_delta_interval(item_results, arms),
     }
 
 
@@ -291,8 +400,9 @@ def write_report(results, outdir):
 
     mode = results.get("mode", "pilot")
     delta = results.get("delta") or {}
+    valid = results.get("valid", True)
     gate_cleared = None
-    if mode == "verdict" and delta.get("value") is not None:
+    if mode == "verdict" and delta.get("value") is not None and valid:
         gate_cleared = delta["value"] > results["se"]
         results["gate_cleared"] = gate_cleared
 
@@ -319,9 +429,12 @@ def write_report(results, outdir):
         f"- SE = {results['se']:.6f}  (computed before any item was scored)",
         f"- Locked gate: {results['gate']}",
         *(
-            [f"- Gate read: **{'CLEARED' if gate_cleared else 'NOT CLEARED'}** "
-             f"(delta {delta['value']:+.3f} vs gate {results['se']:.6f})"]
-            if mode == "verdict" and delta.get("value") is not None else []
+            ["- Gate read: **INVALID — excluded items; no verdict**"]
+            if mode == "verdict" and not valid
+            else [f"- Gate read: **{'CLEARED' if gate_cleared else 'NOT CLEARED'}** "
+                  f"(delta {delta['value']:+.3f} vs gate {results['se']:.6f})"]
+            if mode == "verdict" and delta.get("value") is not None
+            else []
         ),
         f"- Models: arms `{results.get('models', {}).get('arm', 'unknown')}`, "
         f"judge `{results.get('models', {}).get('judge', 'unknown')}`",

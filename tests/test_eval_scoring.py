@@ -121,6 +121,13 @@ class TestFabrication(unittest.TestCase):
             find_fabrications("Saturn is within 1° of the Sun.", chart), []
         )
 
+
+    def test_transit_degree_is_accepted(self):
+        from eval_scoring import find_fabrications
+
+        chart = chart_with({"Saturn": 10.5})
+        chart["transit"] = {"planets": {"Saturn": {"degree": 25.0}}}
+        self.assertEqual(find_fabrications("Transit Saturn at 25° in Pisces.", chart), [])
     def test_absolute_unknown_degree_still_flagged(self):
         from eval_scoring import find_fabrications
 
@@ -179,9 +186,6 @@ class TestDeterministicVerdict(unittest.TestCase):
         self.assertFalse(verdict["pass"])
 
 
-if __name__ == "__main__":
-    unittest.main()
-
 class TestGroundAliases(unittest.TestCase):
     def test_required_ground_prose_aliases(self):
         from eval_scoring import deterministic_verdict
@@ -210,3 +214,7 @@ class TestGroundAliases(unittest.TestCase):
         entry = {"clauses": [], "required_grounds": ["sav_points"]}
         verdict = deterministic_verdict("Career looks steady.", entry, chart_with({"Sun": 10.5}))
         self.assertFalse(verdict["pass"])
+
+
+if __name__ == "__main__":
+    unittest.main()

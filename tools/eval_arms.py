@@ -101,13 +101,14 @@ def run_without(client, item, chart, ledger_entry, budget, doctrine_prompt, reas
     share = budget // 3
     samples = []
     total = 0
-    for _ in range(3):
+    for index in range(3):
         out = client.complete(
             system=doctrine_prompt,
             user=_user_prompt(item, chart),
             model=item.get("model", DEFAULT_ARM_MODEL),
             temperature=0.7,
             max_tokens=share,
+            seed=7 + index,
             reasoning=reasoning,
         )
         total += out["output_tokens"]
@@ -181,8 +182,8 @@ def run_bare(client, item, chart, budget, bare_prompt=None, reasoning="none"):
     }
 
 
-def _revision_prompt(draft, verifier_text, critic_text):
-    """Carry only deny/nonconformant lines into the revision request."""
+def _revision_prompt(draft, verifier_text, critic_text, context):
+    """Carry only deny/nonconformant lines, plus the original chart/question."""
     lines = []
     for block in (verifier_text, critic_text):
         for line in block.splitlines():
@@ -191,6 +192,7 @@ def _revision_prompt(draft, verifier_text, critic_text):
                 lines.append(line.strip())
     findings = "\n".join(lines) if lines else "none"
     return (
+        f"Original request and chart:\n{context}\n\n"
         f"Your draft:\n{draft}\n\n"
         f"Verifier/critic findings that must be applied:\n{findings}\n\n"
         "Rewrite the answer applying only these findings. Do not add new claims. "
@@ -235,7 +237,7 @@ def run_with(client, item, chart, ledger_entry, budget, doctrine_prompt, reasoni
 
     revision = client.complete(
         system=doctrine_prompt,
-        user=_revision_prompt(draft["text"], verifier["text"], critic["text"]),
+        user=_revision_prompt(draft["text"], verifier["text"], critic["text"], user),
         model=model,
         temperature=0,
         max_tokens=budget // 3,

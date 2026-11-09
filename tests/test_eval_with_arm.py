@@ -96,6 +96,8 @@ class TestWithArm(unittest.TestCase):
         self.assertIn("deny", revision_prompt)
         self.assertIn("wrong lord", revision_prompt)
         self.assertNotIn("CLAIM-2: approve", revision_prompt)
+        self.assertIn("Chart data", revision_prompt)
+        self.assertIn("How is my career?", revision_prompt)
 
     def test_with_budget_overrun_raises(self):
         from eval_arms import BudgetExceeded, run_with

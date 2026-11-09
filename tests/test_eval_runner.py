@@ -187,9 +187,6 @@ class TestRunOrchestration(unittest.TestCase):
         self.assertNotIn("proportion", out["with"])
 
 
-if __name__ == "__main__":
-    unittest.main()
-
 class TestPartialPersistence(unittest.TestCase):
     def test_partial_written_atomically_after_each_item(self):
         from eval_runner import _write_partial
@@ -250,3 +247,123 @@ class TestVerdictReport(unittest.TestCase):
             text = open(os.path.join(tmp, "report.md"), encoding="utf-8").read()
         self.assertIn("Gate read: **CLEARED**", text)
         self.assertNotIn("NOT CLEARED", text)
+
+
+
+class TestAnonymizePreservesGrounds(unittest.TestCase):
+    def test_ground_parenthetical_preserved(self):
+        from eval_runner import anonymize
+
+        text = "Saturn (with Saturn exalted) supports steady work."
+        self.assertIn("(with Saturn exalted)", anonymize(text))
+
+
+class TestLockedGate(unittest.TestCase):
+    def test_verdict_refuses_subset(self):
+        from eval_runner import _assert_verdict_ready
+
+        with self.assertRaises(ValueError):
+            _assert_verdict_ready([{"id": "g-01"}])
+
+    def test_verdict_accepts_full_corpus(self):
+        from eval_runner import _assert_verdict_ready
+
+        _assert_verdict_ready([{"id": f"x-{i}"} for i in range(26)])
+
+
+class TestPairedDelta(unittest.TestCase):
+    def _items(self, pairs):
+        return [
+            {"id": f"i{i}", "arms": {"with": {"pass": w}, "without": {"pass": o}}}
+            for i, (w, o) in enumerate(pairs)
+        ]
+
+    def test_perfect_separation_interval_positive(self):
+        from eval_runner import _paired_delta_interval
+
+        low, high = _paired_delta_interval(
+            self._items([(True, False)] * 10), ["with", "without"]
+        )
+        self.assertGreater(low, 0.0)
+
+    def test_identical_arms_include_zero(self):
+        from eval_runner import _paired_delta_interval
+
+        low, high = _paired_delta_interval(
+            self._items([(True, True), (False, False)] * 5), ["with", "without"]
+        )
+        self.assertLessEqual(low, 0.0)
+        self.assertGreaterEqual(high, 0.0)
+
+
+class TestInvalidVerdictReport(unittest.TestCase):
+    def test_exclusions_mark_verdict_invalid(self):
+        from eval_runner import write_report
+
+        results = {
+            "mode": "verdict",
+            "valid": False,
+            "excluded": ["g-01"],
+            "items": [],
+            "arms": {
+                "with": {"passes": 3, "n": 25, "proportion": 0.12, "interval": [0.04, 0.3]},
+                "without": {"passes": 3, "n": 25, "proportion": 0.12, "interval": [0.04, 0.3]},
+            },
+            "se": 0.098058,
+            "gate": "delta > 0.098058",
+            "delta": {"value": 0.0, "interval": [-0.25, 0.25]},
+        }
+        with tempfile.TemporaryDirectory() as tmp:
+            write_report(results, tmp)
+            text = open(os.path.join(tmp, "report.md"), encoding="utf-8").read()
+        self.assertIn("INVALID", text)
+        self.assertNotIn("Gate read: **CLEARED**", text)
+
+
+class TestManifest(unittest.TestCase):
+    def test_manifest_written(self):
+        from eval_runner import _write_manifest
+
+        results = {
+            "mode": "pilot",
+            "models": {"transport": "opencode-go", "arm": "glm-5.3-flash", "judge": "deepseek-v4.1-flash"},
+            "budget": 12000,
+            "engines": {"dashaflow_version": "1.5.1"},
+        }
+        with tempfile.TemporaryDirectory() as tmp:
+            _write_manifest(tmp, results, ["g-01", "s-01"])
+            payload = json.load(open(os.path.join(tmp, "manifest.json"), encoding="utf-8"))
+        self.assertEqual(payload["item_ids"], ["g-01", "s-01"])
+        self.assertIn("repo_commit", payload)
+        self.assertIn("prompt_hashes", payload)
+
+
+class TestTransitContext(unittest.TestCase):
+    def test_transit_attached_when_date_present(self):
+        from unittest.mock import patch
+
+        import eval_runner
+
+        item = {
+            "birth": {"dob": "1984-01-19", "time": "08:30", "lat": 8.5, "lon": 76.9, "tz": "Asia/Kolkata"},
+            "transit_date": "2026-11-09",
+        }
+        with patch("dashaflow.cast_chart", return_value={"planets": {}}), \
+             patch("dashaflow.cast_transit", return_value={"sade_sati": {"active": True}}) as transit:
+            chart = eval_runner.precompute_chart(item)
+        self.assertEqual(chart["transit"], {"sade_sati": {"active": True}})
+        transit.assert_called_once()
+
+    def test_no_transit_without_date(self):
+        from unittest.mock import patch
+
+        import eval_runner
+
+        item = {"birth": {"dob": "1984-01-19", "time": "08:30", "lat": 8.5, "lon": 76.9, "tz": "Asia/Kolkata"}}
+        with patch("dashaflow.cast_chart", return_value={"planets": {}}):
+            chart = eval_runner.precompute_chart(item)
+        self.assertNotIn("transit", chart)
+
+
+if __name__ == "__main__":
+    unittest.main()

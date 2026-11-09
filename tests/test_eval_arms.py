@@ -196,9 +196,6 @@ class TestChatClient(unittest.TestCase):
                 os.environ["OPENROUTER_API_KEY"] = old
 
 
-if __name__ == "__main__":
-    unittest.main()
-
 class _FakeCompletions:
     def __init__(self):
         self.kwargs = None
@@ -281,3 +278,21 @@ class TestArmReasoning(unittest.TestCase):
             doctrine_prompt="DOCTRINE", reasoning="none",
         )
         self.assertEqual({c["reasoning"] for c in client.calls}, {"none"})
+
+
+
+class TestSampleSeeds(unittest.TestCase):
+    def test_without_samples_use_distinct_seeds(self):
+        from eval_arms import run_without
+
+        client = FakeClient(["The 10th lord is Saturn."] * 3)
+        run_without(
+            client, ITEM, chart_with({"Sun": 10.5}), LEDGER, budget=6000,
+            doctrine_prompt="DOCTRINE",
+        )
+        seeds = [c["seed"] for c in client.calls]
+        self.assertEqual(len(set(seeds)), 3, seeds)
+
+
+if __name__ == "__main__":
+    unittest.main()

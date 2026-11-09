@@ -171,6 +171,15 @@ def _planet_degrees(chart: dict) -> dict:
             v = lagna.get(key)
             if isinstance(v, (int, float)):
                 result.setdefault("lagna", []).append(float(v))
+    transit = chart.get("transit")
+    if isinstance(transit, dict):
+        for name, data in (transit.get("planets") or {}).items():
+            if not isinstance(data, dict):
+                continue
+            for key in ("degree", "degree_precise", "longitude"):
+                v = data.get(key)
+                if isinstance(v, (int, float)):
+                    result.setdefault(name.lower(), []).append(float(v))
     return result
 
 

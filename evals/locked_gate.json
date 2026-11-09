@@ -1,0 +1,8 @@
+{
+ "n": 26,
+ "se_rule": 1,
+ "se": 0.098058,
+ "gate": "delta > 0.098058",
+ "floor": "pilot floor: deepseek-v4.1-flash / reasoning none / 6000 tokens (2026-11-09)",
+ "note": "Locked at first measurement. A base-model or decoding-floor change re-derives this before any verdict (evals/README.md §10)."
+}
