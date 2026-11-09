@@ -216,3 +216,37 @@ class TestModelResolution(unittest.TestCase):
             _resolve_models("opencode-go", "glm-5.3-flash", "deepseek-v4.1-flash"),
             ("glm-5.3-flash", "deepseek-v4.1-flash"),
         )
+
+class TestVerdictReport(unittest.TestCase):
+    def _results(self, delta_value):
+        return {
+            "mode": "verdict",
+            "items": [],
+            "arms": {
+                "without": {"passes": 3, "n": 26, "proportion": 0.115, "interval": [0.04, 0.29]},
+                "with": {"passes": 3, "n": 26, "proportion": 0.115, "interval": [0.04, 0.29]},
+            },
+            "se": 0.098058,
+            "gate": "delta > 0.098058",
+            "delta": {"value": delta_value, "interval": [-0.25, 0.25]},
+        }
+
+    def test_verdict_report_not_cleared(self):
+        from eval_runner import write_report
+
+        with tempfile.TemporaryDirectory() as tmp:
+            write_report(self._results(0.0), tmp)
+            text = open(os.path.join(tmp, "report.md"), encoding="utf-8").read()
+            payload = json.load(open(os.path.join(tmp, "results.json"), encoding="utf-8"))
+        self.assertIn("Gate read: **NOT CLEARED**", text)
+        self.assertNotIn("no verdict is taken", text.lower())
+        self.assertFalse(payload["gate_cleared"])
+
+    def test_verdict_report_cleared(self):
+        from eval_runner import write_report
+
+        with tempfile.TemporaryDirectory() as tmp:
+            write_report(self._results(0.15), tmp)
+            text = open(os.path.join(tmp, "report.md"), encoding="utf-8").read()
+        self.assertIn("Gate read: **CLEARED**", text)
+        self.assertNotIn("NOT CLEARED", text)

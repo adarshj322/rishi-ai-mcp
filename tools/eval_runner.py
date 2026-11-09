@@ -145,7 +145,7 @@ def _resolve_models(transport, arm_model=None, judge_model=None):
 
 
 def run(items, arms, budget, outdir, client=None, judge_client=None, transport="openrouter",
-        arm_model=None, judge_model=None, arm_reasoning="none"):
+        arm_model=None, judge_model=None, arm_reasoning="none", mode="pilot"):
     """Execute the three-arm comparison and return the results dict."""
     client = client or ChatClient(transport=transport)
     judge_client = judge_client or client
@@ -205,6 +205,7 @@ def run(items, arms, budget, outdir, client=None, judge_client=None, transport="
     summary = tally(item_results, arms)
     delta = _delta(summary, arms)
     results = {
+        "mode": mode,
         "items": item_results,
         "arms": summary,
         "se": se,
@@ -288,16 +289,40 @@ def write_report(results, outdir):
         if "proportion" in stats and "interval" not in stats:
             raise AssertionError(f"arm {arm} has a proportion without an interval")
 
+    mode = results.get("mode", "pilot")
+    delta = results.get("delta") or {}
+    gate_cleared = None
+    if mode == "verdict" and delta.get("value") is not None:
+        gate_cleared = delta["value"] > results["se"]
+        results["gate_cleared"] = gate_cleared
+
+    if mode == "verdict":
+        title = "# Equal-cost bar — verdict report"
+        intro = (
+            "Verdict run under the locked gate (evals/README.md §4.2). The gate "
+            "value was locked at first measurement and is not re-derived here."
+        )
+    else:
+        title = "# Equal-cost bar — pilot report"
+        intro = (
+            "Pilot run: the noise floor only. No verdict is taken from this run "
+            "(evals/README.md §4.2(d))."
+        )
+
     lines = [
-        "# Equal-cost bar — pilot report",
+        title,
         "",
-        "Pilot run: the noise floor only. No verdict is taken from this run "
-        "(evals/README.md §4.2(d)).",
+        intro,
         "",
         f"- n = {len(results['items'])} items",
         f"- SE rule: {results.get('se_rule', 'rule 1')}",
         f"- SE = {results['se']:.6f}  (computed before any item was scored)",
         f"- Locked gate: {results['gate']}",
+        *(
+            [f"- Gate read: **{'CLEARED' if gate_cleared else 'NOT CLEARED'}** "
+             f"(delta {delta['value']:+.3f} vs gate {results['se']:.6f})"]
+            if mode == "verdict" and delta.get("value") is not None else []
+        ),
         f"- Models: arms `{results.get('models', {}).get('arm', 'unknown')}`, "
         f"judge `{results.get('models', {}).get('judge', 'unknown')}`",
         f"- Budget per item per arm: {results.get('budget', 'unknown')} output tokens",
@@ -364,7 +389,7 @@ def build_items(selected_ids=None):
 
 def main(argv=None):
     parser = argparse.ArgumentParser(description="Equal-cost bar runner")
-    parser.add_argument("--mode", default="pilot", choices=["pilot", "dry-run"])
+    parser.add_argument("--mode", default="pilot", choices=["pilot", "verdict", "dry-run"])
     parser.add_argument("--arms", default="bare,without,with")
     parser.add_argument("--budget", type=int, default=6000)
     parser.add_argument("--items", default="")
@@ -382,7 +407,7 @@ def main(argv=None):
     results = run(
         items, arms, args.budget, outdir, transport=args.transport,
         arm_model=args.arm_model or None, judge_model=args.judge_model or None,
-        arm_reasoning=args.arm_reasoning,
+        arm_reasoning=args.arm_reasoning, mode=args.mode,
     )
     print(f"SE = {results['se']:.6f} (rule 1); gate: {results['gate']}")
     for arm in ("bare", "without", "with"):
