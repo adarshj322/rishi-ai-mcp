@@ -296,6 +296,18 @@ class TestPairedDelta(unittest.TestCase):
         self.assertGreaterEqual(high, 0.0)
 
 
+
+    def test_disqualified_arm_invalidates_run(self):
+        from eval_runner import _run_valid
+
+        summary = {
+            "excluded": [],
+            "with": {"disqualified": True, "reason": "budget overrun"},
+            "without": {"passes": 1, "n": 1, "proportion": 1.0, "interval": [0.2, 1.0]},
+        }
+        self.assertFalse(_run_valid(summary))
+
+
 class TestInvalidVerdictReport(unittest.TestCase):
     def test_exclusions_mark_verdict_invalid(self):
         from eval_runner import write_report

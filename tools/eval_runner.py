@@ -217,7 +217,7 @@ def run(items, arms, budget, outdir, client=None, judge_client=None, transport="
         print(f"[{index}/{total}] {item['id']}", flush=True)
 
     summary = tally(item_results, arms)
-    valid = not summary.get("excluded")
+    valid = _run_valid(summary)
     delta = _delta(item_results, summary, arms)
     results = {
         "mode": mode,
@@ -376,6 +376,17 @@ def _paired_delta_interval(item_results, arms, resamples=2000, seed=12345):
     deltas.sort()
     return [round(deltas[int(0.025 * resamples)], 4),
             round(deltas[int(0.975 * resamples) - 1], 4)]
+
+
+def _run_valid(summary):
+    """A run is valid only if no item was excluded and no arm was disqualified."""
+    if summary.get("excluded"):
+        return False
+    return not any(
+        stats.get("disqualified")
+        for arm, stats in summary.items()
+        if arm != "excluded"
+    )
 
 
 def _delta(item_results, summary, arms):
