@@ -150,7 +150,8 @@ def run(items, arms, budget, outdir, client=None, judge_client=None, transport="
     bare_prompt = load_prompt("bare_system.md")
 
     item_results = []
-    for item in items:
+    total = len(items)
+    for index, item in enumerate(items, 1):
         entry = ledger[item["id"]]
         chart = precompute_chart(item)
         arm_results = {}
@@ -186,6 +187,8 @@ def run(items, arms, budget, outdir, client=None, judge_client=None, transport="
                 "judge_error": judged["judge_error"],
             }
         item_results.append({"id": item["id"], "arms": arm_results})
+        _write_partial(outdir, item_results, total, index)
+        print(f"[{index}/{total}] {item['id']}", flush=True)
 
     se = compute_se(len(items))
     summary = tally(item_results, arms)
@@ -205,6 +208,16 @@ def run(items, arms, budget, outdir, client=None, judge_client=None, transport="
     os.makedirs(outdir, exist_ok=True)
     write_report(results, outdir)
     return results
+
+
+def _write_partial(outdir, item_results, total, done):
+    """Persist finished items atomically so a killed run leaves its work on disk."""
+    os.makedirs(outdir, exist_ok=True)
+    path = os.path.join(outdir, "partial.json")
+    tmp = path + ".tmp"
+    with open(tmp, "w", encoding="utf-8") as fh:
+        json.dump({"done": done, "total": total, "items": item_results}, fh)
+    os.replace(tmp, path)
 
 
 def _engine_provenance():

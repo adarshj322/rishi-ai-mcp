@@ -189,3 +189,17 @@ class TestRunOrchestration(unittest.TestCase):
 
 if __name__ == "__main__":
     unittest.main()
+
+class TestPartialPersistence(unittest.TestCase):
+    def test_partial_written_atomically_after_each_item(self):
+        from eval_runner import _write_partial
+
+        items = [{"id": "g-01", "arms": {"with": {"pass": True}}}]
+        with tempfile.TemporaryDirectory() as tmp:
+            _write_partial(tmp, items, total=26, done=1)
+            path = os.path.join(tmp, "partial.json")
+            payload = json.load(open(path, encoding="utf-8"))
+            self.assertEqual(payload["done"], 1)
+            self.assertEqual(payload["total"], 26)
+            self.assertEqual(payload["items"], items)
+            self.assertFalse(os.path.exists(path + ".tmp"))
