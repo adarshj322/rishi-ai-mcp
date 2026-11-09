@@ -41,6 +41,7 @@ class FakeClient:
                 "temperature": temperature,
                 "max_tokens": max_tokens,
                 "seed": seed,
+                "reasoning": reasoning,
             }
         )
         text = self.texts.pop(0) if self.texts else "The 10th lord is strong."
@@ -262,3 +263,21 @@ class TestReasoningMapping(unittest.TestCase):
         client.complete(system="s", user="u", model="m", temperature=0, max_tokens=50)
         self.assertNotIn("reasoning_effort", fake.chat.completions.kwargs)
         self.assertNotIn("extra_body", fake.chat.completions.kwargs)
+
+class TestArmReasoning(unittest.TestCase):
+    def test_run_bare_forwards_default_reasoning(self):
+        from eval_arms import run_bare
+
+        client = FakeClient(["ok"])
+        run_bare(client, ITEM, chart_with({"Sun": 10.5}), budget=6000, reasoning=None)
+        self.assertIsNone(client.calls[0]["reasoning"])
+
+    def test_run_without_forwards_reasoning_setting(self):
+        from eval_arms import run_without
+
+        client = FakeClient(["The 10th lord is Saturn."] * 3)
+        run_without(
+            client, ITEM, chart_with({"Sun": 10.5}), LEDGER, budget=6000,
+            doctrine_prompt="DOCTRINE", reasoning="none",
+        )
+        self.assertEqual({c["reasoning"] for c in client.calls}, {"none"})

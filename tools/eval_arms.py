@@ -96,7 +96,7 @@ def _check_budget(total_tokens, budget):
         raise BudgetExceeded(f"arm used {total_tokens} output tokens > budget {budget}")
 
 
-def run_without(client, item, chart, ledger_entry, budget, doctrine_prompt):
+def run_without(client, item, chart, ledger_entry, budget, doctrine_prompt, reasoning="none"):
     """Three independent samples, deterministic filter, best survivor wins."""
     share = budget // 3
     samples = []
@@ -108,7 +108,7 @@ def run_without(client, item, chart, ledger_entry, budget, doctrine_prompt):
             model=item.get("model", DEFAULT_ARM_MODEL),
             temperature=0.7,
             max_tokens=share,
-            reasoning="none",
+            reasoning=reasoning,
         )
         total += out["output_tokens"]
         _check_budget(total, budget)
@@ -160,7 +160,7 @@ def _agent_model(item):
     return item.get("model", DEFAULT_ARM_MODEL)
 
 
-def run_bare(client, item, chart, budget, bare_prompt=None):
+def run_bare(client, item, chart, budget, bare_prompt=None, reasoning="none"):
     """Single completion, no doctrine, whole budget."""
     system = bare_prompt or _prompt_file("bare_system.md")
     out = client.complete(
@@ -169,7 +169,7 @@ def run_bare(client, item, chart, budget, bare_prompt=None):
         model=_agent_model(item),
         temperature=0,
         max_tokens=budget,
-        reasoning="none",
+        reasoning=reasoning,
     )
     _check_budget(out["output_tokens"], budget)
     return {
@@ -198,7 +198,7 @@ def _revision_prompt(draft, verifier_text, critic_text):
     )
 
 
-def run_with(client, item, chart, ledger_entry, budget, doctrine_prompt):
+def run_with(client, item, chart, ledger_entry, budget, doctrine_prompt, reasoning="none"):
     """Draft (B/3) -> chart-verifier (B/6) -> doctrine-critic (B/6) -> revision (B/3)."""
     model = _agent_model(item)
     user = _user_prompt(item, chart)
@@ -206,7 +206,7 @@ def run_with(client, item, chart, ledger_entry, budget, doctrine_prompt):
 
     draft = client.complete(
         system=doctrine_prompt, user=user, model=model, temperature=0, max_tokens=budget // 3,
-        reasoning="none",
+        reasoning=reasoning,
     )
     total += draft["output_tokens"]
     _check_budget(total, budget)
@@ -217,7 +217,7 @@ def run_with(client, item, chart, ledger_entry, budget, doctrine_prompt):
         model=model,
         temperature=0,
         max_tokens=budget // 6,
-        reasoning="none",
+        reasoning=reasoning,
     )
     total += verifier["output_tokens"]
     _check_budget(total, budget)
@@ -228,7 +228,7 @@ def run_with(client, item, chart, ledger_entry, budget, doctrine_prompt):
         model=model,
         temperature=0,
         max_tokens=budget // 6,
-        reasoning="none",
+        reasoning=reasoning,
     )
     total += critic["output_tokens"]
     _check_budget(total, budget)
@@ -239,7 +239,7 @@ def run_with(client, item, chart, ledger_entry, budget, doctrine_prompt):
         model=model,
         temperature=0,
         max_tokens=budget // 3,
-        reasoning="none",
+        reasoning=reasoning,
     )
     total += revision["output_tokens"]
     _check_budget(total, budget)

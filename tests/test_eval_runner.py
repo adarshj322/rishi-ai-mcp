@@ -203,3 +203,16 @@ class TestPartialPersistence(unittest.TestCase):
             self.assertEqual(payload["total"], 26)
             self.assertEqual(payload["items"], items)
             self.assertFalse(os.path.exists(path + ".tmp"))
+
+class TestModelResolution(unittest.TestCase):
+    def test_overrides_win_over_transport_defaults(self):
+        from eval_runner import _resolve_models
+
+        self.assertEqual(
+            _resolve_models("opencode-go"),
+            ("deepseek-v4.1-flash", "muse-spark-1.3-contributor"),
+        )
+        self.assertEqual(
+            _resolve_models("opencode-go", "glm-5.3-flash", "deepseek-v4.1-flash"),
+            ("glm-5.3-flash", "deepseek-v4.1-flash"),
+        )

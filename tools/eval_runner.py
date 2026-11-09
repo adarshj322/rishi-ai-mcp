@@ -138,11 +138,19 @@ def precompute_chart(item):
     )
 
 
-def run(items, arms, budget, outdir, client=None, judge_client=None, transport="openrouter"):
+def _resolve_models(transport, arm_model=None, judge_model=None):
+    """Transport defaults, overridable per run; overrides are recorded in results."""
+    transport_arm, transport_judge = models_for_transport(transport)
+    return arm_model or transport_arm, judge_model or transport_judge
+
+
+def run(items, arms, budget, outdir, client=None, judge_client=None, transport="openrouter",
+        arm_model=None, judge_model=None, arm_reasoning="none"):
     """Execute the three-arm comparison and return the results dict."""
     client = client or ChatClient(transport=transport)
     judge_client = judge_client or client
-    arm_model, judge_model = models_for_transport(transport)
+    arm_model, judge_model = _resolve_models(transport, arm_model, judge_model)
+    reasoning = None if arm_reasoning == "default" else arm_reasoning
     for item in items:
         item.setdefault("model", arm_model)
     ledger = load_ledger()
@@ -158,11 +166,14 @@ def run(items, arms, budget, outdir, client=None, judge_client=None, transport="
         for arm in arms:
             try:
                 if arm == "bare":
-                    out = run_bare(client, item, chart, budget, bare_prompt=bare_prompt)
+                    out = run_bare(client, item, chart, budget, bare_prompt=bare_prompt,
+                                   reasoning=reasoning)
                 elif arm == "without":
-                    out = run_without(client, item, chart, entry, budget, doctrine_prompt)
+                    out = run_without(client, item, chart, entry, budget, doctrine_prompt,
+                                      reasoning=reasoning)
                 elif arm == "with":
-                    out = run_with(client, item, chart, entry, budget, doctrine_prompt)
+                    out = run_with(client, item, chart, entry, budget, doctrine_prompt,
+                                   reasoning=reasoning)
                 else:
                     raise ValueError(f"unknown arm: {arm}")
             except Exception as exc:
@@ -201,7 +212,8 @@ def run(items, arms, budget, outdir, client=None, judge_client=None, transport="
         "gate": f"delta > {se:.6f}",
         "delta": delta,
         "engines": _engine_provenance(),
-        "models": {"arm": arm_model, "judge": judge_model, "transport": transport},
+        "models": {"arm": arm_model, "judge": judge_model, "transport": transport,
+                   "arm_reasoning": arm_reasoning},
         "budget": budget,
         "generated_at": datetime.datetime.now(datetime.timezone.utc).isoformat(),
     }
@@ -357,6 +369,9 @@ def main(argv=None):
     parser.add_argument("--budget", type=int, default=6000)
     parser.add_argument("--items", default="")
     parser.add_argument("--transport", default="openrouter", choices=["openrouter", "opencode-go"])
+    parser.add_argument("--arm-model", default="")
+    parser.add_argument("--judge-model", default="")
+    parser.add_argument("--arm-reasoning", default="none", choices=["default", "none"])
     parser.add_argument("--out", default="")
     args = parser.parse_args(argv)
 
@@ -364,7 +379,11 @@ def main(argv=None):
     selected = [i.strip() for i in args.items.split(",") if i.strip()] or None
     items = build_items(selected)
     outdir = args.out or f"evals/results/{datetime.date.today().isoformat()}-pilot"
-    results = run(items, arms, args.budget, outdir, transport=args.transport)
+    results = run(
+        items, arms, args.budget, outdir, transport=args.transport,
+        arm_model=args.arm_model or None, judge_model=args.judge_model or None,
+        arm_reasoning=args.arm_reasoning,
+    )
     print(f"SE = {results['se']:.6f} (rule 1); gate: {results['gate']}")
     for arm in ("bare", "without", "with"):
         stats = results["arms"].get(arm)
