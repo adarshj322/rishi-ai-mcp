@@ -29,7 +29,7 @@ The contract, in one line each (the vendored file is authoritative):
 - **Before anything**: birth details (DOB, time, place, question). Unknown time ⇒ flag ascendant/1st-house claims.
 - **CAST FIRST**: `cast_vedic_chart`; `cast_transit_chart` only if timing is asked.
 - **Claims**: CLAIM–GROUND–STANCE. Cite dignity/shadbala/yoga/dasha values. Interpretation tagged as interpretation.
-- **High-stakes slices**: marriage/health/career/remedy/fear ⇒ deterministic ground check + professional deferral; no model verifier (the equal-cost bar did not clear). Low-stakes informational ⇒ ship with the three artifacts, nothing more.
+- **Gate**: marriage/health/career/remedy/fear ⇒ verify-by-default (verifier + critic pass). Low-stakes informational ⇒ ship with the three artifacts, nothing more.
 - **Output ends with**: grounds appendix → calibration footer → disagreement log.
 - **Tool failure** ⇒ say so. Never fill in.
 
