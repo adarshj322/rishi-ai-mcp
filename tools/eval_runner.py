@@ -103,7 +103,7 @@ def judge_response(client, item, ledger_entry, chart, response_text, judge_model
     last_error = None
     for _ in range(2):
         out = client.complete(
-            system=system, user=user, model=judge_model, temperature=0, max_tokens=8000
+            system=system, user=user, model=judge_model, temperature=0, max_tokens=16000
         )
         try:
             parsed = _extract_json(out["text"])
