@@ -140,7 +140,7 @@ def _agent_prompt(name):
     """Read a shipped agent definition from agents/."""
     import pathlib
 
-    path = pathlib.Path(__file__).resolve().parent.parent / "evals" / "agents" / name
+    path = pathlib.Path(__file__).resolve().parent.parent / "agents" / name
     if not path.is_file():
         raise RuntimeError(f"missing agent definition: {path}")
     return path.read_text(encoding="utf-8")

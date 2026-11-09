@@ -1,7 +1,6 @@
 """
 Integrity tests for the two subagent definition files shipped in Tasks 6-7:
-evals/agents/chart-verifier.md and evals/agents/doctrine-critic.md (eval fixtures,
-not shipped in the plugin bundle).
+agents/chart-verifier.md and agents/doctrine-critic.md.
 
 Both files carry YAML frontmatter (name/description/tools:[Read]) and an H2 body
 contract (Inputs, verdict tables, stop rules). The two agents deliberately use
@@ -20,8 +19,8 @@ except ImportError:  # pragma: no cover - CI installs pyyaml; bare envs skip
     yaml = None
 
 REPO_ROOT = Path(__file__).resolve().parents[1]
-VERIFIER = REPO_ROOT / "evals" / "agents" / "chart-verifier.md"
-CRITIC = REPO_ROOT / "evals" / "agents" / "doctrine-critic.md"
+VERIFIER = REPO_ROOT / "agents" / "chart-verifier.md"
+CRITIC = REPO_ROOT / "agents" / "doctrine-critic.md"
 REFERENCES = REPO_ROOT / "skills" / "rishi-reading" / "references"
 
 
