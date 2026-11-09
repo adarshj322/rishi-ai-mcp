@@ -236,7 +236,7 @@ These tripwires are committed in advance, in this file, so that measurement — 
 5. **Near-tie saturation.** Unusably high abstention or withholding rates compress the appendix and footer (R6) — format only; never removal, and never compression of the disagreement log below one line. Expect abstention to concentrate exactly where interpretation variance is highest (weak aspect scoring, contested placements, near-boundary temperatures); that concentration is the instrument working, not failing. The pre-registered response if rates become unusable (e.g., the footprint of withheld claims overwhelms the reading) is format compression plus escalation to offline human review for affected claim tiers — declared here in advance, per the report's near-tie ruling.
 6. **Security or context regression.** Any script-bundling skill, egressing hook, or idle-context footprint over budget triggers a cut-first review before all other work. (Reference anchor: 26.1% of skills in the wild carry a vulnerability, script-bundling ones at 2.12× — measured; this bundle excludes them by rule.)
 
-**Status quo honesty.** As of this version the equal-cost bar is unmeasured on rishi's data. The contract therefore never claims that "verification makes readings accurate." The only admissible claims are: verification exists as a gated protocol; if it shipped, it cleared the bar; if it did not clear the bar, it was removed, not tuned — per stop condition 1.
+**Status quo honesty.** The equal-cost bar has been measured once, on the DeepSeek pilot floor; a base-model change re-opened acceptance under `evals/README.md` §10, so no valid verdict exists yet. The contract therefore never claims that "verification makes readings accurate." The only admissible claims are: verification exists as a gated protocol; if it shipped, it cleared the bar; if it did not clear the bar, it was removed, not tuned — per stop condition 1.
 
 The same discipline applies at the program level, not only per turn. If the agreement study (blinded jyotishis, v2) returns chance-level agreement, Level-2 claims cap permanently at consistency/auditability framing — shipped, not buried. If the preregistered prediction registry (v3) never clears chance, correspondences are never claimed, full stop. If a running configuration proves unusable, the registry or claims track halts rather than ships incomplete; a stopped pipeline is a correct output, and says so. **Contract rules never loosen without new measurement. Pre-registered means pre-registered.**
 
@@ -294,7 +294,7 @@ It is not a guarantee of interpretive correctness — it is a guarantee of audit
 - **Calibration footer** — R6 (b); the withheld/flagged counts.
 - **Disagreement log** — R6 (c); premises refused or revised, with grounds, or "none."
 - **Provenance line** — R6 (d); engine version + commit, plugin version, ayanamsha (Lahiri default; variant named), cast date.
-- **Equal-cost bar** — gated verification must beat sample-and-vote at identical token spend on rishi's own set; not cleared yet, and the contract never claims otherwise.
+- **Equal-cost bar** — gated verification must beat sample-and-vote at identical token spend on rishi's own set; the first pilot measured it on the DeepSeek floor, and a floor change re-opened acceptance, so no valid verdict exists yet. The contract never claims otherwise.
 - **Withheld** — a below-threshold claim not printed in the reading; counted in the footer. **Flagged** — printed but marked unverified or unsupported.
 - **Reference-guided re-derivation** — a checker recomputing from tool output at field level; the opposite of scoring citation presence.
 - **Bhava chalit vs whole-sign** — where a planet is functionally delivering results per the chalit chart versus where its Rashi sign sits; bhava chalit shifts outcomes for boundary planets, lordships stay in Rashi.
@@ -324,7 +324,7 @@ This contract does not pretend to be finished doctrine. Explicitly unfinished, a
 - **The astrology-domain calibration of judged hedging** — unmeasured; R2's grader is provisional and swap-allowed (stop condition 3).
 - **The overcorrection floor** — TBD-fit on rishi's calibration set; the naive always-disagree failure mode is measured elsewhere, the rishi number does not exist.
 - **Per-claim selective accuracy and Brier error on Jyotish prose** — unmeasured; ECE 0.212→0.038 is a non-astrology reference point, not a rishi claim.
-- **Whether the hesitation gate is a net win at equal cost in rishi** — unmeasured; stop condition 1 owns it, and this contract does not presume the answer either way.
+- **Whether the hesitation gate is a net win at equal cost in rishi** — one pilot measured it on the DeepSeek floor; a floor change re-opened acceptance under §10, so no valid same-floor verdict exists yet. Stop condition 1 owns it, and this contract does not presume the answer either way.
 - **Level-2 panel agreement** — the blinded jyotishi panel has not run; the honesty ladder's Level-2 promise is protocol, not result.
 - **Level-3 correspondence** — never claimed; the registry does not exist.
 - **Astrological efficacy of remedies** — no evidence exists anywhere; R5 is restraint, not efficacy.

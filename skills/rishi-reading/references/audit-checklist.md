@@ -66,7 +66,7 @@ Run top to bottom; each failure points at the artifact that catches it.
 - **PROVENANCE-INCOMPLETE**: withhold delivery; missing element is printed as missing; never reconstructed.
 - **Appendix mismatch**: claim corrected to grounds or tagged UNSUPPORTED; footer count increments.
 - **Banned vocabulary**: the offending sentence is rewritten; if rewriting is impossible without inventing grounds, the sentence is cut.
-- **Footer/log incoherence**: audit finding recorded; the reading routes to reviewer judgment (a different judge, authorship-obfuscated, where available — same-model second passes are not verification; see contract, judge paragraph).
+- **Footer/log incoherence**: audit finding recorded; the reading routes to reviewer judgment (a human, or a separate model for an advisory read where available; no model judge ships, and same-model second passes are not verification).
 
 ## The audit's one-line summary
 
