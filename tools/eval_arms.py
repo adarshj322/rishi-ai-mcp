@@ -61,13 +61,14 @@ class ChatClient:
 
     def complete(self, system, user, model, temperature, max_tokens, seed=7, reasoning=None):
         started = time.time()
-        # OpenRouter accepts an explicit reasoning effort; the OpenCode Go gateway
-        # rejects unknown fields (400), so the parameter stays OpenRouter-only.
-        extra = (
-            {"reasoning": {"effort": "none"}}
-            if reasoning == "none" and self._transport == "openrouter"
-            else None
-        )
+        extra = {}
+        if reasoning == "none":
+            if self._transport == "openrouter":
+                # OpenRouter's own shape: nested reasoning object.
+                extra["extra_body"] = {"reasoning": {"effort": "none"}}
+            else:
+                # OpenCode Go is OpenAI-compatible: effort is a flat field.
+                extra["reasoning_effort"] = "none"
         response = self._client.chat.completions.create(
             model=model,
             messages=[
@@ -77,7 +78,7 @@ class ChatClient:
             temperature=temperature,
             max_tokens=max_tokens,
             seed=seed,
-            extra_body=extra,
+            **extra,
         )
         latency = time.time() - started
         usage = response.usage

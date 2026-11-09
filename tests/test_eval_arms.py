@@ -7,6 +7,7 @@ every call, so budget accounting and selection logic are tested directly.
 import os
 import sys
 import unittest
+from types import SimpleNamespace
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 sys.path.insert(0, os.path.join(ROOT, "tools"))
@@ -196,3 +197,68 @@ class TestChatClient(unittest.TestCase):
 
 if __name__ == "__main__":
     unittest.main()
+
+class _FakeCompletions:
+    def __init__(self):
+        self.kwargs = None
+
+    def create(self, **kwargs):
+        self.kwargs = kwargs
+        return SimpleNamespace(
+            choices=[SimpleNamespace(
+                message=SimpleNamespace(content="ok"), finish_reason="stop"
+            )],
+            usage=SimpleNamespace(completion_tokens=10, prompt_tokens=5),
+        )
+
+
+class _FakeOpenAI:
+    def __init__(self):
+        self.chat = SimpleNamespace(completions=_FakeCompletions())
+
+
+class TestReasoningMapping(unittest.TestCase):
+    def _client(self, transport):
+        from eval_arms import ChatClient
+
+        env = {"opencode-go": "OPENCODE_GO_API_KEY", "openrouter": "OPENROUTER_API_KEY"}
+        old = os.environ.get(env[transport])
+        os.environ[env[transport]] = "test-key"
+        try:
+            client = ChatClient(transport=transport)
+        finally:
+            if old is None:
+                os.environ.pop(env[transport], None)
+            else:
+                os.environ[env[transport]] = old
+        fake = _FakeOpenAI()
+        client._client = fake
+        return client, fake
+
+    def _call(self, client):
+        client.complete(
+            system="s", user="u", model="m", temperature=0, max_tokens=50,
+            reasoning="none",
+        )
+
+    def test_opencode_go_uses_top_level_reasoning_effort(self):
+        client, fake = self._client("opencode-go")
+        self._call(client)
+        self.assertEqual(fake.chat.completions.kwargs.get("reasoning_effort"), "none")
+        self.assertNotIn("reasoning", fake.chat.completions.kwargs)
+        self.assertNotIn("extra_body", fake.chat.completions.kwargs)
+
+    def test_openrouter_uses_nested_reasoning_extra_body(self):
+        client, fake = self._client("openrouter")
+        self._call(client)
+        self.assertEqual(
+            fake.chat.completions.kwargs.get("extra_body"),
+            {"reasoning": {"effort": "none"}},
+        )
+        self.assertNotIn("reasoning_effort", fake.chat.completions.kwargs)
+
+    def test_no_reasoning_fields_when_not_requested(self):
+        client, fake = self._client("opencode-go")
+        client.complete(system="s", user="u", model="m", temperature=0, max_tokens=50)
+        self.assertNotIn("reasoning_effort", fake.chat.completions.kwargs)
+        self.assertNotIn("extra_body", fake.chat.completions.kwargs)
