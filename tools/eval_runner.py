@@ -155,7 +155,8 @@ def _resolve_models(transport, arm_model=None, judge_model=None):
 
 
 def run(items, arms, budget, outdir, client=None, judge_client=None, transport="openrouter",
-        arm_model=None, judge_model=None, arm_reasoning="none", mode="pilot"):
+        arm_model=None, judge_model=None, arm_reasoning="none", mode="pilot",
+        resume=False):
     """Execute the three-arm comparison and return the results dict."""
     client = client or ChatClient(transport=transport)
     judge_client = judge_client or client
@@ -163,6 +164,19 @@ def run(items, arms, budget, outdir, client=None, judge_client=None, transport="
     reasoning = None if arm_reasoning == "default" else arm_reasoning
     for item in items:
         item.setdefault("model", arm_model)
+    config = {
+        "mode": mode,
+        "item_ids": [item["id"] for item in items],
+        "transport": transport,
+        "arm_model": arm_model,
+        "judge_model": judge_model,
+        "arm_reasoning": arm_reasoning,
+        "budget": budget,
+        "scoring_hash": _scoring_hash(),
+    }
+    completed = _resume_state(outdir, config) if resume else {}
+    if completed:
+        print(f"resuming: {len(completed)}/{len(items)} items from partial.json", flush=True)
     ledger = load_ledger()
     doctrine_prompt = load_prompt("doctrine_system.md")
     bare_prompt = load_prompt("bare_system.md")
@@ -170,10 +184,15 @@ def run(items, arms, budget, outdir, client=None, judge_client=None, transport="
     if mode == "verdict":
         _assert_verdict_ready(items)
 
-    item_results = []
+    item_results = [completed[item["id"]] for item in items if item["id"] in completed]
     charts = {}
     total = len(items)
-    for index, item in enumerate(items, 1):
+    for item in items:
+        if item["id"] in completed:
+            charts[item["id"]] = precompute_chart(item)
+    for item in items:
+        if item["id"] in completed:
+            continue
         entry = ledger[item["id"]]
         chart = precompute_chart(item)
         charts[item["id"]] = chart
@@ -213,14 +232,16 @@ def run(items, arms, budget, outdir, client=None, judge_client=None, transport="
                 "judge_error": judged["judge_error"],
             }
         item_results.append({"id": item["id"], "arms": arm_results})
-        _write_partial(outdir, item_results, total, index)
-        print(f"[{index}/{total}] {item['id']}", flush=True)
+        _write_partial(outdir, item_results, total, len(item_results), config)
+        print(f"[{len(item_results)}/{total}] {item['id']}", flush=True)
 
     summary = tally(item_results, arms)
     valid = _run_valid(summary)
     delta = _delta(item_results, summary, arms)
     results = {
         "mode": mode,
+        "resumed": bool(resume),
+        "resume_from": len(completed),
         "valid": valid,
         "locked_gate": _locked_gate(),
         "items": item_results,
@@ -243,14 +264,52 @@ def run(items, arms, budget, outdir, client=None, judge_client=None, transport="
     return results
 
 
-def _write_partial(outdir, item_results, total, done):
-    """Persist finished items atomically so a killed run leaves its work on disk."""
+def _write_partial(outdir, item_results, total, done, config):
+    """Persist finished items + the run config atomically for a safe resume."""
     os.makedirs(outdir, exist_ok=True)
     path = os.path.join(outdir, "partial.json")
     tmp = path + ".tmp"
     with open(tmp, "w", encoding="utf-8") as fh:
-        json.dump({"done": done, "total": total, "items": item_results}, fh)
+        json.dump(
+            {"config": config, "done": done, "total": total, "items": item_results},
+            fh,
+        )
     os.replace(tmp, path)
+
+
+def _resume_state(outdir, config):
+    """Return completed items if the checkpoint matches this exact run; else {}."""
+    path = os.path.join(outdir, "partial.json")
+    if not os.path.exists(path):
+        return {}
+    with open(path, encoding="utf-8") as fh:
+        payload = json.load(fh)
+    if payload.get("config") != config:
+        raise ValueError(
+            "partial.json belongs to a different run (mode/floor/corpus/instrument); "
+            "refusing to resume"
+        )
+    return {item["id"]: item for item in payload.get("items", [])}
+
+
+def _scoring_hash():
+    """Hash the scoring rules, prompts, and corpus ledger — not the orchestrator."""
+    import hashlib
+
+    paths = [
+        ROOT / "tools" / "eval_scoring.py",
+        PROMPTS / "bare_system.md",
+        PROMPTS / "doctrine_system.md",
+        PROMPTS / "judge.md",
+        ROOT / "agents" / "chart-verifier.md",
+        ROOT / "agents" / "doctrine-critic.md",
+        CASES / "ledger.json",
+    ]
+    digest = hashlib.sha256()
+    for path in paths:
+        if path.is_file():
+            digest.update(path.read_bytes())
+    return digest.hexdigest()
 
 
 def _engine_provenance():
@@ -338,6 +397,8 @@ def _write_manifest(outdir, results, item_ids):
         "repo_commit": _repo_commit(),
         "generated_at": results.get("generated_at"),
         "mode": results.get("mode"),
+        "resumed": results.get("resumed"),
+        "resume_from": results.get("resume_from"),
         "transport": results.get("models", {}).get("transport"),
         "models": results.get("models"),
         "budget": results.get("budget"),
@@ -521,6 +582,7 @@ def main(argv=None):
     parser.add_argument("--arm-model", default="")
     parser.add_argument("--judge-model", default="")
     parser.add_argument("--arm-reasoning", default="none", choices=["default", "none"])
+    parser.add_argument("--resume", action="store_true")
     parser.add_argument("--out", default="")
     args = parser.parse_args(argv)
 
@@ -531,7 +593,7 @@ def main(argv=None):
     results = run(
         items, arms, args.budget, outdir, transport=args.transport,
         arm_model=args.arm_model or None, judge_model=args.judge_model or None,
-        arm_reasoning=args.arm_reasoning, mode=args.mode,
+        arm_reasoning=args.arm_reasoning, mode=args.mode, resume=args.resume,
     )
     print(f"SE = {results['se']:.6f} (rule 1); gate: {results['gate']}")
     for arm in ("bare", "without", "with"):

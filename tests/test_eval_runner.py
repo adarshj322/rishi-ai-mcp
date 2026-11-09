@@ -193,7 +193,7 @@ class TestPartialPersistence(unittest.TestCase):
 
         items = [{"id": "g-01", "arms": {"with": {"pass": True}}}]
         with tempfile.TemporaryDirectory() as tmp:
-            _write_partial(tmp, items, total=26, done=1)
+            _write_partial(tmp, items, total=26, done=1, config={"mode": "pilot"})
             path = os.path.join(tmp, "partial.json")
             payload = json.load(open(path, encoding="utf-8"))
             self.assertEqual(payload["done"], 1)
@@ -348,6 +348,8 @@ class TestManifest(unittest.TestCase):
         self.assertEqual(payload["item_ids"], ["g-01", "s-01"])
         self.assertIn("repo_commit", payload)
         self.assertIn("prompt_hashes", payload)
+        self.assertIn("resumed", payload)
+        self.assertIn("resume_from", payload)
 
 
 class TestTransitContext(unittest.TestCase):
@@ -375,6 +377,51 @@ class TestTransitContext(unittest.TestCase):
         with patch("dashaflow.cast_chart", return_value={"planets": {}}):
             chart = eval_runner.precompute_chart(item)
         self.assertNotIn("transit", chart)
+
+
+
+class TestResume(unittest.TestCase):
+    CONFIG = {
+        "mode": "pilot",
+        "item_ids": ["g-01", "s-01"],
+        "transport": "opencode-go",
+        "budget": 12000,
+    }
+
+    def _write(self, tmp):
+        from eval_runner import _write_partial
+
+        items = [{"id": "g-01", "arms": {"with": {"pass": True}}}]
+        _write_partial(tmp, items, total=2, done=1, config=self.CONFIG)
+
+    def test_partial_records_config(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            self._write(tmp)
+            payload = json.load(open(os.path.join(tmp, "partial.json"), encoding="utf-8"))
+        self.assertEqual(payload["config"], self.CONFIG)
+
+    def test_resume_rejects_config_mismatch(self):
+        from eval_runner import _resume_state
+
+        with tempfile.TemporaryDirectory() as tmp:
+            self._write(tmp)
+            with self.assertRaises(ValueError):
+                _resume_state(tmp, {**self.CONFIG, "budget": 6000})
+
+    def test_resume_returns_completed_items(self):
+        from eval_runner import _resume_state
+
+        with tempfile.TemporaryDirectory() as tmp:
+            self._write(tmp)
+            completed = _resume_state(tmp, self.CONFIG)
+        self.assertIn("g-01", completed)
+        self.assertEqual(len(completed), 1)
+
+    def test_resume_without_partial_starts_empty(self):
+        from eval_runner import _resume_state
+
+        with tempfile.TemporaryDirectory() as tmp:
+            self.assertEqual(_resume_state(tmp, self.CONFIG), {})
 
 
 if __name__ == "__main__":
