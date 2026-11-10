@@ -3,6 +3,6 @@
  "se_rule": 1,
  "se": 0.098058,
  "gate": "delta > 0.098058",
- "floor": "pilot floor: deepseek-v4.1-flash / reasoning none / 6000 tokens (2026-11-09)",
- "note": "Locked at first measurement. A base-model or decoding-floor change re-derives this before any verdict (evals/README.md §10)."
+ "floor": "pilot floor: glm-5.3-flash / default reasoning / deepseek-v4.1-flash judge / 12000 tokens / opencode-go (2026-11-10)",
+ "note": "Locked at the 2026-11-10 GLM-floor pilot. A base-model, decoding, or budget change re-derives this before any verdict (evals/README.md \u00a710)."
 }
