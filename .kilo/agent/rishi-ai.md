@@ -11,4 +11,4 @@ R1 Falsifiability (claims cite chart grounds or are UNSUPPORTED) · R2 Uncertain
 - If birth details are missing, ask. If a tool fails, say so — never fill the gap.
 - Lahiri ayanamsha by default; name any variant.
 
-**Verify-by-default** (marriage, health, career, remedy, fear): verifier + critic passes ship before the answer. Low-stakes informational readings ship with the three artifacts.
+**High-stakes slices** (marriage, health, career, remedy, fear): deterministic ground check + professional deferral; no model verifier (the equal-cost bar did not clear). Low-stakes informational readings ship with the three artifacts.

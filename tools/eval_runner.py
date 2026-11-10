@@ -172,6 +172,8 @@ def run(items, arms, budget, outdir, client=None, judge_client=None, transport="
         "judge_model": judge_model,
         "arm_reasoning": arm_reasoning,
         "budget": budget,
+        "arms": sorted(arms),
+        "engine": _engine_provenance(),
         "scoring_hash": _scoring_hash(),
     }
     completed = _resume_state(outdir, config) if resume else {}
@@ -182,7 +184,7 @@ def run(items, arms, budget, outdir, client=None, judge_client=None, transport="
     bare_prompt = load_prompt("bare_system.md")
     se = compute_se(len(items))
     if mode == "verdict":
-        _assert_verdict_ready(items)
+        _assert_verdict_ready(items, config)
 
     item_results = [completed[item["id"]] for item in items if item["id"] in completed]
     charts = {}
@@ -240,7 +242,7 @@ def run(items, arms, budget, outdir, client=None, judge_client=None, transport="
     delta = _delta(item_results, summary, arms)
     results = {
         "mode": mode,
-        "resumed": bool(resume),
+        "resumed": bool(completed),
         "resume_from": len(completed),
         "valid": valid,
         "locked_gate": _locked_gate(),
@@ -261,6 +263,10 @@ def run(items, arms, budget, outdir, client=None, judge_client=None, transport="
         json.dump(charts, fh, sort_keys=True)
     _write_manifest(outdir, results, [item["id"] for item in items])
     write_report(results, outdir)
+    try:
+        os.remove(os.path.join(outdir, "partial.json"))
+    except FileNotFoundError:
+        pass
     return results
 
 
@@ -301,14 +307,18 @@ def _scoring_hash():
         PROMPTS / "bare_system.md",
         PROMPTS / "doctrine_system.md",
         PROMPTS / "judge.md",
-        ROOT / "agents" / "chart-verifier.md",
-        ROOT / "agents" / "doctrine-critic.md",
+        ROOT / "evals" / "agents" / "chart-verifier.md",
+        ROOT / "evals" / "agents" / "doctrine-critic.md",
         CASES / "ledger.json",
+        CASES / "grounding.jsonl",
+        CASES / "sycophancy.jsonl",
+        CASES / "remedy.jsonl",
     ]
     digest = hashlib.sha256()
     for path in paths:
-        if path.is_file():
-            digest.update(path.read_bytes())
+        if not path.is_file():
+            raise RuntimeError(f"required scoring input missing: {path}")
+        digest.update(path.read_bytes())
     return digest.hexdigest()
 
 
@@ -353,8 +363,8 @@ def _locked_gate():
         return json.load(fh)
 
 
-def _assert_verdict_ready(items):
-    """A verdict needs the full corpus and the locked gate; subsets are refused."""
+def _assert_verdict_ready(items, config):
+    """A verdict needs the full corpus, the locked gate, and the recorded floor."""
     locked = _locked_gate()
     if len(items) != locked["n"]:
         raise ValueError(
@@ -363,6 +373,11 @@ def _assert_verdict_ready(items):
     se = compute_se(len(items))
     if abs(se - locked["se"]) > 1e-5:
         raise ValueError(f"computed SE {se} does not match locked SE {locked['se']}")
+    for key, expected in locked.get("floor_config", {}).items():
+        if config.get(key) != expected:
+            raise ValueError(
+                f"verdict floor mismatch on {key}: {config.get(key)!r} != {expected!r}"
+            )
 
 
 def _repo_commit():
@@ -381,14 +396,15 @@ def _prompt_hashes():
         PROMPTS / "bare_system.md",
         PROMPTS / "doctrine_system.md",
         PROMPTS / "judge.md",
-        ROOT / "agents" / "chart-verifier.md",
-        ROOT / "agents" / "doctrine-critic.md",
+        ROOT / "evals" / "agents" / "chart-verifier.md",
+        ROOT / "evals" / "agents" / "doctrine-critic.md",
     ]
-    return {
-        str(path.relative_to(ROOT)): hashlib.sha256(path.read_bytes()).hexdigest()
-        for path in paths
-        if path.is_file()
-    }
+    hashes = {}
+    for path in paths:
+        if not path.is_file():
+            raise RuntimeError(f"required prompt missing: {path}")
+        hashes[str(path.relative_to(ROOT))] = hashlib.sha256(path.read_bytes()).hexdigest()
+    return hashes
 
 
 def _write_manifest(outdir, results, item_ids):
@@ -414,10 +430,10 @@ def _paired_delta_interval(item_results, arms, resamples=2000, seed=12345):
     """Paired bootstrap over items; returns a 95% interval for with-minus-without."""
     pairs = []
     for item in item_results:
+        if any(item["arms"].get(arm, {}).get("judge_error") for arm in arms):
+            continue
         with_arm = item["arms"].get("with", {})
         without_arm = item["arms"].get("without", {})
-        if with_arm.get("judge_error") or without_arm.get("judge_error"):
-            continue
         pairs.append(
             (1.0 if with_arm.get("pass") else 0.0,
              1.0 if without_arm.get("pass") else 0.0)

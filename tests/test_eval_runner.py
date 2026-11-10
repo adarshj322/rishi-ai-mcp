@@ -263,12 +263,23 @@ class TestLockedGate(unittest.TestCase):
         from eval_runner import _assert_verdict_ready
 
         with self.assertRaises(ValueError):
-            _assert_verdict_ready([{"id": "g-01"}])
+            _assert_verdict_ready([{"id": "g-01"}], {})
 
     def test_verdict_accepts_full_corpus(self):
-        from eval_runner import _assert_verdict_ready
+        from eval_runner import _assert_verdict_ready, _locked_gate
 
-        _assert_verdict_ready([{"id": f"x-{i}"} for i in range(26)])
+        _assert_verdict_ready(
+            [{"id": f"x-{i}"} for i in range(26)],
+            _locked_gate()["floor_config"],
+        )
+
+    def test_verdict_rejects_wrong_floor(self):
+        from eval_runner import _assert_verdict_ready, _locked_gate
+
+        config = dict(_locked_gate()["floor_config"])
+        config["budget"] = 6000
+        with self.assertRaises(ValueError):
+            _assert_verdict_ready([{"id": f"x-{i}"} for i in range(26)], config)
 
 
 class TestPairedDelta(unittest.TestCase):
@@ -422,6 +433,16 @@ class TestResume(unittest.TestCase):
 
         with tempfile.TemporaryDirectory() as tmp:
             self.assertEqual(_resume_state(tmp, self.CONFIG), {})
+
+
+
+class TestPromptHashes(unittest.TestCase):
+    def test_agent_fixtures_are_hashed(self):
+        from eval_runner import _prompt_hashes
+
+        hashes = _prompt_hashes()
+        self.assertIn("evals/agents/chart-verifier.md", hashes)
+        self.assertIn("evals/agents/doctrine-critic.md", hashes)
 
 
 if __name__ == "__main__":

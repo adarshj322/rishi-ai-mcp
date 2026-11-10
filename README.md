@@ -5,7 +5,7 @@
 [![Python versions](https://img.shields.io/pypi/pyversions/rishi-ai-mcp.svg?cache=1)](https://pypi.org/project/rishi-ai-mcp/)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
-Vedic astrology tools powered by the [DashaFlow](https://github.com/adarshj322/dashaflow) calculation engine, served over the [Model Context Protocol](https://modelcontextprotocol.io/) — plus the **ground-truth reading contract** those tools are read under: doctrine that binds the interpreter, a verifier pass on high-stakes slices, and an auditable output format.
+Vedic astrology tools powered by the [DashaFlow](https://github.com/adarshj322/dashaflow) calculation engine, served over the [Model Context Protocol](https://modelcontextprotocol.io/) — plus the **ground-truth reading contract** those tools are read under: doctrine that binds the interpreter, a deterministic ground check on factual claims, and an auditable output format.
 
 Works over **stdio** — as a plugin in Claude Code and Codex, or as a pip-installed MCP server for any other MCP-compatible client.
 
@@ -218,7 +218,7 @@ The contract — [`skills/rishi-reading/contract.md`](skills/rishi-reading/contr
 
 How a reading actually unfolds — intake, cast-before-counsel, deterministic ground-check on factual claims — lives in the entry skill [`skills/rishi-reading/SKILL.md`](skills/rishi-reading/SKILL.md) and its `references/`. Plugin hosts auto-discover it; pip installs get it vendored in the wheel. Where any file disagrees with the contract, the contract wins.
 
-High-stakes slices — marriage, health, career, remedies, fear content — still carry the contract's extra care, but there is no model verification pass. The pre-committed equal-cost bar was measured on 2026-11-10 and **not cleared** (delta 0.000 [−0.1154, 0.1154] against the locked gate 0.098058); per §4.2(c), the verification subagents, hesitation gate, and per-claim approval machinery do not ship. What ships is sample-and-vote plus the deterministic tool-check. See [`evals/README.md`](evals/README.md) and [Limitations](#limitations).
+High-stakes slices — marriage, health, career, remedies, fear content — still carry the contract's extra care, but there is no model verification pass. The pre-committed equal-cost bar was measured on 2026-11-10 and **not cleared**; per §4.2(c), the verification subagents, hesitation gate, and per-claim approval machinery do not ship. The recorded intervals and locked gate live in the Evidence Log (§6 of `evals/README.md`). What ships is sample-and-vote plus the deterministic tool-check. See [`evals/README.md`](evals/README.md) and [Limitations](#limitations).
 
 ## Architecture
 
@@ -262,7 +262,7 @@ Stated plainly, because a reading tool that overclaims is worse than none:
 - **Lahiri ayanamsha by default.** Other variants are named when used; systems are never mixed within one reading.
 - **No predictions.** No claim here licenses telling someone what will happen. There is no ground truth for outcomes; the correspondence layer is out of scope until a preregistered prospective registry exists — it does not yet.
 - **No interpretive-validity claim.** What a placement means is an interpretation under a stated rulebook, not a measured fact. The claim is consistency and auditability of interpretation — nothing more.
-- **Verification was measured and cut.** The pre-committed equal-cost bar ran on the 26-item seed set: delta 0.000 [−0.1154, 0.1154] against a locked gate of delta > 0.098058. The gate did not clear, so the verification path — chart-verifier, doctrine-critic, hesitation gate, per-claim approval — does not ship. Sample-and-vote plus the deterministic tool-check is the documented path; the bundle carries instructions, not a runtime that enforces the sampling. The bar and the Evidence Log rows are in [`evals/README.md`](evals/README.md); it is not re-tuned.
+- **Verification was measured and cut.** The pre-committed equal-cost bar ran on the 26-item seed set and did not clear (recorded in `evals/README.md` §6). The gate did not clear, so the verification path — chart-verifier, doctrine-critic, hesitation gate, per-claim approval — does not ship. Sample-and-vote plus the deterministic tool-check is the documented path; the bundle carries instructions, not a runtime that enforces the sampling. The bar and the Evidence Log rows are in [`evals/README.md`](evals/README.md); it is not re-tuned.
 - **Not medical, legal, or financial advice.** The chart may frame themes; it may not triage, dose, or time treatment. Crisis language routes to professionals and crisis resources, never to a chart.
 - **OpenCode and other hosts get no binding.** Outside the two plugin hosts, the contract is documentation, not enforcement — the tools and doctrine text are real, but nothing gates the reading.
 
