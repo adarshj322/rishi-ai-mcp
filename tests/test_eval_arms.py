@@ -1,0 +1,298 @@
+"""Tests for tools/eval_arms.py — model client and the without arm.
+
+No network: a FakeClient stands in for the OpenRouter client and records
+every call, so budget accounting and selection logic are tested directly.
+"""
+
+import os
+import sys
+import unittest
+from types import SimpleNamespace
+
+ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+sys.path.insert(0, os.path.join(ROOT, "tools"))
+
+
+def chart_with(planets):
+    return {
+        "lagna": {"sign": "Aries", "degree": 10.0},
+        "planets": {
+            name: {"sign": "Aries", "degree": deg, "house": 1, "dignity": "neutral"}
+            for name, deg in planets.items()
+        },
+        "dashas": {"maha": {"lord": "Jupiter"}, "antar": {"lord": "Saturn"}},
+    }
+
+
+class FakeClient:
+    """Records calls; returns queued texts in order; reports output tokens."""
+
+    def __init__(self, texts, tokens_per_call=100):
+        self.texts = list(texts)
+        self.tokens_per_call = tokens_per_call
+        self.calls = []
+
+    def complete(self, system, user, model, temperature, max_tokens, seed=7, reasoning=None):
+        self.calls.append(
+            {
+                "system": system,
+                "user": user,
+                "model": model,
+                "temperature": temperature,
+                "max_tokens": max_tokens,
+                "seed": seed,
+                "reasoning": reasoning,
+            }
+        )
+        text = self.texts.pop(0) if self.texts else "The 10th lord is strong."
+        return {
+            "text": text,
+            "output_tokens": self.tokens_per_call,
+            "input_tokens": 1000,
+            "latency_s": 0.01,
+        }
+
+
+ITEM = {
+    "id": "g-01",
+    "prompt": "How is my career?",
+    "birth": {"dob": "1975-03-10", "time": "05:40", "lat": 28.6, "lon": 77.2, "tz": "Asia/Kolkata"},
+}
+
+LEDGER = {
+    "clauses": [{"text": "cite the 10th lord", "mechanical": True}],
+    "required_grounds": ["10th lord"],
+}
+
+
+class TestWithoutArm(unittest.TestCase):
+    def test_without_samples_three_and_selects_best(self):
+        from eval_arms import run_without
+
+        client = FakeClient(
+            [
+                "Your career is great.",                       # no ground
+                "The 10th lord is Saturn; career is steady.",   # has ground
+                "Career will shine brightly.",                  # no ground
+            ]
+        )
+        result = run_without(
+            client, ITEM, chart_with({"Sun": 10.5}), LEDGER, budget=3000,
+            doctrine_prompt="DOCTRINE",
+        )
+        self.assertEqual(len(client.calls), 3)
+        self.assertEqual(result["samples"], 3)
+        self.assertIn("10th lord", result["text"])
+        self.assertFalse(result["disqualified"])
+        for call in client.calls:
+            self.assertEqual(call["temperature"], 0.7)
+            self.assertEqual(call["max_tokens"], 1000)
+            self.assertEqual(call["system"], "DOCTRINE")
+
+    def test_without_disqualified_when_total_exceeds_budget(self):
+        from eval_arms import run_without
+
+        client = FakeClient(["a", "b", "c"], tokens_per_call=1200)
+        from eval_arms import BudgetExceeded
+
+        with self.assertRaises(BudgetExceeded):
+            run_without(
+                client, ITEM, chart_with({"Sun": 10.5}), LEDGER, budget=3000,
+                doctrine_prompt="DOCTRINE",
+            )
+
+    def test_without_discards_fabricating_sample(self):
+        from eval_arms import run_without
+
+        client = FakeClient(
+            [
+                "The 10th lord is strong. Sun at 29° in Aries.",  # fabricated degree + ground
+                "The 10th lord is Saturn.",                        # clean
+                "Career is bright.",
+            ]
+        )
+        result = run_without(
+            client, ITEM, chart_with({"Sun": 10.5}), LEDGER, budget=3000,
+            doctrine_prompt="DOCTRINE",
+        )
+        self.assertEqual(result["text"].strip(), "The 10th lord is Saturn.")
+
+    def test_arms_call_doctrine_prompt(self):
+        from eval_arms import run_without
+
+        client = FakeClient(["The 10th lord is Saturn."] * 3)
+        run_without(
+            client, ITEM, chart_with({"Sun": 10.5}), LEDGER, budget=3000,
+            doctrine_prompt="DOCTRINE-CONTENT-XYZ",
+        )
+        self.assertEqual({c["system"] for c in client.calls}, {"DOCTRINE-CONTENT-XYZ"})
+
+
+class TestTransport(unittest.TestCase):
+    def test_opencode_go_transport_uses_its_key_and_base_url(self):
+        from eval_arms import ChatClient
+
+        old = {k: os.environ.get(k) for k in ("OPENROUTER_API_KEY", "OPENCODE_GO_API_KEY")}
+        os.environ["OPENCODE_GO_API_KEY"] = "test-go-key"
+        os.environ.pop("OPENROUTER_API_KEY", None)
+        try:
+            client = ChatClient(transport="opencode-go")
+            self.assertEqual(str(client._client.base_url).rstrip("/"),
+                             "https://opencode.ai/inference/go/openai/v1")
+            self.assertIn("x-opencode-session", client._client.default_headers)
+        finally:
+            for k, v in old.items():
+                if v is None:
+                    os.environ.pop(k, None)
+                else:
+                    os.environ[k] = v
+
+    def test_opencode_go_missing_key_raises(self):
+        from eval_arms import ChatClient
+
+        old = os.environ.pop("OPENCODE_GO_API_KEY", None)
+        try:
+            with self.assertRaises(RuntimeError):
+                ChatClient(transport="opencode-go")
+        finally:
+            if old is not None:
+                os.environ["OPENCODE_GO_API_KEY"] = old
+
+    def test_model_ids_per_transport(self):
+        from eval_arms import models_for_transport
+
+        arm, judge = models_for_transport("opencode-go")
+        self.assertEqual(arm, "deepseek-v4.1-flash")
+        self.assertEqual(judge, "muse-spark-1.3-contributor")
+        arm2, judge2 = models_for_transport("openrouter")
+        self.assertEqual(arm2, "deepseek/deepseek-v4.1-flash")
+        self.assertEqual(judge2, "meta/muse-spark-1.3-contributor")
+
+
+class TestChatClient(unittest.TestCase):
+    def test_api_key_required(self):
+        from eval_arms import ChatClient
+
+        old = os.environ.pop("OPENROUTER_API_KEY", None)
+        try:
+            with self.assertRaises(RuntimeError):
+                ChatClient()
+        finally:
+            if old is not None:
+                os.environ["OPENROUTER_API_KEY"] = old
+
+    def test_client_constructs_with_key(self):
+        from eval_arms import ChatClient
+
+        old = os.environ.get("OPENROUTER_API_KEY")
+        os.environ["OPENROUTER_API_KEY"] = "test-key"
+        try:
+            client = ChatClient()
+            self.assertIsNotNone(client)
+        finally:
+            if old is None:
+                os.environ.pop("OPENROUTER_API_KEY", None)
+            else:
+                os.environ["OPENROUTER_API_KEY"] = old
+
+
+class _FakeCompletions:
+    def __init__(self):
+        self.kwargs = None
+
+    def create(self, **kwargs):
+        self.kwargs = kwargs
+        return SimpleNamespace(
+            choices=[SimpleNamespace(
+                message=SimpleNamespace(content="ok"), finish_reason="stop"
+            )],
+            usage=SimpleNamespace(completion_tokens=10, prompt_tokens=5),
+        )
+
+
+class _FakeOpenAI:
+    def __init__(self):
+        self.chat = SimpleNamespace(completions=_FakeCompletions())
+
+
+class TestReasoningMapping(unittest.TestCase):
+    def _client(self, transport):
+        from eval_arms import ChatClient
+
+        env = {"opencode-go": "OPENCODE_GO_API_KEY", "openrouter": "OPENROUTER_API_KEY"}
+        old = os.environ.get(env[transport])
+        os.environ[env[transport]] = "test-key"
+        try:
+            client = ChatClient(transport=transport)
+        finally:
+            if old is None:
+                os.environ.pop(env[transport], None)
+            else:
+                os.environ[env[transport]] = old
+        fake = _FakeOpenAI()
+        client._client = fake
+        return client, fake
+
+    def _call(self, client):
+        client.complete(
+            system="s", user="u", model="m", temperature=0, max_tokens=50,
+            reasoning="none",
+        )
+
+    def test_opencode_go_uses_top_level_reasoning_effort(self):
+        client, fake = self._client("opencode-go")
+        self._call(client)
+        self.assertEqual(fake.chat.completions.kwargs.get("reasoning_effort"), "none")
+        self.assertNotIn("reasoning", fake.chat.completions.kwargs)
+        self.assertNotIn("extra_body", fake.chat.completions.kwargs)
+
+    def test_openrouter_uses_nested_reasoning_extra_body(self):
+        client, fake = self._client("openrouter")
+        self._call(client)
+        self.assertEqual(
+            fake.chat.completions.kwargs.get("extra_body"),
+            {"reasoning": {"effort": "none"}},
+        )
+        self.assertNotIn("reasoning_effort", fake.chat.completions.kwargs)
+
+    def test_no_reasoning_fields_when_not_requested(self):
+        client, fake = self._client("opencode-go")
+        client.complete(system="s", user="u", model="m", temperature=0, max_tokens=50)
+        self.assertNotIn("reasoning_effort", fake.chat.completions.kwargs)
+        self.assertNotIn("extra_body", fake.chat.completions.kwargs)
+
+class TestArmReasoning(unittest.TestCase):
+    def test_run_bare_forwards_default_reasoning(self):
+        from eval_arms import run_bare
+
+        client = FakeClient(["ok"])
+        run_bare(client, ITEM, chart_with({"Sun": 10.5}), budget=6000, reasoning=None)
+        self.assertIsNone(client.calls[0]["reasoning"])
+
+    def test_run_without_forwards_reasoning_setting(self):
+        from eval_arms import run_without
+
+        client = FakeClient(["The 10th lord is Saturn."] * 3)
+        run_without(
+            client, ITEM, chart_with({"Sun": 10.5}), LEDGER, budget=6000,
+            doctrine_prompt="DOCTRINE", reasoning="none",
+        )
+        self.assertEqual({c["reasoning"] for c in client.calls}, {"none"})
+
+
+
+class TestSampleSeeds(unittest.TestCase):
+    def test_without_samples_use_distinct_seeds(self):
+        from eval_arms import run_without
+
+        client = FakeClient(["The 10th lord is Saturn."] * 3)
+        run_without(
+            client, ITEM, chart_with({"Sun": 10.5}), LEDGER, budget=6000,
+            doctrine_prompt="DOCTRINE",
+        )
+        seeds = [c["seed"] for c in client.calls]
+        self.assertEqual(len(set(seeds)), 3, seeds)
+
+
+if __name__ == "__main__":
+    unittest.main()

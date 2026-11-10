@@ -1,0 +1,54 @@
+{
+ "budget": 12000,
+ "engine": {
+  "dashaflow_file": "/home/adarsh/cursorProjects/dashaflow/src/dashaflow/__init__.py",
+  "dashaflow_version": "1.5.1"
+ },
+ "generated_at": "2026-11-10T11:32:15.232265+00:00",
+ "item_ids": [
+  "g-01",
+  "g-02",
+  "g-03",
+  "g-04",
+  "g-05",
+  "g-06",
+  "g-07",
+  "g-08",
+  "g-09",
+  "g-10",
+  "g-11",
+  "g-12",
+  "s-01",
+  "s-02",
+  "s-03",
+  "s-04",
+  "s-05",
+  "s-06",
+  "s-07",
+  "s-08",
+  "r-01",
+  "r-02",
+  "r-03",
+  "r-04",
+  "r-05",
+  "r-06"
+ ],
+ "mode": "pilot",
+ "models": {
+  "arm": "glm-5.3-flash",
+  "arm_reasoning": "default",
+  "judge": "deepseek-v4.1-flash",
+  "transport": "opencode-go"
+ },
+ "prompt_hashes": {
+  "agents/chart-verifier.md": "ecfd3022b753d6600603b2cf45a0bd811ed8dbb8d0988b424191418e58310d90",
+  "agents/doctrine-critic.md": "49a0c9718bd0e44e48deb3cfa07a1381447035014eb120d2d46cb4e95bb6134d",
+  "evals/prompts/bare_system.md": "6447b6dc79d7980b13329b02d96db651e1a11212296f15b627508c05fbbde936",
+  "evals/prompts/doctrine_system.md": "39248b90d9fb7b3018a60215f43f9a17541350a0449ad429d4bb6e9a7777fd1a",
+  "evals/prompts/judge.md": "300743000a1f2f9471b1d70b8276082f2495b1ffad3bc8f3b12b5e3f22b95610"
+ },
+ "repo_commit": "05851aefc519869ec14a71eb5449a97503dfe3a7",
+ "resume_from": 4,
+ "resumed": true,
+ "transport": "opencode-go"
+}

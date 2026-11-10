@@ -1,0 +1,20 @@
+{
+ "n": 26,
+ "se_rule": 1,
+ "se": 0.098058,
+ "gate": "delta > 0.098058",
+ "floor": "pilot floor: glm-5.3-flash / default reasoning / deepseek-v4.1-flash judge / 12000 tokens / opencode-go (2026-11-10)",
+ "note": "Locked at the 2026-11-10 GLM-floor pilot. A base-model, decoding, or budget change re-derives this before any verdict (evals/README.md \u00a710).",
+ "floor_config": {
+  "transport": "opencode-go",
+  "arm_model": "glm-5.3-flash",
+  "judge_model": "deepseek-v4.1-flash",
+  "arm_reasoning": "default",
+  "budget": 12000,
+  "arms": [
+   "bare",
+   "with",
+   "without"
+  ]
+ }
+}

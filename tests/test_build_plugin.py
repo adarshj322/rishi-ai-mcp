@@ -27,6 +27,7 @@ def copy_packaging_inputs(dest: Path) -> None:
     (dest / "packaging" / "hooks").mkdir(parents=True)
     shutil.copy(ROOT / "packaging" / "hooks" / "reminder.txt",
                 dest / "packaging" / "hooks" / "reminder.txt")
+    shutil.copytree(ROOT / "skills", dest / "skills")
 
 
 class TestGetVersion(unittest.TestCase):
@@ -130,3 +131,34 @@ class TestCheckMode(unittest.TestCase):
 
 if __name__ == "__main__":
     unittest.main()
+
+
+class TestPluginTree(unittest.TestCase):
+    def setUp(self):
+        self.tmp = tempfile.TemporaryDirectory()
+        self.addCleanup(self.tmp.cleanup)
+        self.tmp_path = Path(self.tmp.name)
+        copy_packaging_inputs(self.tmp_path)
+
+    def run_tool(self, *args):
+        return subprocess.run([sys.executable, str(TOOL), *args],
+                              cwd=self.tmp.name, capture_output=True, text=True,
+                              check=False)
+
+    def test_emit_creates_bundle_without_eval_or_agents(self):
+        proc = self.run_tool()
+        self.assertEqual(proc.returncode, 0, proc.stderr)
+        plugin = self.tmp_path / "plugin"
+        self.assertTrue((plugin / "skills" / "rishi-reading" / "SKILL.md").is_file())
+        self.assertTrue((plugin / ".claude-plugin" / "plugin.json").is_file())
+        self.assertTrue((plugin / ".codex-plugin" / "plugin.json").is_file())
+        self.assertFalse((plugin / "evals").exists())
+        self.assertFalse((plugin / "agents").exists())
+
+    def test_check_detects_skills_drift(self):
+        self.assertEqual(self.run_tool().returncode, 0)
+        skill = self.tmp_path / "plugin" / "skills" / "rishi-reading" / "SKILL.md"
+        skill.write_text(skill.read_text(encoding="utf-8") + "\n", encoding="utf-8")
+        proc = self.run_tool("--check")
+        self.assertEqual(proc.returncode, 3)
+        self.assertIn("plugin tree drift", proc.stdout + proc.stderr)

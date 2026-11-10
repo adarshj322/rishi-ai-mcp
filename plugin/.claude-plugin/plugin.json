@@ -1,6 +1,6 @@
 {
   "name": "rishi-ai",
-  "version": "1.6.0",
+  "version": "1.6.1",
   "description": "Ground-truth Vedic astrology: doctrine + contract + deterministic tools, in your harness.",
   "author": {
     "name": "Adarsh J"
@@ -15,11 +15,5 @@
     "ground-truth",
     "mcp",
     "plugin"
-  ],
-  "skills": "./skills/",
-  "mcpServers": "./.mcp.json",
-  "interface": {
-    "displayName": "RishiAI — Ground-Truth Vedic Astrology",
-    "category": "Productivity"
-  }
+  ]
 }

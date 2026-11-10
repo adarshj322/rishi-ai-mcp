@@ -6,7 +6,7 @@
   "plugins": [
     {
       "name": "rishi-ai",
-      "source": "./",
+      "source": "./plugin",
       "description": "Ground-truth Vedic astrology plugin"
     }
   ]

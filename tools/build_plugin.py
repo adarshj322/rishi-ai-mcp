@@ -17,26 +17,31 @@ time (cached), not at import, so --help/import never need it.
 
 import argparse
 import ast
+import hashlib
 import json
+import shutil
 import sys
 from pathlib import Path
 
-VERSIONED_TEMPLATES = (".claude-plugin/plugin.json", ".codex-plugin/plugin.json")
+VERSIONED_TEMPLATES = ("plugin/.claude-plugin/plugin.json", "plugin/.codex-plugin/plugin.json")
 
 ALLOWED_KEYS = {
-    ".claude-plugin/plugin.json": {
-        "name", "version", "description", "author", "homepage", "repository",
-        "license", "keywords",
-    },
     ".claude-plugin/marketplace.json": {"name", "owner", "plugins"},
-    ".codex-plugin/plugin.json": {
-        "name", "version", "description", "author", "homepage", "repository",
-        "license", "keywords", "skills", "mcpServers", "interface",
-    },
     ".agents/plugins/marketplace.json": {"name", "plugins"},
     ".mcp.json": {"mcpServers"},
     "hooks/hooks.json": {"hooks"},
     "hooks.json": {"hooks"},
+    "plugin/.claude-plugin/plugin.json": {
+        "name", "version", "description", "author", "homepage", "repository",
+        "license", "keywords",
+    },
+    "plugin/.codex-plugin/plugin.json": {
+        "name", "version", "description", "author", "homepage", "repository",
+        "license", "keywords", "skills", "mcpServers", "interface",
+    },
+    "plugin/.mcp.json": {"mcpServers"},
+    "plugin/hooks/hooks.json": {"hooks"},
+    "plugin/hooks.json": {"hooks"},
 }
 
 
@@ -88,38 +93,45 @@ def _hooks_template() -> dict:
     }
 
 
-HOOK_TEMPLATES = ("hooks/hooks.json", "hooks.json")
+HOOK_TEMPLATES = ("hooks/hooks.json", "hooks.json", "plugin/hooks/hooks.json", "plugin/hooks.json")
 
 # Fixed content; render() injects __version__ into VERSIONED_TEMPLATES.
 # Hooks entries are built at render time (see render()) so that importing
 # this module never reads packaging/hooks/reminder.txt.
 TEMPLATES = {
-    ".claude-plugin/plugin.json": {
-        **_CLAUDE_PLUGIN_BASE,
-    },
     ".claude-plugin/marketplace.json": {
         "name": "rishi-ai-mcp",
         "owner": {"name": "Adarsh J"},
         "plugins": [
             {
                 "name": "rishi-ai",
-                "source": "./",
+                "source": "./plugin",
                 "description": "Ground-truth Vedic astrology plugin",
             }
         ],
     },
-    ".codex-plugin/plugin.json": {
+    "plugin/.claude-plugin/plugin.json": {
+        **_CLAUDE_PLUGIN_BASE,
+    },
+    "plugin/.codex-plugin/plugin.json": {
         **_CLAUDE_PLUGIN_BASE,
         "skills": "./skills/",
         "mcpServers": "./.mcp.json",
         "interface": {"displayName": _DISPLAY_NAME, "category": "Productivity"},
     },
+    "plugin/.mcp.json": {
+        "mcpServers": {
+            "vedic-astrology": {"command": "uvx", "args": ["rishi-ai-mcp"]}
+        }
+    },
+    "plugin/hooks/hooks.json": {},
+    "plugin/hooks.json": {},
     ".agents/plugins/marketplace.json": {
         "name": "rishi-ai-mcp",
         "plugins": [
             {
                 "name": "rishi-ai",
-                "source": {"source": "local", "path": "."},
+                "source": {"source": "local", "path": "plugin"},
                 "policy": {"installation": "AVAILABLE", "authentication": "ON_INSTALL"},
                 "category": "Productivity",
             }
@@ -174,6 +186,38 @@ def render_all(version: str) -> dict:
     return {name: render(name, version, template) for name, template in TEMPLATES.items()}
 
 
+PLUGIN_ROOT = Path("plugin")
+
+
+def _tree_digest(path: Path) -> dict:
+    digest = {}
+    if not path.is_dir():
+        return digest
+    for file in sorted(path.rglob("*")):
+        if file.is_file():
+            digest[str(file.relative_to(path))] = hashlib.sha256(file.read_bytes()).hexdigest()
+    return digest
+
+
+def sync_plugin_tree() -> None:
+    """Mirror the shipped skills into the plugin bundle; manifests are rendered."""
+    source = Path("skills")
+    target = PLUGIN_ROOT / "skills"
+    if target.exists():
+        shutil.rmtree(target)
+    shutil.copytree(source, target)
+
+
+def plugin_tree_errors() -> list:
+    errors = []
+    for forbidden in ("agents", "evals"):
+        if (PLUGIN_ROOT / forbidden).exists():
+            errors.append(f"plugin tree contains forbidden path: plugin/{forbidden}")
+    if _tree_digest(Path("skills")) != _tree_digest(PLUGIN_ROOT / "skills"):
+        errors.append("plugin tree drift: plugin/skills does not match skills/")
+    return errors
+
+
 def check() -> int:
     try:
         version = get_version()
@@ -189,6 +233,9 @@ def check() -> int:
                 if not Path(name).is_file() or Path(name).read_text(encoding="utf-8") != content]
     for name in mismatch:
         print(f"manifest drift: {name}")
+    for error in plugin_tree_errors():
+        print(error)
+        mismatch.append(error)
     return 3 if mismatch else 0
 
 
@@ -207,6 +254,7 @@ def emit() -> int:
         path = Path(name)
         path.parent.mkdir(parents=True, exist_ok=True)
         path.write_text(content, encoding="utf-8")
+    sync_plugin_tree()
     return 0
 
 

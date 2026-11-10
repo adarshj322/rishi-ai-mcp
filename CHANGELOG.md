@@ -5,6 +5,19 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.6.1] - 2026-11-10
+
+### Changed
+- Equal-cost bar verdict recorded on the GLM floor: the pre-committed bar (rule 1, n = 26) did not clear; the recorded intervals and locked gate live in `evals/README.md` §6. **Tripwire 1 (equal-cost failure) fired**; the pre-registered response — removal, not tuning — was applied. Per `evals/README.md` §4.2(c), the verification path is cut: `chart-verifier`, `doctrine-critic`, the hesitation gate, and the per-claim approval machinery do not ship.
+- The two agent definitions move to `evals/agents/` as eval fixtures only; the plugin bundle no longer ships an `agents/` directory.
+- README, `skills/rishi-reading/SKILL.md`, `skills/rishi-reading/contract.md`, `AGENTS.md`, and `system_prompt.md` updated: the deterministic ground check is the shipped check; sample-and-vote is the documented selection path.
+
+### Removed
+- Verification subagents from the plugin bundle — no verification binding ships in any host.
+
+### Honest limitations
+- The verdict is one 26-item measurement on one model floor; "not cleared" is the pre-committed decision, not a claim that verification can never help. v2 calibration remains unmeasured.
+
 ## [1.6.0] - 2026-11-08
 
 ### Added

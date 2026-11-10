@@ -28,6 +28,9 @@ dependencies = [
     "mcp>=1.2.0,<2.0.0",
 ]
 
+[project.optional-dependencies]
+test = ["pytest", "ruff", "pyyaml", "openai"]
+
 [project.urls]
 Homepage = "https://github.com/adarshj322/rishi-ai-mcp"
 Repository = "https://github.com/adarshj322/rishi-ai-mcp"

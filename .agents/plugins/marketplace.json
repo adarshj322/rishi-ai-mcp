@@ -5,7 +5,7 @@
       "name": "rishi-ai",
       "source": {
         "source": "local",
-        "path": "."
+        "path": "plugin"
       },
       "policy": {
         "installation": "AVAILABLE",
