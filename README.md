@@ -28,7 +28,7 @@ https://github.com/user-attachments/assets/9c183b94-bb54-4af6-867c-fa3daeef2d03
 codex plugin marketplace add adarshj322/rishi-ai-mcp
 ```
 
-**Limit:** this CLI version ships only `marketplace` subcommands — no `plugin add`, `plugin list`, or `plugin install`. The marketplace registers, and the repo carries `.codex-plugin/plugin.json` + root `hooks.json` + `.agents/plugins/marketplace.json` for when a newer CLI adds install support, but **Codex cannot install the plugin bundle from the CLI today**. The working path is pip + a copied skill (no clone needed):
+**Limit:** this CLI version ships only `marketplace` subcommands — no `plugin add`, `plugin list`, or `plugin install`. The marketplace registers, and the repo carries `plugin/.codex-plugin/plugin.json` + `plugin/hooks.json` + `.agents/plugins/marketplace.json` for when a newer CLI adds install support, but **Codex cannot install the plugin bundle from the CLI today**. The working path is pip + a copied skill (no clone needed):
 
 ```bash
 pip install rishi-ai-mcp
@@ -243,8 +243,9 @@ skills/rishi-reading/       Doctrine — contract.md + references/ (entry skill 
 evals/                      JyotishQA seed set + Tier-1 conformance corpus (300 moments) + the gate pre-commitment
 tools/build_plugin.py       Renders and verifies the per-host manifests (--check runs in CI)
 tools/tier1_check.py        Tier-1 determinism gate (dual invocation, 300 moments)
-.claude-plugin/             Claude Code — plugin.json + marketplace.json (auto-discovers skills/, hooks/)
-.codex-plugin/              Codex — plugin.json (skills/ and mcpServers pointers + interface block)
+plugin/                     Claude/Codex plugin root — skills mirror, hooks, .mcp.json, manifests
+.claude-plugin/             Claude Code marketplace catalog (source ./plugin)
+.agents/plugins/            Codex marketplace catalog (source plugin)
 .agents/plugins/            Codex marketplace catalog
 hooks/hooks.json            Claude Code reminder hook (UserPromptSubmit; echo only, no side effects)
 hooks.json                  Codex reminder hook (repo root; Codex does not read hooks/hooks.json)
