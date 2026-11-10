@@ -21,7 +21,7 @@ Every factual claim names its grounds: planet, sign, house, degree, dignity, sha
 
 ## 4. The gate decides
 
-A genuinely low-stakes informational reading ships with grounds appendix and footer only — the fast path. Marriage, health, career, remedy, or fear-content readings route through verification — an aspect verifier on the chart fields, centralized judging, bounded re-check — before the answer ships. Verify-by-default on those slices; nothing about the gate is a performance metric.
+A genuinely low-stakes informational reading ships with grounds appendix and footer only — the fast path. Marriage, health, career, remedy, or fear-content readings still get the contract's extra care, but there is no model verification pass: the equal-cost bar was measured and not cleared, so verification does not ship. The deterministic ground check still applies to every factual claim; sample-and-vote is the documented selection path.
 
 ## 5. Three artifacts end every reading
 
