@@ -37,7 +37,7 @@ Never an empty string. It prints either:
 
 Required elements, all printed:
 
-- Engine name and version; commit hash of the tool build.
+- Engine name and version; commit hash of the tool build, read from the chart tool's `provenance` block. Never use the host project's git HEAD; if the tool reports `unknown`, print `unknown` and mark PROVENANCE-INCOMPLETE.
 - Plugin version.
 - Ayanamsha — `Lahiri (default)` or the variant named explicitly; never omitted, never "ayanamsha per defaults."
 - Cast date. Unknown-time placeholder named as such (`cast noon placeholder`).

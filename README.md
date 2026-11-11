@@ -51,7 +51,7 @@ What the plugin ships:
 
 - `skills/rishi-reading/SKILL.md` + `skills/rishi-reading/references/*.md` — the doctrine, auto-discovered by the host
 - `hooks/hooks.json` (Claude Code; Codex uses root `hooks.json`) — a one-line `UserPromptSubmit` reminder. Echo only, no side effects
-- `.mcp.json` — wires `uvx rishi-ai-mcp`. The plugin bundle carries no Python; the package is resolved on first run
+- `.mcp.json` — wires `uvx rishi-ai-mcp==<release>` (pinned by the release manifest). The plugin bundle carries no Python; the package is resolved on first run
 
 Verified: Claude Code plugin install cached at 1.6.0 with the skill, reminder hook, and `.mcp.json` all present; `claude mcp list` shows `vedic-astrology: connected`.
 
@@ -249,7 +249,7 @@ plugin/                     Claude/Codex plugin root — skills mirror, hooks, .
 .agents/plugins/            Codex marketplace catalog
 hooks/hooks.json            Claude Code reminder hook (UserPromptSubmit; echo only, no side effects)
 hooks.json                  Codex reminder hook (repo root; Codex does not read hooks/hooks.json)
-.mcp.json                   uvx rishi-ai-mcp wiring (unpinned until the release flow pins it)
+.mcp.json                   uvx rishi-ai-mcp wiring, pinned to the release version
 system_prompt.md            Minimap for non-plugin hosts — points at the vendored contract
 AGENTS.md                   Doctrine pointer for agent harnesses
 ```

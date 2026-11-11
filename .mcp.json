@@ -3,7 +3,7 @@
     "vedic-astrology": {
       "command": "uvx",
       "args": [
-        "rishi-ai-mcp"
+        "rishi-ai-mcp==1.6.2"
       ]
     }
   }

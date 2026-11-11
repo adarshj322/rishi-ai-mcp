@@ -10,6 +10,7 @@ import json
 
 from rishi_ai_mcp import (
     cast_vedic_chart,
+    __version__,
     cast_transit_chart,
     calculate_compatibility_tool,
     check_muhurtha_tool,
@@ -189,6 +190,20 @@ class TestAnalyzeCareerChart(unittest.TestCase):
 
 class TestCompactDetail(unittest.TestCase):
     """Slice 1: compact-by-default payloads."""
+
+
+    def test_cast_chart_includes_provenance(self):
+        result = cast_vedic_chart(
+            "1990-04-15", "14:30", 28.6139, 77.2090, "Asia/Kolkata"
+        )
+        provenance = result["provenance"]
+        self.assertEqual(provenance["server"], "rishi-ai-mcp")
+        self.assertEqual(provenance["version"], __version__)
+        self.assertEqual(provenance["engine"], "dashaflow")
+        self.assertIn("engine_version", provenance)
+        self.assertIn("swisseph_version", provenance)
+        self.assertEqual(provenance["ayanamsha"], "lahiri")
+        self.assertEqual(provenance["commit"], "unknown")
 
     def test_cast_chart_compact_default(self):
         result = cast_vedic_chart("1990-04-15", "14:30", 28.6139, 77.2090, "Asia/Kolkata")

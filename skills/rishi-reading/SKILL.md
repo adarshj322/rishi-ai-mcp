@@ -25,7 +25,7 @@ A genuinely low-stakes informational reading ships with grounds appendix and foo
 
 ## 5. Three artifacts end every reading
 
-Every reading, one-line answers included: (a) grounds appendix — every placement used, printed literally; (b) calibration footer — `withheld N, flagged N`, zeros included; (c) disagreement log — each user premise refused with its grounds, or `none`. Plus the provenance line: engine, plugin version, ayanamsha, cast date. A reading missing any block is not deliverable as a reading.
+Every reading, one-line answers included: (a) grounds appendix — every placement used, printed literally; (b) calibration footer — `withheld N, flagged N`, zeros included; (c) disagreement log — each user premise refused with its grounds, or `none`. Plus the provenance line: engine name/version, plugin version, plugin build commit, ayanamsha, cast date. Read the commit from the chart tool's `provenance` block; if it says `unknown`, print `unknown` and mark PROVENANCE-INCOMPLETE. Never substitute the host project's git HEAD. A reading missing any block is not deliverable as a reading.
 
 ## 6. Forbidden outputs, and the math rule
 
