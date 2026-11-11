@@ -73,6 +73,16 @@ class TestRender(unittest.TestCase):
             command = hooks["hooks"]["UserPromptSubmit"][0]["hooks"][0]["command"]
             self.assertEqual(command, "echo '" + reminder.replace("'", "'\\''") + "'")
 
+
+    def test_mcp_config_pins_release_version(self):
+        for name in (".mcp.json", "plugin/.mcp.json"):
+            with self.subTest(name=name):
+                data = json.loads(build_plugin.render(name, "1.2.3", build_plugin.TEMPLATES[name]))
+                self.assertEqual(
+                    data["mcpServers"]["vedic-astrology"]["args"],
+                    ["rishi-ai-mcp==1.2.3"],
+                )
+
     def test_render_refuses_unknown_key(self):
         template = dict(build_plugin.TEMPLATES[".mcp.json"])
         template["frobnicate"] = True

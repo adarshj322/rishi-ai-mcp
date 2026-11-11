@@ -17,6 +17,7 @@ time (cached), not at import, so --help/import never need it.
 
 import argparse
 import ast
+import copy
 import hashlib
 import json
 import shutil
@@ -94,6 +95,7 @@ def _hooks_template() -> dict:
 
 
 HOOK_TEMPLATES = ("hooks/hooks.json", "hooks.json", "plugin/hooks/hooks.json", "plugin/hooks.json")
+MCP_TEMPLATES = (".mcp.json", "plugin/.mcp.json")
 
 # Fixed content; render() injects __version__ into VERSIONED_TEMPLATES.
 # Hooks entries are built at render time (see render()) so that importing
@@ -176,9 +178,11 @@ def render(name: str, version: str, template: dict) -> str:
     for key in template:
         if key not in allowed:
             raise UnknownTemplateKey(f"{name}: unknown key {key!r}")
-    out = dict(template)
+    out = copy.deepcopy(template)
     if name in VERSIONED_TEMPLATES:
         out = {"name": out.pop("name"), "version": version, **out}
+    if name in MCP_TEMPLATES:
+        out["mcpServers"]["vedic-astrology"]["args"] = [f"rishi-ai-mcp=={version}"]
     return json.dumps(out, indent=2, ensure_ascii=False) + "\n"
 
 

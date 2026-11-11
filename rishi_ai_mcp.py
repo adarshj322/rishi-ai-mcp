@@ -12,8 +12,10 @@ Run:      rishi-ai-mcp            (console entry-point)
   or:     python rishi_ai_mcp.py  (direct)
 """
 
-__version__ = "1.6.1"
+__version__ = "1.6.2"
+__commit__ = "unknown"
 
+import dashaflow
 from typing import Dict, Any
 from mcp.server.fastmcp import FastMCP
 from mcp.server.fastmcp.exceptions import ToolError
@@ -33,6 +35,25 @@ from dashaflow import (
     get_gochara,
 )
 from dashaflow.errors import DashaFlowError, InvalidInputError
+
+
+def _provenance(ayanamsha: str) -> Dict[str, Any]:
+    """Version and build provenance for every reading's R6 line."""
+    try:
+        import swisseph as swe
+
+        swisseph_version = getattr(swe, "version", "unknown")
+    except ImportError:  # pragma: no cover - dashaflow normally provides it
+        swisseph_version = "unknown"
+    return {
+        "server": "rishi-ai-mcp",
+        "version": __version__,
+        "commit": __commit__,
+        "engine": "dashaflow",
+        "engine_version": getattr(dashaflow, "__version__", "unknown"),
+        "swisseph_version": swisseph_version,
+        "ayanamsha": ayanamsha,
+    }
 
 
 def _raise(err: Exception) -> None:
@@ -111,6 +132,7 @@ def cast_vedic_chart(
             result = summarize_chart(chart, detail=detail)
         if gender:
             result["interpretation_context"] = {"gender": gender}
+        result["provenance"] = _provenance(ayanamsha)
         return result
     except Exception as e:
         _raise(e)
@@ -148,8 +170,10 @@ def cast_transit_chart(
             krishnamurti, krishnamurti_vp291, yukteshwar, fagan_bradley.
     """
     try:
-        return cast_transit(transit_date, dob, time, lat, lon, timezone,
-                            ayanamsha=ayanamsha)
+        result = cast_transit(transit_date, dob, time, lat, lon, timezone,
+                              ayanamsha=ayanamsha)
+        result["provenance"] = _provenance(ayanamsha)
+        return result
     except Exception as e:
         _raise(e)
 

@@ -5,6 +5,19 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.6.2] - 2026-11-11
+
+### Added
+- `provenance` block in `cast_vedic_chart` and `cast_transit_chart`: server name, version, build commit, engine and engine version, swisseph version, ayanamsha.
+- Build-time commit stamping (`tools/stamp_commit.py`) in the publish workflow.
+
+### Fixed
+- The plugin `.mcp.json` now pins `rishi-ai-mcp==<release>`, so a stale `uv tool` environment cannot silently serve an old server.
+- Provenance instructions now source the build commit from the chart tool's `provenance` block and forbid substituting the host project's git HEAD.
+
+### Honest limitations
+- Local/dev builds report `commit: unknown`; release builds are stamped. No evaluation changes: the v1 equal-cost verdict and the verification cut are unchanged.
+
 ## [1.6.1] - 2026-11-10
 
 ### Changed
