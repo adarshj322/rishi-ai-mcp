@@ -113,7 +113,7 @@ Correctness fixes, not leniency:
 
 | date | commit | corpus size | SE rule | arm | margin observed | verdict | notes |
 |---|---|---|---|---|---|---|---|
-| `__PENDING__` | `__PENDING__` | `__PENDING__` | `__PENDING__` | `__PENDING__` | `__PENDING__` | `__PENDING__` | `__PENDING__` |
+| 2026-11-14 | 869df95 | 40 | rule 1: SE = 0.079057; locked gate delta > 0.079057 | bare 13/40 = 0.325 [0.2008, 0.4798]; shipped 22/40 = 0.550 [0.3983, 0.6929] | delta = +0.225 [0.075, 0.375]; consumed 31,246 bare-arm tokens / 109,799 shipped-arm tokens | pilot — no verdict | GLM/DeepSeek/default/12000/OpenCode Go; no exclusions, disqualifications, judge errors, or cap hits; corpus 40 sampled VedAstro HF births (names dropped, UTC; see cases/SOURCE.md); paired interval recomputed after fixing a v2 arm-name bug in the bootstrap (reporting-only; pass/fail and gate unchanged; no corpus or scoring change) |
 
 ## 9. Change control
 

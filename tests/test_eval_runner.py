@@ -319,6 +319,19 @@ class TestPairedDelta(unittest.TestCase):
         self.assertFalse(_run_valid(summary))
 
 
+
+    def test_v2_paired_interval_uses_shipped_and_bare(self):
+        from eval_runner import _paired_delta_interval
+
+        items = [
+            {"id": f"x{i}", "arms": {"shipped": {"pass": True}, "bare": {"pass": False}}}
+            for i in range(10)
+        ]
+        low, high = _paired_delta_interval(items, ["shipped", "bare"])
+        self.assertGreater(low, 0.0)
+        self.assertLessEqual(high, 1.0)
+
+
 class TestInvalidVerdictReport(unittest.TestCase):
     def test_exclusions_mark_verdict_invalid(self):
         from eval_runner import write_report

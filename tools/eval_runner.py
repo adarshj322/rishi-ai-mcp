@@ -464,14 +464,15 @@ def _write_manifest(outdir, results, item_ids):
 def _paired_delta_interval(item_results, arms, resamples=2000, seed=12345):
     """Paired bootstrap over items; returns a 95% interval for with-minus-without."""
     pairs = []
+    arm_a, arm_b = arms[0], arms[1]
     for item in item_results:
         if any(item["arms"].get(arm, {}).get("judge_error") for arm in arms):
             continue
-        with_arm = item["arms"].get("with", {})
-        without_arm = item["arms"].get("without", {})
+        a = item["arms"].get(arm_a, {})
+        b = item["arms"].get(arm_b, {})
         pairs.append(
-            (1.0 if with_arm.get("pass") else 0.0,
-             1.0 if without_arm.get("pass") else 0.0)
+            (1.0 if a.get("pass") else 0.0,
+             1.0 if b.get("pass") else 0.0)
         )
     if not pairs:
         return [0.0, 0.0]
