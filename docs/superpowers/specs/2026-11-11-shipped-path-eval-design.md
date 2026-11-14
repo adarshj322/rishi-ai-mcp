@@ -1,6 +1,6 @@
 # v2 evaluation — shipped path vs bare MCP (DRAFT)
 
-**Status: DRAFT. Not binding. Do not run under this document.**
+**Status: RATIFIED 2026-11-14. The binding version is `evals/v2/README.md`; this file is retained as design rationale.**
 
 This is a proposal for a new pre-commitment. It becomes binding only when the
 owner ratifies it as `evals/v2/README.md` in a separate owner rewrite. Until
