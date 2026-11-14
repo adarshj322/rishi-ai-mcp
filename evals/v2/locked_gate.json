@@ -1,0 +1,16 @@
+{
+ "n": 40,
+ "se_rule": 1,
+ "se": 0.079057,
+ "gate": "delta > 0.079057",
+ "floor_config": {
+  "transport": "opencode-go",
+  "arm_model": "glm-5.3-flash",
+  "judge_model": "deepseek-v4.1-flash",
+  "arm_reasoning": "default",
+  "budget": 12000,
+  "arms": ["bare", "shipped"]
+ },
+ "floor": "v2 ratification 2026-11-14: glm-5.3-flash arms / deepseek-v4.1-flash judge / 12000 / OpenCode Go",
+ "note": "Locked before data. A floor change re-derives this as a new pilot. The corpus is authored after this file and before any arm output."
+}
