@@ -128,6 +128,38 @@ class TestFabrication(unittest.TestCase):
         chart = chart_with({"Saturn": 10.5})
         chart["transit"] = {"planets": {"Saturn": {"degree": 25.0}}}
         self.assertEqual(find_fabrications("Transit Saturn at 25° in Pisces.", chart), [])
+
+    def test_apart_is_relational(self):
+        from eval_scoring import find_fabrications
+
+        chart = chart_with({"Moon": 100.0, "Saturn": 210.0})
+        self.assertEqual(
+            find_fabrications("The Moon and Saturn lie 3.6° apart.", chart), []
+        )
+
+    def test_specific_day_inside_long_dasha_is_flagged(self):
+        from eval_scoring import find_fabrications
+
+        chart = chart_with({"Sun": 10.5})
+        # a specific invented day inside a multi-year dasha span is not a
+        # chart date; a month-level window reference is allowed
+        self.assertEqual(
+            find_fabrications("Marriage will happen in 2031-05-04.", chart),
+            ["2031-05-04"],
+        )
+        self.assertEqual(find_fabrications("It lifts in March 2031.", chart), [])
+
+    def test_transit_and_natal_degrees_are_separate(self):
+        from eval_scoring import find_fabrications
+
+        chart = chart_with({"Saturn": 10.5})
+        chart["transit"] = {"planets": {"Saturn": {"degree": 25.0}}}
+        self.assertEqual(
+            find_fabrications("Transit Saturn at 25° in Pisces.", chart), []
+        )
+        # without transit context, 25 is not the natal Saturn degree
+        self.assertEqual(find_fabrications("Saturn at 25° in Pisces.", chart), ["25°"])
+
     def test_absolute_unknown_degree_still_flagged(self):
         from eval_scoring import find_fabrications
 
