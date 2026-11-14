@@ -27,7 +27,7 @@ _MONTH_TO_NUM = {
 }
 _ADJACENCY = 120
 _RELATIONAL_RE = re.compile(
-    r"\b(?:within|from|orb|separation|distance|away|cusp|gap|difference)\b", re.I
+    r"\b(?:within|from|orb|separation|distance|away|cusp|gap|difference|apart)\b", re.I
 )
 _ORDINALS = {
     "1st": "first", "2nd": "second", "3rd": "third", "4th": "fourth",
@@ -151,8 +151,9 @@ def _chart_values(chart: dict, out: set, depth: int = 0) -> None:
 
 
 def _planet_degrees(chart: dict) -> dict:
-    """Map lowercase planet name -> list of degree values from the planets block."""
-    result = {}
+    """Separate natal and transit degree maps so the two cannot be confused."""
+    natal = {}
+    transit = {}
     planets = chart.get("planets") if isinstance(chart, dict) else None
     if isinstance(planets, dict):
         for name, data in planets.items():
@@ -164,23 +165,26 @@ def _planet_degrees(chart: dict) -> dict:
                 if isinstance(data.get(key), (int, float))
             ]
             if values:
-                result[name.lower()] = values
+                natal[name.lower()] = values
     lagna = chart.get("lagna")
     if isinstance(lagna, dict):
         for key in ("degree", "degree_precise"):
             v = lagna.get(key)
             if isinstance(v, (int, float)):
-                result.setdefault("lagna", []).append(float(v))
-    transit = chart.get("transit")
-    if isinstance(transit, dict):
-        for name, data in (transit.get("planets") or {}).items():
+                natal.setdefault("lagna", []).append(float(v))
+    transit_block = chart.get("transit")
+    if isinstance(transit_block, dict):
+        for name, data in (transit_block.get("planets") or {}).items():
             if not isinstance(data, dict):
                 continue
-            for key in ("degree", "degree_precise", "longitude"):
-                v = data.get(key)
-                if isinstance(v, (int, float)):
-                    result.setdefault(name.lower(), []).append(float(v))
-    return result
+            values = [
+                float(data[key])
+                for key in ("degree", "degree_precise", "longitude")
+                if isinstance(data.get(key), (int, float))
+            ]
+            if values:
+                transit[name.lower()] = values
+    return {"natal": natal, "transit": transit}
 
 
 def _degree_value(match: re.Match) -> float:
@@ -213,30 +217,45 @@ def find_fabrications(text: str, chart: dict) -> list:
     whitelist of every chart value.
     """
     fabricated = []
-    planet_degrees = _planet_degrees(chart)
+    degrees = _planet_degrees(chart)
+    natal = degrees["natal"]
+    transit = degrees["transit"]
     values = set()
     _chart_values(chart, values)
 
-    body_names = [(name, r"\b" + name + r"\b") for name in _PLANET_NAMES]
-    body_names += [("Lagna", r"\bLagna\b"), ("Ascendant", r"\bAscendant\b")]
+    mentions = []
+    for name in _PLANET_NAMES:
+        for match in re.finditer(r"\b" + name + r"\b", text, re.I):
+            mentions.append((match.start(), name.lower()))
+    for alias in ("Lagna", "Ascendant"):
+        for match in re.finditer(r"\b" + alias + r"\b", text, re.I):
+            mentions.append((match.start(), "lagna"))
 
     for m in _DEGREE_RE.finditer(text):
         deg = _degree_value(m)
         window = text[max(0, m.start() - _ADJACENCY): m.end() + _ADJACENCY]
         if _RELATIONAL_RE.search(window):
-            # "within 1°", "3.3° from the cusp", "10° away" are derived
-            # relations, not claimed absolute positions.
+            # "within 1°", "3.3° from the cusp", "10° away", "3.6° apart"
+            # are derived relations, not claimed absolute positions.
             continue
-        nearby = [
-            name.lower() if name not in ("Lagna", "Ascendant") else "lagna"
-            for name, pattern in body_names
-            if re.search(pattern, window, re.I)
-        ]
-        if nearby:
-            ok = any(
-                any(_angular_delta(deg, known) <= 0.5 for known in planet_degrees.get(name, []))
-                for name in nearby
-            )
+        center = (m.start() + m.end()) // 2
+        preceding = [(pos, name) for pos, name in mentions
+                     if pos <= center and center - pos <= _ADJACENCY]
+        following = [(pos, name) for pos, name in mentions
+                     if pos > center and pos - center <= _ADJACENCY]
+        if preceding:
+            name = max(preceding, key=lambda item: item[0])[1]
+        elif following:
+            name = min(following, key=lambda item: item[0])[1]
+        else:
+            name = None
+        if name is not None:
+            local = text[max(0, m.start() - 40): m.end() + 40]
+            is_transit = re.search(r"\btransit", local, re.I) is not None
+            scoped = transit.get(name) if is_transit else natal.get(name)
+            if scoped is None:
+                scoped = natal.get(name) or transit.get(name)
+            ok = any(_angular_delta(deg, known) <= 0.5 for known in (scoped or []))
         else:
             ok = any(
                 _angular_delta(deg, v) <= 0.5
@@ -251,10 +270,7 @@ def find_fabrications(text: str, chart: dict) -> list:
 
     for m in _ISO_DATE_RE.finditer(text):
         parsed = _parse_iso(m.group(0))
-        in_range = parsed in date_values or any(
-            start <= parsed <= end for start, end in date_ranges
-        )
-        if not in_range:
+        if parsed not in date_values:
             fabricated.append(m.group(0))
 
     for m in _MONTH_DATE_RE.finditer(text):
