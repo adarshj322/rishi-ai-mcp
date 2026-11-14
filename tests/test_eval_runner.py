@@ -445,5 +445,49 @@ class TestPromptHashes(unittest.TestCase):
         self.assertIn("evals/agents/doctrine-critic.md", hashes)
 
 
+
+class TestV2Protocol(unittest.TestCase):
+    def test_protocol_paths_are_separate(self):
+        from eval_runner import _protocol_paths
+
+        v1 = _protocol_paths("v1")
+        v2 = _protocol_paths("v2")
+        self.assertEqual(v1["cases"].name, "cases")
+        self.assertEqual(v2["cases"].name, "cases")
+        self.assertIn("evals/v2", str(v2["cases"]))
+        self.assertNotEqual(v1["gate"], v2["gate"])
+
+    def test_v2_gate_is_locked_at_n40(self):
+        from eval_runner import _locked_gate
+
+        gate = _locked_gate("v2")
+        self.assertEqual(gate["n"], 40)
+        self.assertAlmostEqual(gate["se"], 0.079057, places=5)
+
+    def test_v2_verdict_requires_40_items(self):
+        from eval_runner import _assert_verdict_ready, _locked_gate
+
+        config = _locked_gate("v2")["floor_config"]
+        with self.assertRaises(ValueError):
+            _assert_verdict_ready([{"id": "x"}] * 26, config, protocol="v2")
+        _assert_verdict_ready([{"id": f"x{i}"} for i in range(40)], config, protocol="v2")
+
+    def test_v2_delta_is_shipped_minus_bare(self):
+        from eval_runner import _delta
+
+        items = [
+            {"id": "a", "arms": {"shipped": {"pass": True}, "bare": {"pass": False}}},
+            {"id": "b", "arms": {"shipped": {"pass": True}, "bare": {"pass": False}}},
+            {"id": "c", "arms": {"shipped": {"pass": False}, "bare": {"pass": False}}},
+            {"id": "d", "arms": {"shipped": {"pass": False}, "bare": {"pass": False}}},
+        ]
+        summary = {
+            "shipped": {"passes": 2, "n": 4, "proportion": 0.5, "interval": [0.15, 0.85]},
+            "bare": {"passes": 0, "n": 4, "proportion": 0.0, "interval": [0.0, 0.49]},
+        }
+        delta = _delta(items, summary, ["shipped", "bare"], protocol="v2")
+        self.assertEqual(delta["value"], 0.5)
+
+
 if __name__ == "__main__":
     unittest.main()

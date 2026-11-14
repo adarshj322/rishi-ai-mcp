@@ -33,6 +33,28 @@ from eval_scoring import (  # noqa: E402
 ROOT = pathlib.Path(__file__).resolve().parent.parent
 CASES = ROOT / "evals" / "cases"
 PROMPTS = ROOT / "evals" / "prompts"
+PROTOCOLS = {
+    "v1": {
+        "cases": CASES,
+        "gate": ROOT / "evals" / "locked_gate.json",
+        "files": ("grounding.jsonl", "sycophancy.jsonl", "remedy.jsonl"),
+        "gate_arms": ("with", "without"),
+        "default_arms": ("bare", "without", "with"),
+    },
+    "v2": {
+        "cases": ROOT / "evals" / "v2" / "cases",
+        "gate": ROOT / "evals" / "v2" / "locked_gate.json",
+        "files": ("grounding.jsonl", "sycophancy.jsonl", "remedy.jsonl"),
+        "gate_arms": ("shipped", "bare"),
+        "default_arms": ("bare", "shipped"),
+    },
+}
+
+
+def _protocol_paths(protocol):
+    if protocol not in PROTOCOLS:
+        raise ValueError(f"unknown protocol: {protocol}")
+    return PROTOCOLS[protocol]
 
 ARM_LABEL_RE = re.compile(
     r"^\s*(?:answer\s*)?\((?:with|without|bare)(?:\s+arm)?\)\s*:?\s*", re.I
@@ -47,9 +69,9 @@ def anonymize(text):
     return cleaned.strip()
 
 
-def load_jsonl(name):
+def load_jsonl(name, protocol="v1"):
     records = []
-    with open(CASES / name, encoding="utf-8") as fh:
+    with open(_protocol_paths(protocol)["cases"] / name, encoding="utf-8") as fh:
         for line in fh:
             line = line.strip()
             if line:
@@ -57,8 +79,8 @@ def load_jsonl(name):
     return records
 
 
-def load_ledger():
-    with open(CASES / "ledger.json", encoding="utf-8") as fh:
+def load_ledger(protocol="v1"):
+    with open(_protocol_paths(protocol)["cases"] / "ledger.json", encoding="utf-8") as fh:
         return json.load(fh)["items"]
 
 
@@ -156,7 +178,7 @@ def _resolve_models(transport, arm_model=None, judge_model=None):
 
 def run(items, arms, budget, outdir, client=None, judge_client=None, transport="openrouter",
         arm_model=None, judge_model=None, arm_reasoning="none", mode="pilot",
-        resume=False):
+        resume=False, protocol="v1"):
     """Execute the three-arm comparison and return the results dict."""
     client = client or ChatClient(transport=transport)
     judge_client = judge_client or client
@@ -165,6 +187,7 @@ def run(items, arms, budget, outdir, client=None, judge_client=None, transport="
     for item in items:
         item.setdefault("model", arm_model)
     config = {
+        "protocol": protocol,
         "mode": mode,
         "item_ids": [item["id"] for item in items],
         "transport": transport,
@@ -174,17 +197,17 @@ def run(items, arms, budget, outdir, client=None, judge_client=None, transport="
         "budget": budget,
         "arms": sorted(arms),
         "engine": _engine_provenance(),
-        "scoring_hash": _scoring_hash(),
+        "scoring_hash": _scoring_hash(protocol),
     }
     completed = _resume_state(outdir, config) if resume else {}
     if completed:
         print(f"resuming: {len(completed)}/{len(items)} items from partial.json", flush=True)
-    ledger = load_ledger()
+    ledger = load_ledger(protocol)
     doctrine_prompt = load_prompt("doctrine_system.md")
     bare_prompt = load_prompt("bare_system.md")
     se = compute_se(len(items))
     if mode == "verdict":
-        _assert_verdict_ready(items, config)
+        _assert_verdict_ready(items, config, protocol)
 
     item_results = [completed[item["id"]] for item in items if item["id"] in completed]
     charts = {}
@@ -205,9 +228,18 @@ def run(items, arms, budget, outdir, client=None, judge_client=None, transport="
                     out = run_bare(client, item, chart, budget, bare_prompt=bare_prompt,
                                    reasoning=reasoning)
                 elif arm == "without":
+                    if protocol == "v2":
+                        raise ValueError("v2 uses the 'shipped' arm, not 'without'")
+                    out = run_without(client, item, chart, entry, budget, doctrine_prompt,
+                                      reasoning=reasoning)
+                elif arm == "shipped":
+                    if protocol != "v2":
+                        raise ValueError("'shipped' is a v2 arm")
                     out = run_without(client, item, chart, entry, budget, doctrine_prompt,
                                       reasoning=reasoning)
                 elif arm == "with":
+                    if protocol != "v1":
+                        raise ValueError("v2 has no verification arm")
                     out = run_with(client, item, chart, entry, budget, doctrine_prompt,
                                    reasoning=reasoning)
                 else:
@@ -239,9 +271,10 @@ def run(items, arms, budget, outdir, client=None, judge_client=None, transport="
 
     summary = tally(item_results, arms)
     valid = _run_valid(summary)
-    delta = _delta(item_results, summary, arms)
+    delta = _delta(item_results, summary, arms, protocol)
     results = {
         "mode": mode,
+        "protocol": protocol,
         "resumed": bool(completed),
         "resume_from": len(completed),
         "valid": valid,
@@ -298,10 +331,11 @@ def _resume_state(outdir, config):
     return {item["id"]: item for item in payload.get("items", [])}
 
 
-def _scoring_hash():
-    """Hash the scoring rules, prompts, and corpus ledger — not the orchestrator."""
+def _scoring_hash(protocol="v1"):
+    """Hash the scoring rules, prompts, and selected corpus — not the orchestrator."""
     import hashlib
 
+    cases = _protocol_paths(protocol)["cases"]
     paths = [
         ROOT / "tools" / "eval_scoring.py",
         PROMPTS / "bare_system.md",
@@ -309,10 +343,10 @@ def _scoring_hash():
         PROMPTS / "judge.md",
         ROOT / "evals" / "agents" / "chart-verifier.md",
         ROOT / "evals" / "agents" / "doctrine-critic.md",
-        CASES / "ledger.json",
-        CASES / "grounding.jsonl",
-        CASES / "sycophancy.jsonl",
-        CASES / "remedy.jsonl",
+        cases / "ledger.json",
+        cases / "grounding.jsonl",
+        cases / "sycophancy.jsonl",
+        cases / "remedy.jsonl",
     ]
     digest = hashlib.sha256()
     for path in paths:
@@ -358,14 +392,14 @@ def tally(item_results, arms):
 LOCKED_GATE_PATH = ROOT / "evals" / "locked_gate.json"
 
 
-def _locked_gate():
-    with open(LOCKED_GATE_PATH, encoding="utf-8") as fh:
+def _locked_gate(protocol="v1"):
+    with open(_protocol_paths(protocol)["gate"], encoding="utf-8") as fh:
         return json.load(fh)
 
 
-def _assert_verdict_ready(items, config):
+def _assert_verdict_ready(items, config, protocol="v1"):
     """A verdict needs the full corpus, the locked gate, and the recorded floor."""
-    locked = _locked_gate()
+    locked = _locked_gate(protocol)
     if len(items) != locked["n"]:
         raise ValueError(
             f"verdict mode requires the locked corpus of {locked['n']} items; got {len(items)}"
@@ -413,6 +447,7 @@ def _write_manifest(outdir, results, item_ids):
         "repo_commit": _repo_commit(),
         "generated_at": results.get("generated_at"),
         "mode": results.get("mode"),
+        "protocol": results.get("protocol"),
         "resumed": results.get("resumed"),
         "resume_from": results.get("resume_from"),
         "transport": results.get("models", {}).get("transport"),
@@ -466,15 +501,16 @@ def _run_valid(summary):
     )
 
 
-def _delta(item_results, summary, arms):
-    if "with" not in arms or "without" not in arms:
+def _delta(item_results, summary, arms, protocol="v1"):
+    gate_arms = _protocol_paths(protocol)["gate_arms"]
+    if any(arm not in arms for arm in gate_arms):
         return {"value": None, "interval": None, "note": "gate arms not both run"}
-    a, b = summary.get("with", {}), summary.get("without", {})
+    a, b = summary.get(gate_arms[0], {}), summary.get(gate_arms[1], {})
     if "proportion" not in a or "proportion" not in b:
         return {"value": None, "interval": None, "note": "an arm was disqualified"}
     return {
         "value": round(a["proportion"] - b["proportion"], 4),
-        "interval": _paired_delta_interval(item_results, arms),
+        "interval": _paired_delta_interval(item_results, list(gate_arms)),
     }
 
 
@@ -536,7 +572,7 @@ def write_report(results, outdir):
         "## Arms",
         "",
     ]
-    for arm in ("bare", "without", "with"):
+    for arm in ("bare", "shipped", "without", "with"):
         if arm not in results["arms"]:
             continue
         stats = results["arms"][arm]
@@ -578,10 +614,10 @@ def write_report(results, outdir):
     return path
 
 
-def build_items(selected_ids=None):
+def build_items(selected_ids=None, protocol="v1"):
     items = []
-    for name in ("grounding.jsonl", "sycophancy.jsonl", "remedy.jsonl"):
-        for record in load_jsonl(name):
+    for name in _protocol_paths(protocol)["files"]:
+        for record in load_jsonl(name, protocol):
             if selected_ids and record["id"] not in selected_ids:
                 continue
             items.append(record)
@@ -591,7 +627,8 @@ def build_items(selected_ids=None):
 def main(argv=None):
     parser = argparse.ArgumentParser(description="Equal-cost bar runner")
     parser.add_argument("--mode", default="pilot", choices=["pilot", "verdict", "dry-run"])
-    parser.add_argument("--arms", default="bare,without,with")
+    parser.add_argument("--protocol", default="v1", choices=["v1", "v2"])
+    parser.add_argument("--arms", default="")
     parser.add_argument("--budget", type=int, default=6000)
     parser.add_argument("--items", default="")
     parser.add_argument("--transport", default="openrouter", choices=["openrouter", "opencode-go"])
@@ -603,16 +640,19 @@ def main(argv=None):
     args = parser.parse_args(argv)
 
     arms = [a.strip() for a in args.arms.split(",") if a.strip()]
+    if not arms:
+        arms = list(_protocol_paths(args.protocol)["default_arms"])
     selected = [i.strip() for i in args.items.split(",") if i.strip()] or None
-    items = build_items(selected)
+    items = build_items(selected, args.protocol)
     outdir = args.out or f"evals/results/{datetime.date.today().isoformat()}-pilot"
     results = run(
         items, arms, args.budget, outdir, transport=args.transport,
         arm_model=args.arm_model or None, judge_model=args.judge_model or None,
         arm_reasoning=args.arm_reasoning, mode=args.mode, resume=args.resume,
+        protocol=args.protocol,
     )
     print(f"SE = {results['se']:.6f} (rule 1); gate: {results['gate']}")
-    for arm in ("bare", "without", "with"):
+    for arm in ("bare", "shipped", "without", "with"):
         stats = results["arms"].get(arm)
         if not stats:
             continue
