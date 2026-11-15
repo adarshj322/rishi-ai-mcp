@@ -50,6 +50,7 @@ hits. One append-only log.
 | date | commit | corpus size | SE rule | arm | margin observed | verdict | notes |
 |---|---|---|---|---|---|---|---|
 | 2026-11-15 | 5987d1c | 40 | rule 1: SE = 0.079057; locked gate delta > 0.079057 | bare 15/40 = 0.375 [0.2422, 0.5297]; shipped 23/40 = 0.575 [0.4219, 0.7149] | delta = +0.200 [0.025, 0.35]; consumed 26,639 bare-arm tokens / 106,137 shipped-arm tokens | pilot — no verdict | GLM/DeepSeek/default/12000/OpenCode Go; valid 40/40, no exclusions, disqualifications, judge errors, or cap hits; no resume; reporting-only `locked_gate` metadata fix applied after the pilot (no scoring/gate change). |
+| 2026-11-15 | c19cf65 | 40 | rule 1: SE = 0.079057; locked gate delta > 0.079057 | bare 15/40 = 0.375 [0.2422, 0.5297]; shipped 21/40 = 0.525 [0.375, 0.6706] | delta = +0.150 [−0.05, 0.35]; consumed 26,524 bare-arm tokens / 105,929 shipped-arm tokens | CLEARED — replication claim gate | Valid: no exclusions, disqualifications, judge errors, or cap hits. Point estimate clears the locked gate, but the interval includes zero: replicated directionally on a second 40-item corpus, not conclusive. No predictive-validity claim. |
 
 ## 6. Change control
 
