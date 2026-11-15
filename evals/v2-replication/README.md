@@ -49,7 +49,7 @@ hits. One append-only log.
 
 | date | commit | corpus size | SE rule | arm | margin observed | verdict | notes |
 |---|---|---|---|---|---|---|---|
-| `__PENDING__` | `__PENDING__` | `__PENDING__` | `__PENDING__` | `__PENDING__` | `__PENDING__` | `__PENDING__` | `__PENDING__` |
+| 2026-11-15 | 5987d1c | 40 | rule 1: SE = 0.079057; locked gate delta > 0.079057 | bare 15/40 = 0.375 [0.2422, 0.5297]; shipped 23/40 = 0.575 [0.4219, 0.7149] | delta = +0.200 [0.025, 0.35]; consumed 26,639 bare-arm tokens / 106,137 shipped-arm tokens | pilot — no verdict | GLM/DeepSeek/default/12000/OpenCode Go; valid 40/40, no exclusions, disqualifications, judge errors, or cap hits; no resume; reporting-only `locked_gate` metadata fix applied after the pilot (no scoring/gate change). |
 
 ## 6. Change control
 

@@ -285,7 +285,7 @@ def run(items, arms, budget, outdir, client=None, judge_client=None, transport="
         "resumed": bool(completed),
         "resume_from": len(completed),
         "valid": valid,
-        "locked_gate": _locked_gate(),
+        "locked_gate": _locked_gate(protocol),
         "items": item_results,
         "arms": summary,
         "se": se,
