@@ -114,6 +114,7 @@ Correctness fixes, not leniency:
 | date | commit | corpus size | SE rule | arm | margin observed | verdict | notes |
 |---|---|---|---|---|---|---|---|
 | 2026-11-14 | 869df95 | 40 | rule 1: SE = 0.079057; locked gate delta > 0.079057 | bare 13/40 = 0.325 [0.2008, 0.4798]; shipped 22/40 = 0.550 [0.3983, 0.6929] | delta = +0.225 [0.075, 0.375]; consumed 31,246 bare-arm tokens / 109,799 shipped-arm tokens | pilot — no verdict | GLM/DeepSeek/default/12000/OpenCode Go; no exclusions, disqualifications, judge errors, or cap hits; corpus 40 sampled VedAstro HF births (names dropped, UTC; see cases/SOURCE.md); paired interval recomputed after fixing a v2 arm-name bug in the bootstrap (reporting-only; pass/fail and gate unchanged; no corpus or scoring change) |
+| 2026-11-15 | 213ae1e | 40 | rule 1: SE = 0.079057; locked gate delta > 0.079057 | bare 16/40 = 0.400 [0.2635, 0.554]; shipped 20/40 = 0.500 [0.352, 0.648] | delta = +0.100 [−0.025, 0.225]; consumed 29,808 bare-arm tokens / 108,567 shipped-arm tokens | CLEARED — claim gate | Valid: no exclusions, disqualifications, judge errors, or cap hits. Resumed from 8/40 after a host shutdown; same frozen floor and corpus. The point estimate clears the locked gate, but the interval includes zero: directional on this 40-item corpus, not conclusive. No predictive-validity claim. |
 
 ## 9. Change control
 
