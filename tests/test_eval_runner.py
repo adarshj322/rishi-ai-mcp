@@ -485,6 +485,18 @@ class TestV2Protocol(unittest.TestCase):
             _assert_verdict_ready([{"id": "x"}] * 26, config, protocol="v2")
         _assert_verdict_ready([{"id": f"x{i}"} for i in range(40)], config, protocol="v2")
 
+
+    def test_v2r_gate_and_verdict_guard(self):
+        from eval_runner import _assert_verdict_ready, _locked_gate, _protocol_paths
+
+        self.assertIn("v2-replication", str(_protocol_paths("v2r")["cases"]))
+        gate = _locked_gate("v2r")
+        self.assertEqual(gate["n"], 40)
+        self.assertAlmostEqual(gate["se"], 0.079057, places=5)
+        _assert_verdict_ready(
+            [{"id": f"x{i}"} for i in range(40)], gate["floor_config"], protocol="v2r"
+        )
+
     def test_v2_delta_is_shipped_minus_bare(self):
         from eval_runner import _delta
 

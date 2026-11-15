@@ -48,6 +48,13 @@ PROTOCOLS = {
         "gate_arms": ("shipped", "bare"),
         "default_arms": ("bare", "shipped"),
     },
+    "v2r": {
+        "cases": ROOT / "evals" / "v2-replication" / "cases",
+        "gate": ROOT / "evals" / "v2-replication" / "locked_gate.json",
+        "files": ("grounding.jsonl", "sycophancy.jsonl", "remedy.jsonl"),
+        "gate_arms": ("shipped", "bare"),
+        "default_arms": ("bare", "shipped"),
+    },
 }
 
 
@@ -228,12 +235,12 @@ def run(items, arms, budget, outdir, client=None, judge_client=None, transport="
                     out = run_bare(client, item, chart, budget, bare_prompt=bare_prompt,
                                    reasoning=reasoning)
                 elif arm == "without":
-                    if protocol == "v2":
-                        raise ValueError("v2 uses the 'shipped' arm, not 'without'")
+                    if protocol in ("v2", "v2r"):
+                        raise ValueError("v2 protocols use the 'shipped' arm, not 'without'")
                     out = run_without(client, item, chart, entry, budget, doctrine_prompt,
                                       reasoning=reasoning)
                 elif arm == "shipped":
-                    if protocol != "v2":
+                    if protocol not in ("v2", "v2r"):
                         raise ValueError("'shipped' is a v2 arm")
                     out = run_without(client, item, chart, entry, budget, doctrine_prompt,
                                       reasoning=reasoning)
@@ -628,7 +635,7 @@ def build_items(selected_ids=None, protocol="v1"):
 def main(argv=None):
     parser = argparse.ArgumentParser(description="Equal-cost bar runner")
     parser.add_argument("--mode", default="pilot", choices=["pilot", "verdict", "dry-run"])
-    parser.add_argument("--protocol", default="v1", choices=["v1", "v2"])
+    parser.add_argument("--protocol", default="v1", choices=["v1", "v2", "v2r"])
     parser.add_argument("--arms", default="")
     parser.add_argument("--budget", type=int, default=6000)
     parser.add_argument("--items", default="")
