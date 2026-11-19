@@ -59,6 +59,16 @@ n=160 → 0.84, n=200 → 0.91.
   gate and floor before data, one pilot then one verdict, append-only Evidence
   Log.
 
+## Decision (2026-11-19)
+
+Owner accepted the recommendation: **the eval program stops at the directional
+claim.** No n = 150 or n = 230 run is planned. The two pre-committed Evidence
+Log rows remain the claims of record; the pooled analysis above is exploratory
+and is not a new verdict. The next measurement is the Vedic agreement panel /
+v3 registry, which addresses whether the readings are actually good rather
+than another correctness corpus. Any future correctness run requires a new
+owner-written pre-commitment.
+
 ## Reproduction
 
 The per-item `pass` flags are in
