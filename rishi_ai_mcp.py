@@ -512,9 +512,11 @@ def analyze_career_chart(
 
     Returns (JSON):
     - `tenth_house`: lord, sign, occupants, dignity, D10 sign
-    - `d10_indicators`: planet-by-planet D10 placements with career domain significations
+    - `d10_indicators`: planet-by-planet D10 placements with career domain significations; `d10_strong` is own sign or exaltation only
+    - `d10_strong_planets`: planets meeting that D10 criterion
     - `career_themes`: ranked career domains derived from planetary + sign analysis
-    - `strength_factors`: supporting indicators (6th/7th lord connections, etc.)
+    - `strength_factors`: supporting indicators (6th/7th lord connections, etc.); may be empty
+    - `interpretation_notes`: caveats for reading the fields, including what an empty `strength_factors` list means
 
     Parameters:
         dob: Date of birth as "YYYY-MM-DD"
