@@ -84,3 +84,15 @@ def test_judge_consistency_flags_split():
     )
     assert result["pairwise_agreement"] < 0.8
     assert result["pass"] is False
+
+
+def test_report_keeps_boundary_and_never_says_validated(tmp_path):
+    from zero_human_screen import write_report
+
+    write_report(
+        {"items": [], "summary": {"a1": [0, 0], "a2": [0, 0], "a4": [0, 0]}},
+        str(tmp_path),
+    )
+    text = (tmp_path / "report.md").read_text()
+    assert "not validated against expert judgment" in text
+    assert "validated" not in text.lower().replace("not validated", "")

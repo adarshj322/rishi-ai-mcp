@@ -127,6 +127,62 @@ def screen_item(item, entry, client, doctrine_prompt, arm_model, budget, reasoni
     }
 
 
+BOUNDARY = (
+    "chart-grounded, rule-faithful, internally consistent — "
+    "not validated against expert judgment"
+)
+
+
+def write_report(payload, outdir):
+    """Write the human-readable report; the boundary sentence is mandatory."""
+    summary = payload.get("summary", {})
+
+    def cell(key):
+        passed, n = summary.get(key, [0, 0])
+        return "not run" if n == 0 else f"{passed}/{n}"
+
+    lines = [
+        "# Zero-human conformance screen",
+        "",
+        f"**Claim boundary:** {BOUNDARY}.",
+        "",
+        "| Check | Pass |",
+        "|---|---|",
+        f"| A1 chart-fact | {cell('a1')} |",
+        f"| A2 chart-swap | {cell('a2')} |",
+        f"| A4 judge consistency | {cell('a4')} |",
+        "",
+        "## Per item",
+        "",
+        "| Item | A1 | Fabrications | A2 | Claim overlap | A4 agreement |",
+        "|---|---|---|---|---|---|",
+    ]
+    for result in payload.get("items", []):
+        a1 = result.get("a1", {})
+        a2 = result.get("a2", {})
+        a4 = result.get("a4")
+        fab = ", ".join(a1.get("fabrications", [])) or "—"
+        lines.append(
+            f"| {result.get('id', '?')} | {'pass' if a1.get('pass') else 'fail'} | {fab} "
+            f"| {'pass' if a2.get('pass') else 'fail'} "
+            f"| {a2.get('claim_overlap', 0):.2f} "
+            f"| {'not run' if a4 is None else format(a4.get('pairwise_agreement', 0), '.2f')} |"
+        )
+    lines.extend(
+        [
+            "",
+            "## Limits",
+            "",
+            "- A1 checks degree and date claims only. Sign and house claims are not checked.",
+            "- A2 shows chart sensitivity, not chart truth.",
+            "- A4 measures agreement among judges. A panel can agree on the same wrong verdict.",
+            "- Nothing here measures reading quality or correspondence to the person.",
+            "",
+        ]
+    )
+    pathlib.Path(outdir, "report.md").write_text("\n".join(lines), encoding="utf-8")
+
+
 def main(argv=None):
     parser = argparse.ArgumentParser(description="Zero-human conformance screen (A1/A2).")
     parser.add_argument("--cases", default="evals/v2/cases")
@@ -135,6 +191,8 @@ def main(argv=None):
     parser.add_argument("--out", default="/tmp/zero-human")
     parser.add_argument("--transport", default="openrouter")
     parser.add_argument("--arm-model", default=None)
+    parser.add_argument("--judge-models", default="")
+    parser.add_argument("--trials", type=int, default=3)
     parser.add_argument("--budget", type=int, default=700)
     parser.add_argument("--arm-reasoning", default="none")
     args = parser.parse_args(argv)
@@ -151,16 +209,28 @@ def main(argv=None):
     }[args.transport]
 
     results = []
+    judge_models = [m.strip() for m in args.judge_models.split(",") if m.strip()]
     for item in items:
+        entry = ledger["items"][item["id"]]
         result = screen_item(
             item,
-            ledger["items"][item["id"]],
+            entry,
             client,
             doctrine,
             arm_model,
             args.budget,
             reasoning=None if args.arm_reasoning == "default" else args.arm_reasoning,
         )
+        if judge_models:
+            result["a4"] = judge_consistency(
+                client,
+                item,
+                entry,
+                precompute_chart(item),
+                result["real_text"],
+                judge_models,
+                args.trials,
+            )
         results.append({"id": item["id"], **result})
         print(f"[{len(results)}/{len(items)}] {item['id']}", flush=True)
 
@@ -171,6 +241,10 @@ def main(argv=None):
         "summary": {
             "a1": [sum(r["a1"]["pass"] for r in results), len(results)],
             "a2": [sum(r["a2"]["pass"] for r in results), len(results)],
+            "a4": [
+                sum(r["a4"]["pass"] for r in results if "a4" in r),
+                sum(1 for r in results if "a4" in r),
+            ],
         },
     }
     (outdir / "results.json").write_text(json.dumps(payload, indent=1), encoding="utf-8")
