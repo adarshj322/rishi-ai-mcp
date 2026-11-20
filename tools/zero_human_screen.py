@@ -11,7 +11,13 @@ import pathlib
 import sys
 
 from eval_arms import ChatClient, run_without
-from eval_runner import load_jsonl, load_ledger, load_prompt, precompute_chart
+from eval_runner import (
+    judge_response,
+    load_jsonl,
+    load_ledger,
+    load_prompt,
+    precompute_chart,
+)
 from eval_scoring import extract_numeric_claims, find_fabrications
 
 
@@ -45,6 +51,47 @@ def chart_text_divergence(real_text: str, decoy_text: str, real_chart: dict) -> 
         "decoy_fabrications": decoy_fab,
         "claim_overlap": overlap,
         "pass": len(decoy_fab) > len(real_fab) or overlap < 0.5,
+    }
+
+
+def judge_consistency(judge_client, item, entry, chart, text, judge_models, trials):
+    """Repeat a clause judge across models and trials; report agreement only.
+
+    Agreement is consistency, not quality: judges can agree on the same wrong
+    verdict. No validity claim is made here.
+    """
+    verdicts = []
+    errors = 0
+    for model in judge_models:
+        for _ in range(trials):
+            judged = judge_response(
+                judge_client, item, entry, chart, text, judge_model=model
+            )
+            errors += int(judged["judge_error"])
+            verdicts.append((model, judged["pass"], judged["clauses"]))
+
+    def agreement_for(group):
+        pairs = 0
+        same = 0
+        for i in range(len(group)):
+            for j in range(i + 1, len(group)):
+                pairs += 1
+                same += int(group[i] == group[j])
+        return (same / pairs) if pairs else 1.0
+
+    by_model = {}
+    for model in judge_models:
+        group = [v[1] for v in verdicts if v[0] == model]
+        by_model[model] = {"pass": sum(group), "n": len(group),
+                          "agreement": agreement_for(group)}
+
+    passes = [v[1] for v in verdicts]
+    pairwise = agreement_for(passes)
+    return {
+        "per_model": by_model,
+        "pairwise_agreement": pairwise,
+        "judge_errors": errors,
+        "pass": pairwise >= 0.8 and errors == 0,
     }
 
 

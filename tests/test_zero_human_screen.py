@@ -1,9 +1,39 @@
+import json
 import pathlib
 import sys
 
 sys.path.insert(0, str(pathlib.Path(__file__).resolve().parents[1] / "tools"))
 
-from zero_human_screen import chart_text_divergence, shift_birth
+from zero_human_screen import chart_text_divergence, judge_consistency, shift_birth
+
+LEDGER = {"clauses": [{"text": "cite the 10th lord", "mechanical": True}], "required_grounds": ["10th lord"]}
+CHART = {"lagna": {"sign": "Aries", "degree": 10.0}}
+
+
+class FakeJudgeClient:
+    def __init__(self, payloads):
+        self.payloads = list(payloads)
+        self.calls = []
+
+    def complete(self, system, user, model, temperature, max_tokens, seed=7, reasoning=None):
+        self.calls.append(model)
+        return {
+            "text": self.payloads.pop(0),
+            "output_tokens": 50,
+            "input_tokens": 100,
+            "latency_s": 0.01,
+        }
+
+
+def _judge_json(overall):
+    return json.dumps(
+        {
+            "clauses": [
+                {"clause": "cite the 10th lord", "verdict": "pass", "evidence": "10th lord", "reason": "cited"}
+            ],
+            "overall": overall,
+        }
+    )
 
 
 def test_a1_flags_fabricated_degree():
@@ -35,3 +65,22 @@ def test_shift_birth_changes_time():
         )["time"]
         == "16:20"
     )
+
+
+def test_judge_consistency_perfect():
+    client = FakeJudgeClient([_judge_json("pass")] * 12)
+    result = judge_consistency(
+        client, {"id": "x", "prompt": "q"}, LEDGER, CHART, "answer", ["m1", "m2"], 3
+    )
+    assert result["pairwise_agreement"] == 1.0
+    assert result["judge_errors"] == 0
+    assert result["pass"] is True
+
+
+def test_judge_consistency_flags_split():
+    client = FakeJudgeClient([_judge_json("pass"), _judge_json("fail")] * 6)
+    result = judge_consistency(
+        client, {"id": "x", "prompt": "q"}, LEDGER, CHART, "answer", ["m1", "m2"], 3
+    )
+    assert result["pairwise_agreement"] < 0.8
+    assert result["pass"] is False
