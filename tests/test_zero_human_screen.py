@@ -16,7 +16,7 @@ class FakeJudgeClient:
         self.calls = []
 
     def complete(self, system, user, model, temperature, max_tokens, seed=7, reasoning=None):
-        self.calls.append(model)
+        self.calls.append({"model": model, "reasoning": reasoning})
         return {
             "text": self.payloads.pop(0),
             "output_tokens": 50,
@@ -245,3 +245,29 @@ def test_main_offline_uses_ledger_items(tmp_path, monkeypatch):
     assert zhs.main(["--limit", "1", "--out", str(tmp_path)]) == 0
     report = (tmp_path / "report.md").read_text()
     assert "A1 chart-fact" in report
+
+
+def test_judge_consistency_passes_per_model_reasoning():
+    client = FakeJudgeClient([_judge_json("pass")] * 4)
+    judge_consistency(
+        client,
+        {"id": "x", "prompt": "q"},
+        LEDGER,
+        CHART,
+        "answer",
+        ["m1", "m2"],
+        1,
+        judge_reasoning={"m1": "max", "m2": "xhigh"},
+    )
+    assert [(c["model"], c["reasoning"]) for c in client.calls] == [
+        ("m1", "max"),
+        ("m2", "xhigh"),
+    ]
+
+
+def test_parse_judge_models():
+    from zero_human_screen import parse_judge_models
+
+    models, efforts = parse_judge_models("a:max,b:xhigh,c")
+    assert models == ["a", "b", "c"]
+    assert efforts == {"a": "max", "b": "xhigh"}

@@ -39,6 +39,15 @@ class BudgetExceeded(Exception):
     """Raised when an arm's output tokens exceed the item budget."""
 
 
+def reasoning_params(transport, reasoning):
+    """Map a reasoning effort to the transport's request shape."""
+    if not reasoning:
+        return {}
+    if transport == "openrouter":
+        return {"extra_body": {"reasoning": {"effort": reasoning}}}
+    return {"reasoning_effort": reasoning}
+
+
 class ChatClient:
     """Thin wrapper over OpenRouter. Reads OPENROUTER_API_KEY at construction."""
 
@@ -61,14 +70,7 @@ class ChatClient:
 
     def complete(self, system, user, model, temperature, max_tokens, seed=7, reasoning=None):
         started = time.time()
-        extra = {}
-        if reasoning == "none":
-            if self._transport == "openrouter":
-                # OpenRouter's own shape: nested reasoning object.
-                extra["extra_body"] = {"reasoning": {"effort": "none"}}
-            else:
-                # OpenCode Go is OpenAI-compatible: effort is a flat field.
-                extra["reasoning_effort"] = "none"
+        extra = reasoning_params(self._transport, reasoning)
         response = self._client.chat.completions.create(
             model=model,
             messages=[

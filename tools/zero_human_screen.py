@@ -62,7 +62,29 @@ def chart_text_divergence(
     }
 
 
-def judge_consistency(judge_client, item, entry, chart, text, judge_models, trials):
+def parse_judge_models(spec):
+    """Parse `model`, `model:effort` entries into (models, efforts)."""
+    models = []
+    efforts = {}
+    for entry in spec.split(","):
+        entry = entry.strip()
+        if not entry:
+            continue
+        if ":" in entry:
+            model, effort = entry.rsplit(":", 1)
+        else:
+            model, effort = entry, None
+        model = model.strip()
+        effort = effort.strip() if effort else None
+        if model:
+            models.append(model)
+            if effort:
+                efforts[model] = effort
+    return models, efforts
+
+
+def judge_consistency(judge_client, item, entry, chart, text, judge_models, trials,
+                      judge_reasoning=None):
     """Repeat a clause judge across models and trials; report agreement only.
 
     Agreement is consistency, not quality: judges can agree on the same wrong
@@ -73,7 +95,8 @@ def judge_consistency(judge_client, item, entry, chart, text, judge_models, tria
     for model in judge_models:
         for _ in range(trials):
             judged = judge_response(
-                judge_client, item, entry, chart, text, judge_model=model
+                judge_client, item, entry, chart, text, judge_model=model,
+                reasoning=(judge_reasoning or {}).get(model),
             )
             errors += int(judged["judge_error"])
             verdicts.append((model, judged["pass"], judged["clauses"]))
@@ -221,7 +244,9 @@ def write_report(payload, outdir):
             "generated_at",
             "transport",
             "arm_model",
+            "arm_reasoning",
             "judge_models",
+            "judge_reasoning",
             "trials",
             "budget",
             "items",
@@ -264,7 +289,7 @@ def main(argv=None):
     }[args.transport]
 
     results = []
-    judge_models = [m.strip() for m in args.judge_models.split(",") if m.strip()]
+    judge_models, judge_reasoning = parse_judge_models(args.judge_models)
     for item in items:
         entry = ledger[item["id"]]
         result = screen_item(
@@ -285,6 +310,7 @@ def main(argv=None):
                 result["real_text"],
                 judge_models,
                 args.trials,
+                judge_reasoning=judge_reasoning,
             )
         results.append({"id": item["id"], **result})
         print(f"[{len(results)}/{len(items)}] {item['id']}", flush=True)
@@ -296,7 +322,9 @@ def main(argv=None):
             "generated_at": datetime.datetime.now(datetime.timezone.utc).isoformat(),
             "transport": args.transport,
             "arm_model": arm_model,
+            "arm_reasoning": args.arm_reasoning,
             "judge_models": judge_models,
+            "judge_reasoning": judge_reasoning,
             "trials": args.trials,
             "budget": args.budget,
             "items": args.items,

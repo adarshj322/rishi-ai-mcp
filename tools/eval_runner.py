@@ -124,7 +124,8 @@ def _extract_json(text):
     raise ValueError("no JSON object found")
 
 
-def judge_response(client, item, ledger_entry, chart, response_text, judge_model):
+def judge_response(client, item, ledger_entry, chart, response_text, judge_model,
+                   reasoning=None):
     """Reference-guided, anonymized, clause-by-clause judging. One retry on parse failure."""
     system = load_prompt("judge.md")
     payload = {
@@ -136,7 +137,8 @@ def judge_response(client, item, ledger_entry, chart, response_text, judge_model
     last_error = None
     for _ in range(2):
         out = client.complete(
-            system=system, user=user, model=judge_model, temperature=0, max_tokens=16000
+            system=system, user=user, model=judge_model, temperature=0, max_tokens=16000,
+            reasoning=reasoning,
         )
         try:
             parsed = _extract_json(out["text"])
