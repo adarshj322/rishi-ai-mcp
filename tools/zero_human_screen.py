@@ -13,6 +13,8 @@ import sys
 from eval_arms import ChatClient, run_without
 from eval_runner import (
     _engine_provenance,
+    _resume_state,
+    _write_partial,
     judge_response,
     load_jsonl,
     load_ledger,
@@ -275,6 +277,7 @@ def main(argv=None):
     parser.add_argument("--trials", type=int, default=3)
     parser.add_argument("--budget", type=int, default=700)
     parser.add_argument("--arm-reasoning", default="none")
+    parser.add_argument("--resume", action="store_true")
     args = parser.parse_args(argv)
 
     items = load_jsonl(args.items, protocol="v2")
@@ -287,10 +290,25 @@ def main(argv=None):
         "openrouter": "deepseek/deepseek-v4.1-flash",
         "opencode-go": "deepseek-v4.1-flash",
     }[args.transport]
-
-    results = []
     judge_models, judge_reasoning = parse_judge_models(args.judge_models)
-    for item in items:
+
+    outdir = pathlib.Path(args.out)
+    outdir.mkdir(parents=True, exist_ok=True)
+    run_config = {
+        "transport": args.transport,
+        "arm_model": arm_model,
+        "arm_reasoning": args.arm_reasoning,
+        "judge_models": judge_models,
+        "judge_reasoning": judge_reasoning,
+        "trials": args.trials,
+        "budget": args.budget,
+        "items": args.items,
+    }
+    completed = _resume_state(str(outdir), run_config) if args.resume else {}
+    results = [completed[item["id"]] for item in items if item["id"] in completed]
+    pending = [item for item in items if item["id"] not in completed]
+
+    for item in pending:
         entry = ledger[item["id"]]
         result = screen_item(
             item,
@@ -313,21 +331,15 @@ def main(argv=None):
                 judge_reasoning=judge_reasoning,
             )
         results.append({"id": item["id"], **result})
+        _write_partial(str(outdir), results, len(items), len(results), run_config)
         print(f"[{len(results)}/{len(items)}] {item['id']}", flush=True)
 
-    outdir = pathlib.Path(args.out)
-    outdir.mkdir(parents=True, exist_ok=True)
+    by_id = {result["id"]: result for result in results}
+    results = [by_id[item["id"]] for item in items if item["id"] in by_id]
     payload = {
         "config": {
+            **run_config,
             "generated_at": datetime.datetime.now(datetime.timezone.utc).isoformat(),
-            "transport": args.transport,
-            "arm_model": arm_model,
-            "arm_reasoning": args.arm_reasoning,
-            "judge_models": judge_models,
-            "judge_reasoning": judge_reasoning,
-            "trials": args.trials,
-            "budget": args.budget,
-            "items": args.items,
             "engine": _engine_provenance(),
         },
         "items": results,
@@ -343,6 +355,10 @@ def main(argv=None):
     }
     (outdir / "results.json").write_text(json.dumps(payload, indent=1), encoding="utf-8")
     write_report(payload, str(outdir))
+    try:
+        (outdir / "partial.json").unlink()
+    except FileNotFoundError:
+        pass
     print(outdir / "report.md")
     return 0
 

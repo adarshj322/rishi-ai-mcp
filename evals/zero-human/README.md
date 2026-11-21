@@ -36,6 +36,14 @@ screen's honest sentence is the claim boundary above.
 python tools/zero_human_screen.py --cases evals/v2/cases --limit 5 --out /tmp/zero-human
 ```
 
+Model IDs are exact. `--arm-reasoning` sets the arm effort (`none`, `default`, `max`, ...).
+`--judge-models` accepts `model` or `model:effort` entries, e.g.
+`deepseek-v4.1-flash:max,muse-spark-1.3-contributor:xhigh`.
+
+Add `--resume` to continue an interrupted run. The screen writes `<out>/partial.json`
+after every item and removes it on success. A partial from a different model,
+effort, budget or corpus is refused rather than mixed in.
+
 The report is written to `<out>/report.md`; the machine-readable results to `<out>/results.json`.
 
 ## Results

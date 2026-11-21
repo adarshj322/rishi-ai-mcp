@@ -2,6 +2,8 @@ import json
 import pathlib
 import sys
 
+import pytest
+
 sys.path.insert(0, str(pathlib.Path(__file__).resolve().parents[1] / "tools"))
 
 from zero_human_screen import chart_text_divergence, judge_consistency, shift_birth
@@ -271,3 +273,53 @@ def test_parse_judge_models():
     models, efforts = parse_judge_models("a:max,b:xhigh,c")
     assert models == ["a", "b", "c"]
     assert efforts == {"a": "max", "b": "xhigh"}
+
+
+def test_main_writes_partial_and_resumes(tmp_path, monkeypatch):
+    import zero_human_screen as zhs
+
+    class FlakyClient:
+        calls = 0
+
+        def __init__(self, *a, **k):
+            pass
+
+        def complete(self, *a, **k):
+            type(self).calls += 1
+            if type(self).calls >= 7:
+                raise RuntimeError("boom")
+            return {
+                "text": "Career will be good.",
+                "output_tokens": 1,
+                "input_tokens": 1,
+                "latency_s": 0.0,
+            }
+
+    monkeypatch.setattr(zhs, "ChatClient", FlakyClient)
+    with pytest.raises(RuntimeError):
+        zhs.main(["--limit", "2", "--out", str(tmp_path)])
+
+    partial = json.loads((tmp_path / "partial.json").read_text())
+    assert [item["id"] for item in partial["items"]] == ["v2-g-01"]
+
+    class GoodClient:
+        calls = 0
+
+        def __init__(self, *a, **k):
+            pass
+
+        def complete(self, *a, **k):
+            type(self).calls += 1
+            return {
+                "text": "Career will be good.",
+                "output_tokens": 1,
+                "input_tokens": 1,
+                "latency_s": 0.0,
+            }
+
+    monkeypatch.setattr(zhs, "ChatClient", GoodClient)
+    assert zhs.main(["--limit", "2", "--out", str(tmp_path), "--resume"]) == 0
+    final = json.loads((tmp_path / "results.json").read_text())
+    assert [item["id"] for item in final["items"]] == ["v2-g-01", "v2-g-02"]
+    assert GoodClient.calls == 6
+    assert not (tmp_path / "partial.json").exists()
