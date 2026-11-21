@@ -153,7 +153,7 @@ def _judge_json2(overall, verdicts):
         {
             "clauses": [
                 {"clause": text, "verdict": verdict, "evidence": "", "reason": ""}
-                for text, verdict in zip(clauses, verdicts)
+                for text, verdict in zip(clauses, verdicts, strict=False)
             ],
             "overall": overall,
         }
