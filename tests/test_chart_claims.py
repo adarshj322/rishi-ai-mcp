@@ -104,10 +104,29 @@ def test_d10_list_is_scoped():
         "D10 Lagna Aries; 10th lord Saturn in Capricorn; Venus in Gemini.", chart
     )
     assert result["contradictions"] == []
-    assert result["checked"] == 3
+    assert result["checked"] == 2
 
 
 def test_from_lagna_after_period_is_skipped():
     chart = {"lagna": {"sign": "Cancer"}}
     result = check_claims("Some ground. 6th from Cancer Lagna is Sagittarius.", chart)
     assert result["checked"] == 0
+
+
+def test_lagna_lord_is_not_a_claim():
+    chart = {"lagna": {"sign": "Libra"}}
+    result = check_claims("Venus is Lagna lord for Libra Lagna, in Aries 7th.", chart)
+    assert result["checked"] == 0
+
+
+def test_ishta_devata_is_not_a_claim():
+    chart = {"planets": {"Saturn": {"sign": "Scorpio"}}}
+    result = check_claims("Ishta Devata indicated by Saturn in Aquarius.", chart)
+    assert result["checked"] == 0
+
+
+def test_ambiguous_paragraph_skips_distant_varga():
+    chart = {"planets": {"Mars": {"sign": "Libra", "d9_sign": "Scorpio"}}}
+    result = check_claims("Mars d9 Scorpio own_sign; 10th lord Mars is in Libra.", chart)
+    assert result["checked"] == 0
+

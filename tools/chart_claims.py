@@ -47,8 +47,8 @@ _HOUSE_RE = re.compile(
 )
 
 
-def _varga_context(text, start, chars=120):
-    """Return the divisional chart labelled before the claim, if any."""
+def _varga_context(text, start, chars=30):
+    """Return the divisional chart labelled immediately before the claim."""
     window = text[max(0, start - chars): start].lower()
     matches = list(
         re.finditer(r"\bd[\s-]?(\d{1,2})\b|\bdashamsha\b|\bdasamsha\b|\bnavamsha\b", window)
@@ -61,30 +61,32 @@ def _varga_context(text, start, chars=120):
     return "d10" if "dash" in last.group(0) else "d9"
 
 
-def _has_trailing_varga(text, end, chars=60):
-    """A varga label after the claim makes its scope ambiguous; skip it."""
-    return re.search(
-        r"\bd[\s-]?\d{1,2}\b|\bdashamsha\b|\bdasamsha\b|\bnavamsha\b",
-        text[end: end + chars],
-        re.I,
-    ) is not None
-
-
-def _from_lagna(text, start, chars=60):
-    """True for derived phrases like `6th from Cancer Lagna`."""
-    window = text[max(0, start - chars): start].lower()
-    cut = max(window.rfind("."), window.rfind(";"), window.rfind("\n"))
-    return "from" in window[cut + 1:]
-
-
-def _is_transit(text, start, end):
-    """True only when `transit` is in the same clause as the claim."""
+def _clause(text, start, end):
     left = text[:start]
     clause_start = max(left.rfind("."), left.rfind(";"), left.rfind("\n")) + 1
     right = text[end:]
     ends = [pos for pos in (right.find("."), right.find(";"), right.find("\n")) if pos != -1]
     clause_end = end + (min(ends) if ends else len(right))
-    return "transit" in text[clause_start:clause_end].lower()
+    return text[clause_start:clause_end].lower()
+
+
+def _paragraph_has_varga(text, start, end):
+    """A varga label elsewhere in the paragraph makes the claim ambiguous."""
+    left = text[:start]
+    pstart = max(left.rfind("."), left.rfind("\n")) + 1
+    right = text[end:]
+    ends = [pos for pos in (right.find("."), right.find("\n")) if pos != -1]
+    pend = end + (min(ends) if ends else len(right))
+    return re.search(
+        r"\bd[\s-]?\d{1,2}\b|\bdashamsha\b|\bdasamsha\b|\bnavamsha\b",
+        text[pstart:pend],
+        re.I,
+    ) is not None
+
+
+def _is_transit(text, start, end):
+    """True only when `transit` is in the same clause as the claim."""
+    return "transit" in _clause(text, start, end)
 
 
 def _planet_data(chart, name, is_transit):
@@ -111,12 +113,19 @@ def _canonical_sign(value):
 
 def _record_sign(text, match, chart, claims, contradictions, seen):
     planet, sign_raw = match.group(1), match.group(2)
-    if _has_trailing_varga(text, match.end()):
+    clause = _clause(text, match.start(), match.end())
+    if any(term in clause for term in ("ishta devata", "karakamsha", "arudha", "indicated by")):
         return
-    if planet.lower() in ("lagna", "ascendant") and _from_lagna(text, match.start()):
+    if planet.lower() in ("lagna", "ascendant"):
+        if "lord" in clause:
+            return
+        pre = clause.split("lagna")[0] if "lagna" in clause else clause
+        if "from" in pre:
+            return
+    varga = _varga_context(text, match.start())
+    if not varga and _paragraph_has_varga(text, match.start(), match.end()):
         return
     sign = _canonical_sign(sign_raw)
-    varga = _varga_context(text, match.start())
     is_transit = _is_transit(text, match.start(), match.end())
     data, display, scope = _planet_data(chart, planet, is_transit)
     if varga:
@@ -157,7 +166,14 @@ def check_claims(text, chart):
     for match in _HOUSE_RE.finditer(text):
         planet = match.group(1)
         house = int(match.group(2) or match.group(3))
-        if _varga_context(text, match.start()):
+        if _varga_context(text, match.start()) or _paragraph_has_varga(
+            text, match.start(), match.end()
+        ):
+            continue
+        if any(
+            term in _clause(text, match.start(), match.end())
+            for term in ("ishta devata", "karakamsha", "arudha", "indicated by")
+        ):
             continue
         if re.match(r"\s*from\b", text[match.end(): match.end() + 24], re.I):
             continue
