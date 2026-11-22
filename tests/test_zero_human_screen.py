@@ -344,3 +344,57 @@ def test_report_marks_unexercised_a2(tmp_path):
     text = (tmp_path / "report.md").read_text()
     assert "not exercised" in text
     assert "A1 exercised: 0/1; A2 exercised: 0/1" in text
+
+
+def test_a2_exercises_sign_claims():
+    real_chart = {"planets": {"Sun": {"sign": "Aries", "degree": 10.0}}}
+    decoy_chart = {"planets": {"Sun": {"sign": "Leo", "degree": 10.0}}}
+    result = chart_text_divergence(
+        "The Sun is in Aries.", "The Sun is in Leo.", real_chart, decoy_chart
+    )
+    assert result["exercised"] is True
+    assert result["real_fabrications"] == []
+    assert result["pass"] is True
+
+
+def test_a2_fails_when_decoy_repeats_real_sign_claim():
+    real_chart = {"planets": {"Sun": {"sign": "Aries", "degree": 10.0}}}
+    decoy_chart = {"planets": {"Sun": {"sign": "Leo", "degree": 10.0}}}
+    result = chart_text_divergence(
+        "The Sun is in Aries.", "The Sun is in Aries.", real_chart, decoy_chart
+    )
+    assert result["pass"] is False
+
+
+def test_a1_flags_sign_contradiction():
+    real_chart = {"planets": {"Sun": {"sign": "Aries", "degree": 10.0}}}
+    decoy_chart = {"planets": {"Sun": {"sign": "Leo", "degree": 10.0}}}
+    result = chart_text_divergence(
+        "The Sun is in Leo.", "The Sun is in Aries.", real_chart, decoy_chart
+    )
+    assert result["real_fabrications"] == ["Sun in Leo (chart: Aries)"]
+    assert result["real_claims_checked"] == 1
+
+
+def test_shift_birth_crosses_midnight():
+    result = shift_birth(
+        {"dob": "2000-01-01", "time": "19:13", "lat": 0, "lon": 0, "tz": "UTC"}
+    )
+    assert result["dob"] == "2000-01-02"
+    assert result["time"] == "07:13"
+
+
+def test_cast_decoy_moves_transit_date():
+    import zero_human_screen as zhs
+
+    item = {
+        "birth": {
+            "dob": "1953-12-17",
+            "time": "19:13",
+            "lat": 34.052,
+            "lon": -118.243,
+            "tz": "UTC",
+        },
+        "transit_date": "2026-01-01",
+    }
+    assert zhs.cast_decoy(item)["transit"]["transit_date"] == "2026-01-16"

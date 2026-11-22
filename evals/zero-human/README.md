@@ -8,11 +8,13 @@ readings and public resources only. It is a diagnostic, not a substitute for the
 ## What it runs
 
 - **A1 — deterministic chart-fact checks.** Extract chart-fact claims from each reading and
-  recompute them against the engine. A contradiction fails the reading. The current checker covers
-  degrees and dates, not sign or house claims; that limit is reported, not hidden.
-- **A2 — chart-swap.** Generate a reading from the real chart and one from a time-shifted decoy
-  chart. If the two readings make the same chart claims, the pipeline is not reading the chart.
-  A2 fails on identical texts.
+  recompute them against the engine. A contradiction fails the reading. The checker covers
+  degrees, dates, signs and houses; D10/D9 and transit claims are scoped when labelled, and
+  relative houses ("from Moon") are skipped. Aspects, yogas and dignities are not checked.
+- **A2 — chart-swap.** Generate a reading from the real chart and one from a shifted decoy chart
+  (12 hours and 15 days, transit date included). If the two readings make the same chart claims,
+  the pipeline is not reading the chart. A2 fails on identical texts and reads as "not exercised"
+  when either side asserts no numeric, sign or house claim.
 - **A4 — multi-model judge consistency.** Repeat a clause-level judge across three model families
   and K trials. Report agreement and judge errors. This is **consistency**, not quality, and never
   a validity claim.
@@ -54,3 +56,4 @@ The report is written to `<out>/report.md`; the machine-readable results to `<ou
 
 Full report: `results/2026-11-21-grounding-hy4-crossfamily/report.md`;
 interpretation: `results/2026-11-21-grounding-hy4-crossfamily/NOTES.md`.
+Post-hoc sign/house re-score on the saved texts: 93 claims, 0 contradictions.

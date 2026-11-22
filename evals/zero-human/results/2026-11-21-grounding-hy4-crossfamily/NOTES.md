@@ -41,3 +41,20 @@ not measure reading quality, correspondence to the person, or parity with a jyot
   reduced ephemeris accuracy.
 - A1 checks degrees and dates only; sign and house claims are not checked.
 - One corpus, one arm model, one run. A4 is a single panel at one set of efforts.
+
+## Post-hoc sign/house re-score (2026-11-22)
+
+The original run used the degree/date-only checker. The saved real and decoy texts were
+re-scored with the new scoped sign/house checker, without new model calls:
+
+- **93 sign/house claims** checked across real and decoy readings, **0 contradictions**.
+- **A1 exercised: 20/20** (was 16/20); every reading now has at least one checkable claim.
+- **A2 exercised: 18/20** combined numeric + sign/house (was 14/20); `v2-g-19` and
+  `v2-g-20` still assert no checkable claims.
+- The 12-hour decoy left most planetary signs unchanged, so sign-heavy A2 comparisons
+  had high overlap. The checker now shifts the decoy by 12 hours **and 15 days** (plus
+  the transit date) so signs actually diverge in future runs.
+
+This is a re-score, not a new run. Numeric date checks were excluded from the re-score
+because the readings embed `query date 2026-11-21` and the chart query date has since
+moved to 2026-11-22, which would flag the run-date footer as a fabricated date.

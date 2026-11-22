@@ -10,6 +10,7 @@ import json
 import pathlib
 import sys
 
+from chart_claims import check_claims
 from eval_arms import ChatClient, run_without
 from eval_runner import (
     _engine_provenance,
@@ -24,13 +25,12 @@ from eval_runner import (
 from eval_scoring import extract_numeric_claims, find_fabrications
 
 
-def shift_birth(birth: dict, hours: int = 12) -> dict:
-    """Return a copy of the birth data with the time shifted by `hours`."""
-    t = datetime.time.fromisoformat(birth["time"])
-    shifted = (
-        datetime.datetime.combine(datetime.date.min, t) + datetime.timedelta(hours=hours)
-    ).time()
+def shift_birth(birth: dict, hours: int = 12, days: int = 0) -> dict:
+    """Return a copy of the birth data shifted by `hours` and `days`."""
+    original = datetime.datetime.fromisoformat(f"{birth['dob']}T{birth['time']}")
+    shifted = original + datetime.timedelta(hours=hours, days=days)
     out = dict(birth)
+    out["dob"] = shifted.date().isoformat()
     out["time"] = shifted.strftime("%H:%M")
     return out
 
@@ -40,16 +40,30 @@ def chart_text_divergence(
 ) -> dict:
     """Compare a real-chart reading with a decoy-chart reading.
 
-    A1 is the real reading's fabrication list against the real chart. A2 passes
-    only when both readings assert at least one numeric chart claim, the two
-    claim sets share less than half their values, and — when the decoy chart is
-    supplied — the decoy reading fits its own chart. Identical texts always
-    fail: a chart-blind pipeline cannot distinguish the charts.
+    A1 is the real reading's contradiction list against the real chart: numeric
+    fabrications plus sign/house mismatches. A2 passes only when both readings
+    assert at least one chart claim (numeric, sign or house), the two claim sets
+    share less than half their values, and — when the decoy chart is supplied —
+    the decoy reading fits its own chart. Identical texts always fail: a
+    chart-blind pipeline cannot distinguish the charts.
     """
-    real_fab = find_fabrications(real_text, real_chart)
-    decoy_fab = find_fabrications(decoy_text, decoy_chart or real_chart)
-    real_claims = {c.lower() for c in extract_numeric_claims(real_text)}
-    decoy_claims = {c.lower() for c in extract_numeric_claims(decoy_text)}
+    real_check = check_claims(real_text, real_chart)
+    decoy_check = check_claims(decoy_text, decoy_chart or real_chart)
+    real_fab = find_fabrications(real_text, real_chart) + real_check["contradictions"]
+    decoy_fab = (
+        find_fabrications(decoy_text, decoy_chart or real_chart)
+        + decoy_check["contradictions"]
+    )
+    real_numeric = {c.lower() for c in extract_numeric_claims(real_text)}
+    decoy_numeric = {c.lower() for c in extract_numeric_claims(decoy_text)}
+    real_claims = real_numeric | {
+        f"{c.get('scope', '')}:{c['kind']}:{c['planet'].lower()}:{c['value']}"
+        for c in real_check["claims"]
+    }
+    decoy_claims = decoy_numeric | {
+        f"{c.get('scope', '')}:{c['kind']}:{c['planet'].lower()}:{c['value']}"
+        for c in decoy_check["claims"]
+    }
     union = real_claims | decoy_claims
     overlap = 1.0 if not union else len(real_claims & decoy_claims) / len(union)
     exercised = bool(real_claims) and bool(decoy_claims)
@@ -57,7 +71,8 @@ def chart_text_divergence(
     return {
         "real_fabrications": real_fab,
         "decoy_fabrications": decoy_fab,
-        "real_claims_checked": len(real_claims),
+        "real_claims_checked": len(real_numeric) + real_check["checked"],
+        "real_sign_house_checked": real_check["checked"],
         "claim_overlap": overlap,
         "exercised": exercised,
         "pass": exercised and overlap < 0.5 and fits_own_chart,
@@ -143,9 +158,14 @@ def judge_consistency(judge_client, item, entry, chart, text, judge_models, tria
     }
 
 
-def cast_decoy(item):
-    """Cast the time-shifted decoy, keeping any transit block the item names."""
-    return precompute_chart(dict(item, birth=shift_birth(item["birth"])))
+def cast_decoy(item, days=15):
+    """Cast a shifted decoy: 12 hours plus 15 days, and shift the transit date."""
+    decoy = dict(item, birth=shift_birth(item["birth"], days=days))
+    if item.get("transit_date"):
+        decoy["transit_date"] = (
+            datetime.date.fromisoformat(item["transit_date"]) + datetime.timedelta(days=days)
+        ).isoformat()
+    return precompute_chart(decoy)
 
 
 def screen_item(item, entry, client, doctrine_prompt, arm_model, budget, reasoning="none"):
@@ -168,6 +188,7 @@ def screen_item(item, entry, client, doctrine_prompt, arm_model, budget, reasoni
             "pass": not divergence["real_fabrications"] and claims_checked > 0,
             "fabrications": divergence["real_fabrications"],
             "claims_checked": claims_checked,
+            "sign_house_checked": divergence["real_sign_house_checked"],
             "exercised": claims_checked > 0,
         },
         "a2": divergence,
@@ -206,7 +227,7 @@ def write_report(payload, outdir):
         "",
         "## Per item",
         "",
-        "| Item | A1 | Claims | Fabrications | A2 | Claim overlap | A4 agreement | A4 clauses |",
+        "| Item | A1 | Claims | Contradictions | A2 | Claim overlap | A4 agreement | A4 clauses |",
         "|---|---|---|---|---|---|---|---|",
     ]
     for result in payload.get("items", []):
@@ -244,11 +265,14 @@ def write_report(payload, outdir):
             "",
             "## Limits",
             "",
-            "- A1 checks degree and date claims only. Sign and house claims are not checked.",
-            "- A1 counts a reading as pass only when it asserted at least one numeric claim; "
-            "zero claims read as not exercised.",
-            "- A2 requires both readings to assert at least one numeric claim; "
-            "otherwise it reads as not exercised, not chart-blind.",
+            "- A1 checks degrees, dates, signs and houses. Aspects, yogas and dignities are not checked.",
+            "- A1 scopes D10/D9 and transit claims when labelled; relative houses "
+            "(\"from Moon\") and ambiguous trailing-varga claims are skipped.",
+            "- A1 counts a reading as pass only when it asserted at least one checkable "
+            "claim; zero claims read as not exercised.",
+            "- A2 requires both readings to assert at least one numeric, sign or house "
+            "claim; otherwise it reads as not exercised, not chart-blind.",
+            "- A2 shifts birth time by 12 hours and date by 15 days so sign claims diverge.",
             "- A2 shows chart sensitivity, not chart truth.",
             "- A4 measures agreement among judges. A panel can agree on the same wrong verdict.",
             "- Nothing here measures reading quality or correspondence to the person.",
