@@ -323,3 +323,24 @@ def test_main_writes_partial_and_resumes(tmp_path, monkeypatch):
     assert [item["id"] for item in final["items"]] == ["v2-g-01", "v2-g-02"]
     assert GoodClient.calls == 6
     assert not (tmp_path / "partial.json").exists()
+
+
+def test_report_marks_unexercised_a2(tmp_path):
+    from zero_human_screen import write_report
+
+    write_report(
+        {
+            "items": [
+                {
+                    "id": "x",
+                    "a1": {"pass": False, "claims_checked": 0, "exercised": False, "fabrications": []},
+                    "a2": {"pass": False, "exercised": False, "claim_overlap": 1.0},
+                }
+            ],
+            "summary": {"a1": [0, 1], "a2": [0, 1], "a4": [0, 0], "tokens": 1},
+        },
+        str(tmp_path),
+    )
+    text = (tmp_path / "report.md").read_text()
+    assert "not exercised" in text
+    assert "A1 exercised: 0/1; A2 exercised: 0/1" in text

@@ -218,22 +218,37 @@ def write_report(payload, outdir):
             a1_status = "not exercised"
         else:
             a1_status = "pass" if a1.get("pass") else "fail"
+        if not a2.get("exercised", True):
+            a2_status = "not exercised"
+        else:
+            a2_status = "pass" if a2.get("pass") else "fail"
         a4_agreement = "not run" if a4 is None else format(a4.get("pairwise_agreement", 0), ".2f")
         a4_clauses = "not run" if a4 is None else format(a4.get("clause_agreement", 0), ".2f")
         lines.append(
             f"| {result.get('id', '?')} | {a1_status} | {a1.get('claims_checked', 0)} | {fab} "
-            f"| {'pass' if a2.get('pass') else 'fail'} "
+            f"| {a2_status} "
             f"| {a2.get('claim_overlap', 0):.2f} "
             f"| {a4_agreement} | {a4_clauses} |"
         )
+    item_count = len(payload.get("items", []))
+    a1_exercised = sum(
+        1 for r in payload.get("items", []) if r.get("a1", {}).get("exercised", True)
+    )
+    a2_exercised = sum(
+        1 for r in payload.get("items", []) if r.get("a2", {}).get("exercised", True)
+    )
     lines.extend(
         [
+            "",
+            f"A1 exercised: {a1_exercised}/{item_count}; A2 exercised: {a2_exercised}/{item_count}",
             "",
             "## Limits",
             "",
             "- A1 checks degree and date claims only. Sign and house claims are not checked.",
             "- A1 counts a reading as pass only when it asserted at least one numeric claim; "
             "zero claims read as not exercised.",
+            "- A2 requires both readings to assert at least one numeric claim; "
+            "otherwise it reads as not exercised, not chart-blind.",
             "- A2 shows chart sensitivity, not chart truth.",
             "- A4 measures agreement among judges. A panel can agree on the same wrong verdict.",
             "- Nothing here measures reading quality or correspondence to the person.",

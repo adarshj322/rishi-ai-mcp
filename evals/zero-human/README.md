@@ -50,4 +50,7 @@ The report is written to `<out>/report.md`; the machine-readable results to `<ou
 
 | date | commit | items | A1 pass | A2 pass | A4 agreement | notes |
 |---|---|---|---|---|---|---|
-| `__PENDING__` | `__PENDING__` | `__PENDING__` | `__PENDING__` | `__PENDING__` | `__PENDING__` | `__PENDING__` |
+| 2026-11-22 | `0dc419c` | 20 | 16/20 | 14/20 | 12/20 | `hy4-flash-free` max; 3 judges; 0 fabrications; A1/A2 clean when exercised; A4 unstable, 0 judge errors |
+
+Full report: `results/2026-11-21-grounding-hy4-crossfamily/report.md`;
+interpretation: `results/2026-11-21-grounding-hy4-crossfamily/NOTES.md`.

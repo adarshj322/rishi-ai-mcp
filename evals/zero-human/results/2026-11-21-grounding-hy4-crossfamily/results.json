@@ -1,0 +1,902 @@
+{
+ "config": {
+  "transport": "opencode-go",
+  "arm_model": "hy4-flash-free",
+  "arm_reasoning": "max",
+  "judge_models": [
+   "deepseek-v4.1-flash",
+   "muse-spark-1.3-contributor",
+   "beam-free"
+  ],
+  "judge_reasoning": {
+   "deepseek-v4.1-flash": "max",
+   "muse-spark-1.3-contributor": "xhigh",
+   "beam-free": "max"
+  },
+  "trials": 3,
+  "budget": 120000,
+  "items": "grounding.jsonl",
+  "generated_at": "2026-11-22T07:12:34.157905+00:00",
+  "engine": {
+   "dashaflow_version": "1.5.3",
+   "dashaflow_file": "/home/adarsh/cursorProjects/dashaflow/src/dashaflow/__init__.py"
+  }
+ },
+ "items": [
+  {
+   "id": "v2-g-01",
+   "a1": {
+    "pass": true,
+    "fabrications": [],
+    "claims_checked": 13,
+    "exercised": true
+   },
+   "a2": {
+    "real_fabrications": [],
+    "decoy_fabrications": [],
+    "real_claims_checked": 13,
+    "claim_overlap": 0.034482758620689655,
+    "exercised": true,
+    "pass": true
+   },
+   "real_text": "The 10th lord is Mars \u2014 GROUND \u2014 Lagna Aquarius; Mars is in Libra, house 9, and the yoga list states \u201cMars in Libra and Venus in Scorpio \u2014 mutual sign exchange,\u201d while Venus is in Scorpio, house 10 \u2014 STANCE endorse.\n\nRunning dasha at the query date is Vimshottari Saturn maha / Rahu antar / Moon pratyantar \u2014 GROUND \u2014 Saturn maha 2010-10-10 to 2029-10-10; Rahu antar 2024-05-22 to 2027-03-29; Moon pratyantar 2026-11-02 to 2027-01-28; query date 2026-11-21 \u2014 STANCE endorse.\n\n[interpretation] Career direction leans toward knowledge-based, advisory, teaching/mentoring, analytical, or institutional work rather than a purely title-focused track \u2014 GROUND \u2014 10th lord Mars in Libra house 9; Mercury and Venus in Scorpio house 10; yogas listed include Raj Yoga, Dhana Yoga by 5th/9th lords, Amala Yoga, and Saraswati Yoga \u2014 STANCE neutral.\n\n[interpretation] The next two years lean more toward consolidation, disciplined responsibility, and applying expertise than a sudden role change \u2014 GROUND \u2014 Saturn maha continues to 2029-10-10; Saturn is exalted in Libra house 9 with Yuva avastha; 10th lord Mars is Bala with shadbala 4.32 rupas / ratio .86 \u2014 STANCE neutral.\n\n[interpretation] The Rahu antar portion leans toward behind-the-scenes, research, remote/foreign, or institutional channels \u2014 GROUND \u2014 Rahu antar 2024-05-22 to 2027-03-29; Rahu in Capricorn house 12, retrograde and vargottama, D10 Virgo \u2014 STANCE neutral.\n\nFiner Vimshottari sub-period timing after 2027-03-29 cannot be determined from this chart \u2014 GROUND \u2014 dashas gives current antar/pratyantar windows but no later antar sequence; Saturn maha runs to 2029-10-10 \u2014 STANCE neutral.\n\nNo promotion is promised \u2014 GROUND \u2014 the provided dasha/yoga data gives periods and yoga conditions, not a promotion outcome; Mars as 10th lord is Bala with shadbala ratio .86 \u2014 STANCE endorse.\n\nGrounds appendix \u2014 Lagna Aquarius 15.69\u00b0; Mars Libra 5.17\u00b0, house 9, friend, Bala, shadbala 4.32/.86, D9/D10 Scorpio; Venus Scorpio 22.02\u00b0, house 10, yogakaraka, shadbala 6.02/1.09; Mercury Scorpio 17.14\u00b0, house 10; Saturn exalted Libra 13.06\u00b0, house 9; Rahu Capricorn 2.29\u00b0, house 12; listed yogas and dasha windows above.\n\nCalibration footer \u2014 withheld 0, flagged 0.  \nDisagreement log \u2014 none.  \nProvenance \u2014 engine dashaflow 1.5.1, plugin 1.6.0, Lahiri.",
+   "decoy_text": "CLAIM \u2014 [interpretation] Career direction leans toward skill-based, learning-led public contribution with a 4th-house base, rather than a guaranteed role change. \u2014 GROUND \u2014 Leo Lagna 24.68\u00b0; 10th lord Venus in Scorpio, house 4, 21.39\u00b0, friend, digbala true, Shadbala strong (5.93/5.5 rupas); Venus is Amatyakaraka at 21.38898\u00b0; Saraswati Yoga is listed for learning/wisdom. \u2014 STANCE \u2014 neutral\n\nCLAIM \u2014 [interpretation] The 10th lord supports steady career expression: Venus aspects Taurus, the 10th house, and the chart lists Raj Yoga by aspect plus Amala Yoga for Jupiter in the 10th. \u2014 GROUND \u2014 Venus aspects Taurus; yogas: \u201cRaj Yoga (by aspect)\u201d Venus\u2013Jupiter and \u201cAmala Yoga\u201d Jupiter in 10th from Lagna; Venus Shadbala is_strong true, ratio 1.08. \u2014 STANCE \u2014 neutral\n\nCLAIM \u2014 [interpretation] Over the queried two-year span, the running dasha leans to disciplined skill use and intellect/commerce/skill themes; the exact main-sequence sub-period after 2027-12-05 cannot be determined from the supplied JSON. \u2014 GROUND \u2014 Query date 2026-11-21; main dasha Saturn maha 2021-02-12 to 2040-02-13; Ketu antar 2026-10-26 to 2027-12-05; Venus pratyantar 2026-11-19 to 2027-01-25; Chara Sun maha 2025-12-17 to 2033-12-17 with Mercury antar 2026-11-07 to 2027-12-18; Yogini Mercury maha 2023-07-02 to 2028-07-02, temperament \u201cintellect, commerce, skill\u201d; Saturn exalted in Libra, house 3, Shadbala strong (5.12/5.0). \u2014 STANCE \u2014 neutral\n\nCLAIM \u2014 I cannot determine a promotion from this chart, and I am not promising one. \u2014 GROUND \u2014 The supplied yogas and dasha fields state combinations and windows only; no provided field states a promotion outcome. \u2014 STANCE \u2014 endorse\n\nGROUNDS APPENDIX \u2014 Leo Lagna 24.68\u00b0; Venus: Scorpio, house 4, 21.39\u00b0, friend, digbala true, Shadbala 5.93/5.5, D10 Aquarius; Jupiter: Taurus, house 10, 27.69\u00b0, great_enemy, retrograde; Saturn maha 2021-02-12\u20142040-02-13; Ketu antar 2026-10-26\u20142027-12-05; Venus pratyantar 2026-11-19\u20142027-01-25; Chara Sun 2025-12-17\u20142033-12-17 / Mercury 2026-11-07\u20142027-12-18; Yogini Mercury 2023-07-02\u20142028-07-02. \u2014 STANCE \u2014 neutral\n\nCALIBRATION FOOTER \u2014 withheld 0, flagged 0 \u2014 STANCE \u2014 neutral\n\nDISAGREEMENT LOG \u2014 none \u2014 STANCE \u2014 neutral\n\nPROVENANCE LINE \u2014 engine dashaflow 1.5.1, plugin 1.6.0, Lahiri \u2014 STANCE \u2014 neutral",
+   "tokens": 56265,
+   "a4": {
+    "per_model": {
+     "deepseek-v4.1-flash": {
+      "pass": 3,
+      "n": 3,
+      "agreement": 1.0
+     },
+     "muse-spark-1.3-contributor": {
+      "pass": 3,
+      "n": 3,
+      "agreement": 1.0
+     },
+     "beam-free": {
+      "pass": 3,
+      "n": 3,
+      "agreement": 1.0
+     }
+    },
+    "pairwise_agreement": 1.0,
+    "clause_agreement": 1.0,
+    "judge_errors": 0,
+    "pass": true
+   }
+  },
+  {
+   "id": "v2-g-02",
+   "a1": {
+    "pass": true,
+    "fabrications": [],
+    "claims_checked": 10,
+    "exercised": true
+   },
+   "a2": {
+    "real_fabrications": [],
+    "decoy_fabrications": [],
+    "real_claims_checked": 10,
+    "claim_overlap": 0.0,
+    "exercised": true,
+    "pass": true
+   },
+   "real_text": "- CLAIM \u2014 [interpretation] Career direction over the asked period leans toward steady, responsibility-heavy work rather than a sudden title jump. \u2014 GROUND \u2014 Lagna Aries; 10th lord Saturn is in Capricorn, house 10, own_sign, retrograde, vargottama; Shasha Yoga notes Saturn in own/exalted sign in the 10th with delayed/unconventional results. \u2014 STANCE \u2014 neutral.\n\n- CLAIM \u2014 [interpretation] The next two years lean more toward restructuring the work lane\u2014remote/foreign/background institutions, research, or advisory work\u2014than a linear climb. \u2014 GROUND \u2014 Running Vimshottari dasha: Rahu maha 2026-05-23 to 2044-05-22 and Rahu antar 2026-05-23 to 2029-02-02; Rahu is in Pisces, house 12, retrograde. \u2014 STANCE \u2014 neutral.\n\n- CLAIM \u2014 [interpretation] The professional style most supported is structured expertise with a quiet, specialized, welfare, or creative expression. \u2014 GROUND \u2014 D10 Lagna Taurus; Amatyakaraka Venus in Pisces, house 12, exalted, D10 Cancer; Saturn is marked strong by shadbala, total_rupas 5.77 vs required 5.0. \u2014 STANCE \u2014 neutral.\n\n- CLAIM \u2014 [interpretation] Fine timing inside the two years is only partly available; I cannot determine the full pratyantar sequence after 2027-02-26 from the supplied data. \u2014 GROUND \u2014 Current pratyantar Jupiter 2026-10-18 to 2027-02-26; sukshma Saturn 2026-11-04 to 2026-11-25; prana Rahu 2026-11-19 to 2026-11-22. \u2014 STANCE \u2014 neutral.\n\n- CLAIM \u2014 [interpretation] No promotion is promised by these grounds. \u2014 GROUND \u2014 The supplied yogas and dasha windows give strength, yoga, and timing conditions, but no promotion-specific condition; query_date is 2026-11-21. \u2014 STANCE \u2014 endorse.\n\nGrounds appendix \u2014 Lagna Aries 5.49; Saturn Capricorn 0.32, house 10, own_sign, retrograde, vargottama, shadbala strong; Shasha Yoga; Rahu Pisces 19.77, house 12, retrograde; Vimshottari Rahu/Rahu dates above; D10 Lagna Taurus; Amatyakaraka Venus Pisces, house 12, exalted, D10 Cancer.\n\nCalibration footer \u2014 withheld 0, flagged 0  \nDisagreement log \u2014 none  \nProvenance \u2014 engine dashaflow 1.5.1, plugin 1.6.0, Lahiri",
+   "decoy_text": "CLAIM \u2014 [interpretation] Career direction leans toward analytical, advisory, communication-heavy work with research/transformation themes, not a simple linear climb. \u2014 GROUND \u2014 Lagna Virgo 20.36; 10th lord Mercury in Aries, house 8, friend, retrograde, 10.72\u00b0, Kumara, shadbala ratio 0.59/is_strong false; Mercury conjoins exalted Sun in Aries, Budhaditya Yoga; Jupiter in Gemini, house 10, Amala Yoga. \u2014 STANCE \u2014 neutral\n\nCLAIM \u2014 [interpretation] Credibility and responsibility lean more toward ethical guidance, mentoring, teaching, or advisory output than rapid title change. \u2014 GROUND \u2014 Jupiter in house 10, 23.78\u00b0, neutral, Vriddha strength_factor 0.5; Mercury retrograde/Kumara with shadbala ratio 0.59. \u2014 STANCE \u2014 neutral\n\nCLAIM \u2014 [interpretation] Partnership or client-facing channels also color career expression. \u2014 GROUND \u2014 Amatyakaraka Venus in Pisces, house 7, 26.901\u00b0, exalted, vargottama, shadbala is_strong true/ratio 1.15; Malavya and Lakshmi Yoga listed. \u2014 STANCE \u2014 neutral\n\nCLAIM \u2014 Running Vimshottari dasha is Rahu maha, 2019-04-24 to 2037-04-23; Saturn antar, 2024-05-29 to 2027-04-05; Jupiter pratyantar, 2026-11-18 to 2027-04-05; Jupiter sukshma, 2026-11-18 to 2026-12-06. \u2014 GROUND \u2014 dashas object windows. \u2014 STANCE \u2014 neutral\n\nCLAIM \u2014 [interpretation] This sequence leans toward consolidation, restructuring, and steady professional reworking; results lean gradual rather than instant. \u2014 GROUND \u2014 cited dasha windows; Jupiter Vriddha in house 10; Mercury retrograde/Kumara/shadbala ratio 0.59. \u2014 STANCE \u2014 neutral\n\nCLAIM \u2014 The chart data cannot determine the Vimshottari sub-period after 2027-04-05; it only supplies chara dasha Mercury antar in Gemini, 2026-10-26 to 2028-01-31, within Mars/Ketu maha, 2020-05-12 to 2030-05-12. \u2014 GROUND \u2014 dashas antar end date; chara_dasha windows. \u2014 STANCE \u2014 neutral\n\nCLAIM \u2014 I do not promise a promotion; promotion outcome cannot be determined from this JSON. \u2014 GROUND \u2014 yogas list has career yogas but no promotion-specific condition; dasha windows give timing themes only. \u2014 STANCE \u2014 endorse\n\nGrounds appendix \u2014 Virgo Lagna 20.36/Hasta; Jupiter Gemini h10 23.78\u00b0; Mercury Aries h8 10.72\u00b0 retrograde; Sun Aries h8 28.02\u00b0 exalted; Venus Pisces h7 26.901\u00b0 exalted/vargottama; dasha and chara dasha windows cited above.\n\nCalibration footer \u2014 withheld 1, flagged 0.  \nDisagreement log \u2014 none.  \nProvenance \u2014 engine dashaflow 1.5.1, plugin 1.6.0, Lahiri.",
+   "tokens": 47128,
+   "a4": {
+    "per_model": {
+     "deepseek-v4.1-flash": {
+      "pass": 3,
+      "n": 3,
+      "agreement": 1.0
+     },
+     "muse-spark-1.3-contributor": {
+      "pass": 3,
+      "n": 3,
+      "agreement": 1.0
+     },
+     "beam-free": {
+      "pass": 3,
+      "n": 3,
+      "agreement": 1.0
+     }
+    },
+    "pairwise_agreement": 1.0,
+    "clause_agreement": 1.0,
+    "judge_errors": 0,
+    "pass": true
+   }
+  },
+  {
+   "id": "v2-g-03",
+   "a1": {
+    "pass": true,
+    "fabrications": [],
+    "claims_checked": 22,
+    "exercised": true
+   },
+   "a2": {
+    "real_fabrications": [],
+    "decoy_fabrications": [],
+    "real_claims_checked": 22,
+    "claim_overlap": 0.02857142857142857,
+    "exercised": true,
+    "pass": true
+   },
+   "real_text": "[interpretation] CLAIM \u2014 Marriage timing leans to a window from late 2026 through 2027, with the clearest supplied dasha overlap around 2026-11-12\u20132026-12-12 and continuing Jupiter/Pisces support to 2027-09-03; no exact date is guaranteed. \u2014 GROUND \u2014 Chara maha Jupiter/Sagittarius 2024-06-12\u20132033-06-13; Chara antar Jupiter/Pisces 2026-11-12\u20132027-09-03; Yogini Venus pratyantar 2026-10-24\u20132026-12-12; Vimshottari Venus sukshma 2026-11-14\u20132026-11-22; Vimshottari Sun antar 2026-06-26\u20132027-06-08. \u2014 STANCE \u2014 endorse.\n\n[interpretation] CLAIM \u2014 The 7th-house picture leans to relationship significance with friction or slower delivery, not an easy promise. \u2014 GROUND \u2014 Aries Lagna 23.95\u00b0 makes Libra the 7th; Moon occupies Libra 7th at 4.65\u00b0, enemy, Darakaraka, Bala avastha strength_factor 0.25, vimshopaka weak 7.8. 7th lord Venus is in Gemini 3rd at 15.57\u00b0, neutral, with Mercury 11.22\u00b0; Venus is Yuva strength_factor 1.0 but shadbala ratio 0.83 and 4.59/5.5 rupas. \u2014 STANCE \u2014 neutral.\n\n[interpretation] CLAIM \u2014 D9 evidence is mixed. \u2014 GROUND \u2014 Darakaraka Moon D9 Scorpio, vimshopaka D9 1.25/viswa 5 marked debilitated; 7th lord Venus D9 Aquarius neutral; Upapada is Sagittarius with lord Jupiter, whose D9 is Pisces own-sign, vimshopaka D9 5.0/viswa 20. \u2014 STANCE \u2014 neutral.\n\n[interpretation] CLAIM \u2014 The running dashas favor Jupiter/Venus as timing keys, so the above window is a leaning, not a fixed event date. \u2014 GROUND \u2014 As of query date 2026-11-21: Vimshottari Saturn maha 2016-07-04\u20132035-07-05, Sun antar 2026-06-26\u20132027-06-08, Jupiter pratyantar 2026-10-22\u20132026-12-08; Yogini Mercury maha 2026-08-07\u20132031-08-07 and Mercury antar 2026-08-07\u20132027-04-18. \u2014 STANCE \u2014 endorse.\n\nGrounds appendix \u2014 Aries Lagna 23.95\u00b0; Libra 7th: Moon 4.65\u00b0 enemy/DK/D9 Scorpio; Venus 7th lord Gemini 3rd 15.57\u00b0 neutral/D9 Aquarius; Mercury Gemini 3rd 11.22\u00b0; UL Sagittarius, 2nd Capricorn, UL lord Jupiter D9 Pisces; dasha windows listed above.\n\nCalibration footer \u2014 withheld 0, flagged 1 (metadata: reduced ephemeris accuracy).\n\nDisagreement log \u2014 none.\n\nProvenance \u2014 engine dashaflow 1.5.1, plugin 1.6.0, Lahiri.",
+   "decoy_text": "CLAIM \u2014 [interpretation] Marriage timing leans to the current Saturn\u2013Venus period, broadly 2026-06-10 to 2029-08-10; a nearer activation is Venus\u2013Venus up to 2026-12-20, with a secondary Jupiter cross-check from 2026-10-08 to 2027-07-26. \u2014 GROUND \u2014 Query date 2026-11-21; Vimshottari Saturn maha 2019-08-19\u20132038-08-19, Venus antar 2026-06-10\u20132029-08-10, Venus pratyantar 2026-06-10\u20132026-12-20; Chara Jupiter maha 2025-06-12\u20132031-06-13 and Jupiter antar 2026-10-08\u20132027-07-26. \u2014 STANCE \u2014 neutral\n\nCLAIM \u2014 [interpretation] The 7th-house/lord pattern supports relationship activation but with delay or intensity rather than a simple, clean date. \u2014 GROUND \u2014 Lagna Scorpio 20.26; 7th house Taurus contains Mars 11.41\u00b0 friend/combust and Sun 27.60\u00b0 neutral; 7th lord Venus is in Gemini house 8 at 14.96\u00b0, neutral, Yuva/full vigor. \u2014 STANCE \u2014 neutral\n\nCLAIM \u2014 [interpretation] D9 leans toward marriage being shown through the spouse-significator/Upapada axis, with an unconventional or Saturn-toned partner theme. \u2014 GROUND \u2014 D9 Lagna Capricorn; no planet listed in D9 Cancer, the 7th from D9 Lagna; D9 7th lord Moon is in D9 Virgo with Sun; Darakaraka Jupiter is in D9 Pisces at 7.21\u00b0; Venus D9 Aquarius matches Upapada Aquarius; Upapada lord Saturn is D9 Pisces and 2nd from UL is Pisces. \u2014 STANCE \u2014 neutral\n\nCLAIM \u2014 [interpretation] A guaranteed date is not supportable; these are dasha windows and chart tendencies only. \u2014 GROUND \u2014 Dasha entries provide start/end windows, and the provided JSON contains no event-date field. \u2014 STANCE \u2014 endorse\n\nGrounds appendix (used): Scorpio Lagna 20.26; Taurus 7th: Mars 11.41 combust/friend, Sun 27.60 neutral; Venus Gemini 8th, D9 Aquarius, Yuva; D9 Lagna Capricorn, Moon/Sun D9 Virgo, Darakaraka Jupiter D9 Pisces; Upapada Aquarius, 2nd Pisces; Vimshottari Saturn/Venus/Venus and Chara Jupiter/Jupiter windows above.\n\nCalibration footer: withheld 0, flagged 0.  \nDisagreement log: none.  \nProvenance: engine dashaflow 1.5.1, plugin 1.6.0, Lahiri.",
+   "tokens": 44766,
+   "a4": {
+    "per_model": {
+     "deepseek-v4.1-flash": {
+      "pass": 2,
+      "n": 3,
+      "agreement": 0.3333333333333333
+     },
+     "muse-spark-1.3-contributor": {
+      "pass": 3,
+      "n": 3,
+      "agreement": 1.0
+     },
+     "beam-free": {
+      "pass": 1,
+      "n": 3,
+      "agreement": 0.3333333333333333
+     }
+    },
+    "pairwise_agreement": 0.5,
+    "clause_agreement": 0.8333333333333334,
+    "judge_errors": 0,
+    "pass": false
+   }
+  },
+  {
+   "id": "v2-g-04",
+   "a1": {
+    "pass": true,
+    "fabrications": [],
+    "claims_checked": 15,
+    "exercised": true
+   },
+   "a2": {
+    "real_fabrications": [],
+    "decoy_fabrications": [],
+    "real_claims_checked": 15,
+    "claim_overlap": 0.03333333333333333,
+    "exercised": true,
+    "pass": true
+   },
+   "real_text": "CLAIM \u2014 [interpretation] From the current 2026-11-21 dasha state, marriage/commitment leans first to 2026-11-05\u20132027-03-16, with a broader window through 2028-10-23 \u2014 GROUND \u2014 Vimshottari Mercury maha 2014-07-03\u20132031-07-03; Jupiter antar 2026-07-18\u20132028-10-23; Saturn pratyantar 2026-11-05\u20132027-03-16 \u2014 STANCE \u2014 neutral.\n\nCLAIM \u2014 [interpretation] The 7th house makes marriage a live theme rather than a casual one \u2014 GROUND \u2014 Lagna Cancer; 7th-house Capricorn contains Moon 12.12, Mercury 12.35, Sun 19.06, Venus 19.07; Moon/Mercury/Venus are combust and Sun is great_enemy by dignity \u2014 STANCE \u2014 neutral.\n\nCLAIM \u2014 [interpretation] The 7th lord\u2019s placement leans to a mature, private, or distance-colored commitment \u2014 GROUND \u2014 Saturn, lord of Capricorn/7th, is in Gemini, house 12, at 26.72, retrograde, vargottama, and Atmakaraka \u2014 STANCE \u2014 neutral.\n\nCLAIM \u2014 [interpretation] D9 supports marriage significance but not a clean fixed date \u2014 GROUND \u2014 D9 Lagna Cancer; 7th lord Saturn is D9 Gemini and vargottama; Darakaraka Jupiter is D9 Scorpio; 7th-house occupants have D9 signs Moon/Mercury Aries and Sun/Venus Gemini \u2014 STANCE \u2014 neutral.\n\nCLAIM \u2014 [interpretation] Jupiter\u2019s antar is the broader marriage-favoring layer \u2014 GROUND \u2014 Jupiter is Darakaraka at Libra 4.12, D9 Scorpio; Mercury, the maha lord, occupies 7th-house Capricorn and forms the listed Parivartana Yoga (Khala) with Saturn \u2014 STANCE \u2014 neutral.\n\nCLAIM \u2014 [interpretation] The late-2026/early-2027 peak is also supported by overlapping non-Vimshottari timers \u2014 GROUND \u2014 Chara Mercury maha Gemini 2024-02-02\u20132031-02-02 with Saturn/Rahu antar 2026-03-24\u20132027-01-02; Yogini Mars/Rahu 2026-05-17\u20132027-04-07 and Mercury pratyantar 2026-10-26\u20132026-12-10 \u2014 STANCE \u2014 neutral.\n\nCLAIM \u2014 No exact marriage date can be guaranteed or determined from this chart \u2014 GROUND \u2014 the computed data provides dasha windows and placements only, with no marriage-event date field \u2014 STANCE \u2014 endorse.\n\nGrounds appendix \u2014 Lagna Cancer 0.29, D9 Cancer; 7th Capricorn planets: Moon/Mercury/Sun/Venus; Saturn Gemini 26.72, house 12, D9 Gemini; Jupiter Libra 4.12, Darakaraka, D9 Scorpio; dasha windows as cited above.\n\nCalibration footer \u2014 withheld 0, flagged 0  \nDisagreement log \u2014 none  \nProvenance \u2014 engine dashaflow 1.5.1, plugin 1.6.0, Lahiri.",
+   "decoy_text": "- CLAIM: [interpretation] Marriage leans toward a near-term activation, not a fixed date \u2014 GROUND: Lagna Scorpio 10.95\u00b0; 7th sign Taurus; 7th lord Venus in Capricorn house 3 at 18.44\u00b0, combust, neutral, shadbala 3.75/5.5 required; D9 Lagna Libra, Mercury in D9 Aries, Mars in D9 Taurus \u2014 STANCE: endorse.\n\n- CLAIM: [interpretation] The 7th-house/lord picture is mixed rather than absent \u2014 GROUND: no natal planet is listed in Taurus; Venus as 7th lord is in Capricorn h3, combust, D9 Gemini; Upapada is Cancer with Moon as lord and 2nd-from-UL Leo \u2014 STANCE: neutral.\n\n- CLAIM: [interpretation] D9 supports relationship activation \u2014 GROUND: D9 Lagna Libra; D9 7th Aries occupied by Mercury; D9 7th lord Mars in Taurus; Darakaraka Jupiter in Libra h12 at 4.10\u00b0, D9 Scorpio \u2014 STANCE: neutral.\n\n- CLAIM: [interpretation] The best-supported likely window is the remaining current Mars antar, 2026-11-21 to 2027-07-22, with overlap to 2027-10-03 and a broader field to 2030-09-21 \u2014 GROUND: Vimshottari Mercury maha 2018-01-23\u20132035-01-24; Mars antar 2026-07-25\u20132027-07-22; Mercury occupies D9 7th Aries and Mars is D9 7th lord; Chara Saturn/Rahu antar 2026-11-12\u20132027-10-03; Yogini Mars/Bhramari maha 2026-09-21\u20132030-09-21 \u2014 STANCE: neutral.\n\n- CLAIM: [interpretation] A shorter activation is running now, but it is not an event guarantee \u2014 GROUND: Jupiter pratyantar 2026-10-08\u20132026-11-26 within Mercury/Mars; Jupiter is Darakaraka at Libra h12 4.10\u00b0, D9 Scorpio; query date 2026-11-21 falls in this window \u2014 STANCE: endorse.\n\n- CLAIM: No exact wedding date can be asserted \u2014 GROUND: the data supplies placements and dasha windows only; Venus is combust/weak by shadbala 3.75/5.5, and Mars as D9 7th lord is in D9 Taurus with rashi shadbala 6.18/5.0 \u2014 STANCE: endorse.\n\n**Grounds appendix:** Scorpio Lagna 10.95\u00b0, D9 Libra; 7th Taurus; Venus Capricorn h3 18.44\u00b0, combust, D9 Gemini; Mercury Capricorn h3 11.52\u00b0, combust, D9 Aries; Mars Gemini h8 23.81\u00b0, D9 Taurus; Jupiter Libra h12 4.10\u00b0, Darakaraka, D9 Scorpio; UL Cancer; dasha windows above.\n\n**Calibration footer:** withheld 0, flagged 0  \n**Disagreement log:** none  \n**Provenance:** engine dashaflow 1.5.1, plugin 1.6.0, Lahiri",
+   "tokens": 53203,
+   "a4": {
+    "per_model": {
+     "deepseek-v4.1-flash": {
+      "pass": 3,
+      "n": 3,
+      "agreement": 1.0
+     },
+     "muse-spark-1.3-contributor": {
+      "pass": 3,
+      "n": 3,
+      "agreement": 1.0
+     },
+     "beam-free": {
+      "pass": 3,
+      "n": 3,
+      "agreement": 1.0
+     }
+    },
+    "pairwise_agreement": 1.0,
+    "clause_agreement": 1.0,
+    "judge_errors": 0,
+    "pass": true
+   }
+  },
+  {
+   "id": "v2-g-05",
+   "a1": {
+    "pass": true,
+    "fabrications": [],
+    "claims_checked": 3,
+    "exercised": true
+   },
+   "a2": {
+    "real_fabrications": [],
+    "decoy_fabrications": [],
+    "real_claims_checked": 3,
+    "claim_overlap": 0.0,
+    "exercised": true,
+    "pass": true
+   },
+   "real_text": "CLAIM \u2014 I can describe tendencies only; this chart does not support a medical diagnosis. \u2014 GROUND \u2014 Computed fields give placements, yogas, avasthas and shadbala, not medical findings; you also asked not to diagnose. \u2014 STANCE \u2014 endorse.\n\nCLAIM \u2014 [interpretation] The 6th-house side of health leans toward resilience around obstacles rather than a specific health hotspot. \u2014 GROUND \u2014 bhava_chalit lists no planet in bhava_house 6; yoga list states \u201cLord of house 6 (Mars) placed in house 12 (dusthana in dusthana)\u201d as Viparita Raj Yoga. \u2014 STANCE \u2014 neutral.\n\nCLAIM \u2014 Mars, the 6th-house lord named in that yoga condition, is comparatively strong. \u2014 GROUND \u2014 Mars in Libra 15.96\u00b0, friend, Yuva avastha strength_factor 1.0; shadbala is_strong true, ratio 1.10, 5.48 rupas vs required 5.0. \u2014 STANCE \u2014 neutral.\n\nCLAIM \u2014 [interpretation] Mars\u2019 strength leans toward active capacity to meet health obstacles, while its bhava 12 placement suggests a behind-the-scenes theme; any specific condition cannot be determined from this chart. \u2014 GROUND \u2014 Mars bhava_house 12/rashi_house 12; Viparita Raj Yoga condition above; no diagnostic field present. \u2014 STANCE \u2014 neutral.\n\nCLAIM \u2014 [interpretation] The 8th-house side leans toward change being processed through thought, speech and belief rather than a localized physical indication. \u2014 GROUND \u2014 Lagna Scorpio 18.14; bhava_chalit lists no planet in bhava_house 8; Mercury in Sagittarius 2.01\u00b0, house 2/bhava 1 shifted, combust, enemy, Gandanta, Bala avastha 0.25, shadbala ratio 0.62/is_strong false. \u2014 STANCE \u2014 neutral.\n\nCLAIM \u2014 [interpretation] Sun is less supportive as a steady vitality indicator than Mars in this dataset. \u2014 GROUND \u2014 Sun in Scorpio 27.2\u00b0, house 1, great_friend, but Mrita avastha 0.125, Gandanta, shadbala is_strong false, ratio 0.85, 5.55 rupas vs required 6.5; Mars ratio 1.10/is_strong true. \u2014 STANCE \u2014 neutral.\n\nCLAIM \u2014 [interpretation] Overall symbolism leans to \u201cstrong Mars, weak-to-moderate Sun\u201d: drive is stronger than steady radiance; this is not medical advice. \u2014 GROUND \u2014 Mars and Sun shadbala/avastha above; for health concerns, defer to a qualified clinician. \u2014 STANCE \u2014 endorse.\n\nGrounds appendix: Lagna Scorpio 18.14; bhava_chalit: no bhava 6 or 8 planets, Mars bhava 12, Mercury bhava 1/rashi 2 shifted; Mars Libra 15.96\u00b0, Yuva, strong shadbala; Sun Scorpio 27.2\u00b0, Mrita, Gandanta, not strong; Mercury Sagittarius 2.01\u00b0, combust, enemy, Bala, Gandanta, not strong; Viparita Raj Yoga condition.\n\nCalibration footer: withheld 1, flagged 0.  \nDisagreement log: none.  \nProvenance: engine dashaflow 1.5.1, plugin 1.6.0, Lahiri.",
+   "decoy_text": "CLAIM \u2014 Scope: no diagnosis or treatment advice is made here. \u2014 GROUND \u2014 User request: \u201cdo not diagnose\u201d; chart data contains placements/strengths, not medical findings. \u2014 STANCE endorse\n\nCLAIM \u2014 [interpretation] Health stamina leans variable: Sun\u2019s delivery is reduced while Mars is comparatively strong. \u2014 GROUND \u2014 Sun in Scorpio 27.71\u00b0, Gandanta, Mrita avastha factor 0.125, shadbala 4.73/6.5 rupas, ratio 0.73, is_strong=false; Mars in Libra 16.29\u00b0, friend, Yuva factor 1.0, yogakaraka, shadbala 5.6/5.0, ratio 1.12, is_strong=true, dig_bala=0. \u2014 STANCE neutral\n\nCLAIM \u2014 [interpretation] The 6th house leans toward stress around routine, effort, and conflict-processing, with some recovery support from its lord. \u2014 GROUND \u2014 6th from Cancer Lagna is Sagittarius; Mercury there at 2.8\u00b0, enemy, combust, Gandanta, shadbala ratio 0.48; Venus at 23.67\u00b0, enemy, Vriddha; bhava-chalit keeps Mercury in 6th and shifts Venus to 7th; 6th lord Jupiter in Leo 2nd aspects Sagittarius, shadbala ratio 0.73. \u2014 STANCE neutral\n\nCLAIM \u2014 The Sun is not an 8th-house occupant; its health signal is read from Scorpio 5th and its strength. \u2014 GROUND \u2014 Cancer Lagna makes 8th=Aquarius; Sun is listed in Scorpio, house 5, 27.71\u00b0. \u2014 STANCE neutral\n\nCLAIM \u2014 [interpretation] The 8th house does not support saying occupancy is driving health tendencies; its theme is tied more to Saturn. \u2014 GROUND \u2014 8th from Lagna is Aquarius with no planet listed; 8th lord Saturn is in Scorpio 5th, neutral, shadbala ratio 1.14, is_strong=true, but Bala avastha factor 0.25. \u2014 STANCE neutral\n\nCLAIM \u2014 [interpretation] Mars is the clearer supportive factor for physical drive, but it does not erase Sun\u2019s reduced strength or 6th-house strain; specifics cannot be determined from this chart. \u2014 GROUND \u2014 Mars strong as above; Sun weak by Mrita/Gandanta/shadbala; Mercury combust in 6th; Venus enemy in 6th by rashi. \u2014 STANCE neutral\n\nGrounds appendix: Cancer Lagna 1.09\u00b0; 6th Sagittarius: Mercury 2.8\u00b0, Venus 23.67\u00b0; 6th lord Jupiter Leo 8.23\u00b0 aspecting Sagittarius; 8th Aquarius empty; 8th lord Saturn Scorpio 3.69\u00b0; Sun Scorpio 27.71\u00b0; Mars Libra 16.29\u00b0.\n\nCalibration footer: withheld 1, flagged 0  \nDisagreement log: none  \nProvenance: engine dashaflow 1.5.1, plugin 1.6.0, Lahiri.",
+   "tokens": 50477,
+   "a4": {
+    "per_model": {
+     "deepseek-v4.1-flash": {
+      "pass": 3,
+      "n": 3,
+      "agreement": 1.0
+     },
+     "muse-spark-1.3-contributor": {
+      "pass": 3,
+      "n": 3,
+      "agreement": 1.0
+     },
+     "beam-free": {
+      "pass": 3,
+      "n": 3,
+      "agreement": 1.0
+     }
+    },
+    "pairwise_agreement": 1.0,
+    "clause_agreement": 1.0,
+    "judge_errors": 0,
+    "pass": true
+   }
+  },
+  {
+   "id": "v2-g-06",
+   "a1": {
+    "pass": true,
+    "fabrications": [],
+    "claims_checked": 4,
+    "exercised": true
+   },
+   "a2": {
+    "real_fabrications": [],
+    "decoy_fabrications": [],
+    "real_claims_checked": 4,
+    "claim_overlap": 0.0,
+    "exercised": true,
+    "pass": true
+   },
+   "real_text": "CLAIM \u2014 No specific medical diagnosis or cause can be determined from this chart. \u2014 GROUND \u2014 Natal 6th Virgo and 8th Scorpio have no listed planetary occupants; the JSON supplies planetary, yoga, dasha and strength data, not medical diagnostic data. \u2014 STANCE: endorse.\n\nCLAIM \u2014 [interpretation] The health tendency leans subtle rather than strongly foregrounded, because the 6th and 8th houses are unoccupied by planets. \u2014 GROUND \u2014 Aries Lagna 28.11\u00b0; no planet has bhava_house 6 or 8; Jupiter aspects Virgo, the 6th, and Moon aspects Scorpio, the 8th; Mars aspects Gemini/Cancer/Pisces and Sun aspects Cancer. \u2014 STANCE: neutral.\n\nCLAIM \u2014 [interpretation] The 6th-house/Roga Pada axis leans sensitive and variable rather than uniformly weak. \u2014 GROUND \u2014 Roga Pada A6 is Taurus; Moon is exalted in Taurus at 0.06\u00b0 but in Bala avastha, strength_factor 0.25, with shadbala ratio 0.9 and not marked strong. \u2014 STANCE: neutral.\n\nCLAIM \u2014 [interpretation] The 8th-axis reads as deep-transformation themes, not a health verdict. \u2014 GROUND \u2014 A8 Pada is Capricorn, containing Sun, Mercury, Jupiter, Saturn and Ketu; Saturn is own-sign but combust, Jupiter is debilitated with Neecha Bhanga Raja Yoga, and Sun is strong by shadbala. \u2014 STANCE: neutral.\n\nCLAIM \u2014 [interpretation] Solar vitality is supported overall but not smoothly expressed. \u2014 GROUND \u2014 Sun in Capricorn 1.53\u00b0, great_enemy, vargottama, digbala, shadbala 6.8 rupas vs required 6.5, ratio 1.05, is_strong true; however avastha is Bala with strength_factor 0.25. \u2014 STANCE: neutral.\n\nCLAIM \u2014 [interpretation] Martial stamina/ drive leans mixed: dignified and karmically prominent, yet not strong in delivery. \u2014 GROUND \u2014 Mars in Sagittarius 23.19\u00b0, great_friend, Amatyakaraka, combust, Vriddha avastha strength_factor 0.5; shadbala 4.48 rupas vs required 5.0, ratio 0.9, is_strong false. \u2014 STANCE: neutral.\n\nGrounds appendix \u2014 Aries Lagna 28.11\u00b0; 6th Virgo and 8th Scorpio unoccupied; A6 Taurus, A8 Capricorn; Jupiter aspect Virgo; Moon aspect Scorpio; Sun Capricorn 1.53\u00b0; Mars Sagittarius 23.19\u00b0; Moon Taurus 0.06\u00b0 exalted/Bala.\n\nCalibration footer \u2014 withheld 1, flagged 0.\n\nDisagreement log \u2014 none.\n\nProvenance \u2014 engine dashaflow 1.5.1, plugin 1.6.0, Lahiri.",
+   "decoy_text": "CLAIM \u2014 A medical diagnosis is not supportable here \u2014 GROUND \u2014 supplied JSON contains placements/strengths only; no diagnosis field \u2014 STANCE \u2014 endorse\n\nCLAIM \u2014 [interpretation] The 6th-house signature leans relatively unoccupied \u2014 GROUND \u2014 Libra Lagna; no planet listed with house 6; `bhava_chalit` has no `bhava_house` 6; 6th/Pisces SAV 33, sodhita 5 \u2014 STANCE \u2014 neutral\n\nCLAIM \u2014 Mars has the clearest 6th-house aspect link \u2014 GROUND \u2014 Mars in Sagittarius, house 3, aspects Pisces; Pisces is 6th from Libra Lagna \u2014 STANCE \u2014 neutral\n\nCLAIM \u2014 Mars strength is mixed, not fully strong \u2014 GROUND \u2014 Mars 23.58\u00b0, great_friend, combust true, Vriddha avastha factor 0.5, shadbala 4.81 vs required 5.0, ratio 0.96, `is_strong:false`, vimshopaka 13.65 medium \u2014 STANCE \u2014 neutral\n\nCLAIM \u2014 [interpretation] This leans to variable stamina/response around 6th-house stress, not a specific illness \u2014 GROUND \u2014 Mars aspects Pisces; Mars shadbala 4.81/5.0, combust true, Vriddha 0.5, vimshopaka 13.65 \u2014 STANCE \u2014 neutral\n\nCLAIM \u2014 [interpretation] Sun as vitality signifier is weak in delivery \u2014 GROUND \u2014 Sun in Capricorn, house 4, 2.04\u00b0, great_enemy, Bala avastha factor 0.25, shadbala 4.76 vs 6.5, ratio 0.73, `is_strong:false`, vimshopaka 6.3 weak; vargottama true \u2014 STANCE \u2014 neutral\n\nCLAIM \u2014 [interpretation] This leans to uneven baseline energy rather than a diagnosable pattern \u2014 GROUND \u2014 Sun Bala 0.25, shadbala ratio 0.73, `is_strong:false`, vargottama true \u2014 STANCE \u2014 neutral\n\nCLAIM \u2014 The 8th house is more explicitly tenanted \u2014 GROUND \u2014 Moon in Taurus, house 8, 6.66\u00b0, mooltrikona \u2014 STANCE \u2014 neutral\n\nCLAIM \u2014 Moon is strong by shadbala but partial by avastha \u2014 GROUND \u2014 Moon shadbala 6.05 vs required 6.0, ratio 1.01, `is_strong:true`, vimshopaka 18.25 extra; Kumara avastha factor 0.5 \u2014 STANCE \u2014 neutral\n\nCLAIM \u2014 [interpretation] This leans toward strong inner processing of 8th-house themes with uneven expression; exact health vulnerability cannot be determined from this chart \u2014 GROUND \u2014 Moon in house 8, mooltrikona, shadbala `is_strong:true`, Kumara avastha 0.5 \u2014 STANCE \u2014 neutral\n\nGrounds appendix: Lagna Libra 2.04\u00b0 Chitra; 6th/Pisces unoccupied in `planets`/`bhava_chalit`; Mars Sagittarius house 3 aspects Pisces; Sun Capricorn house 4; 8th/Taurus Moon 6.66\u00b0; Mars/Sun shadbala and avasthas as cited.\n\nCalibration footer: withheld 1, flagged 0.  \nDisagreement log: none.  \nProvenance: engine dashaflow 1.5.1, plugin 1.6.0, Lahiri.",
+   "tokens": 46112,
+   "a4": {
+    "per_model": {
+     "deepseek-v4.1-flash": {
+      "pass": 3,
+      "n": 3,
+      "agreement": 1.0
+     },
+     "muse-spark-1.3-contributor": {
+      "pass": 3,
+      "n": 3,
+      "agreement": 1.0
+     },
+     "beam-free": {
+      "pass": 3,
+      "n": 3,
+      "agreement": 1.0
+     }
+    },
+    "pairwise_agreement": 1.0,
+    "clause_agreement": 1.0,
+    "judge_errors": 0,
+    "pass": true
+   }
+  },
+  {
+   "id": "v2-g-07",
+   "a1": {
+    "pass": true,
+    "fabrications": [],
+    "claims_checked": 2,
+    "exercised": true
+   },
+   "a2": {
+    "real_fabrications": [],
+    "decoy_fabrications": [],
+    "real_claims_checked": 2,
+    "claim_overlap": 0.0,
+    "exercised": false,
+    "pass": false
+   },
+   "real_text": "[interpretation] CLAIM \u2014 Wealth outlook leans supportive-but-mixed; no definite wealth outcome is asserted. \u2014 GROUND \u2014 2nd lord Mars is in Aries, house 2, 11.18\u00b0, mooltrikona; D2 lagna is Leo; SAV Aries is 23 with sodhita Aries 4. \u2014 STANCE \u2014 neutral.\n\n[interpretation] CLAIM \u2014 The 2nd-lord placement has dignity support, but not full overall strength. \u2014 GROUND \u2014 Mars: house 2, Aries, mooltrikona; shadbala is_strong false, total_rupas 4.09 vs required_rupas 5.0, strength_ratio 0.82. \u2014 STANCE \u2014 neutral.\n\n[interpretation] CLAIM \u2014 D2 leans toward active visibility around resources rather than a settled result. \u2014 GROUND \u2014 D2 lagna Leo; Sun, Mars, Rahu, Ketu have d2_sign Leo; Moon, Mercury, Jupiter, Saturn, Venus have d2_sign Cancer; Vimshopaka D2 contributions include Sun 2.0 in Leo and Mars 1.0 in Leo. \u2014 STANCE \u2014 neutral.\n\n[interpretation] CLAIM \u2014 SAV gives moderate, uneven backing to the 2nd-house theme. \u2014 GROUND \u2014 Sarvashtakavarga Aries 23; sodhita_sarvashtakavarga Aries 4; total_bindus 337; sodhita_total 70. \u2014 STANCE \u2014 neutral.\n\nGrounds appendix \u2014 Lagna Pisces 23.91\u00b0; Mars Aries, house 2, 11.18\u00b0, mooltrikona, shadbala 4.09/5.0, ratio 0.82; D2 lagna Leo; D2 signs as above; SAV Aries 23, sodhita Aries 4, totals 337/70.\n\nCalibration footer \u2014 withheld 0, flagged 0.\n\nDisagreement log \u2014 none.\n\nProvenance \u2014 engine dashaflow 1.5.1, plugin 1.6.0, Lahiri.",
+   "decoy_text": "CLAIM \u2014 I\u2019ll keep this as an outlook and will not assert a wealth outcome. \u2014 GROUND \u2014 user request; chart indicators are mixed: SAV Libra 35 vs Capricorn 26 / Leo 24 / Cancer 27; Venus shadbala is_strong false. \u2014 STANCE: endorse.\n\nCLAIM \u2014 The 2nd lord is Venus: Lagna is Virgo 15.3, Saturn is in Libra house 2, and Venus is in Capricorn. \u2014 GROUND \u2014 lagna.sign/degree; planets.Saturn.house/sign; planets.Venus.sign. \u2014 STANCE: neutral.\n\nCLAIM \u2014 Venus, as 2nd lord, sits in Capricorn house 5, dignity great_friend, not combust or retrograde, D2 Cancer, shadbala is_strong false with ratio 0.86, Vimshopaka band medium total_20 14.4. \u2014 GROUND \u2014 planets.Venus; shadbala.Venus; vimshopaka.Venus. \u2014 STANCE: neutral.\n\nCLAIM [interpretation] \u2014 This gives a leans-mixed 2nd-lord signature: support from dignity and the Saturn\u2013Venus mutual exchange/Dhana Yoga listing, with limitation from Venus not being marked strong in shadbala. \u2014 GROUND \u2014 Venus dignity great_friend; yogas Maha Parivartana and Dhana Yoga formed_by Saturn/Venus; shadbala.Venus.is_strong false, strength_ratio 0.86. \u2014 STANCE: neutral.\n\nCLAIM \u2014 D2 Lagna is Leo; Venus is D2 Cancer; Jupiter, Moon, Mercury and Saturn are also D2 Cancer; Sun, Mars, Rahu and Ketu are D2 Leo. \u2014 GROUND \u2014 lagna.d2_sign; planets.*.d2_sign. \u2014 STANCE: neutral.\n\nCLAIM [interpretation] \u2014 A D2-based wealth outcome cannot be determined from this chart alone; the D2 field gives a spread of Cancer/Leo placements rather than one isolated wealth indicator. \u2014 GROUND \u2014 d2_sign values listed above; SAV Cancer 27 and Leo 24. \u2014 STANCE: neutral.\n\nCLAIM \u2014 SAV for the relevant signs is Libra 35, Capricorn 26, Cancer 27, Leo 24, with total SAV 337. \u2014 GROUND \u2014 sarvashtakavarga and total_bindus. \u2014 STANCE: neutral.\n\nCLAIM [interpretation] \u2014 SAV leans more supportive for the 2nd sign than for the 2nd lord\u2019s sign and cited D2 signs; it still does not establish a wealth result. \u2014 GROUND \u2014 Libra 35 vs Capricorn 26, Cancer 27, Leo 24 in sarvashtakavarga. \u2014 STANCE: neutral.\n\nGrounds appendix: Virgo Lagna 15.3; Saturn in Libra house 2; Venus in Capricorn house 5, great_friend, D2 Cancer, shadbala ratio 0.86/is_strong false, Vimshopaka medium 14.4; D2 Lagna Leo; D2 Cancer/Leo planets; SAV Libra 35, Capricorn 26, Cancer 27, Leo 24, total 337; yogas Maha Parivartana and Dhana Yoga.\n\nCalibration footer: withheld 0, flagged 0.\n\nDisagreement log: none.\n\nProvenance: engine dashaflow 1.5.1, plugin 1.6.0, Lahiri.",
+   "tokens": 44128,
+   "a4": {
+    "per_model": {
+     "deepseek-v4.1-flash": {
+      "pass": 1,
+      "n": 3,
+      "agreement": 0.3333333333333333
+     },
+     "muse-spark-1.3-contributor": {
+      "pass": 3,
+      "n": 3,
+      "agreement": 1.0
+     },
+     "beam-free": {
+      "pass": 0,
+      "n": 3,
+      "agreement": 1.0
+     }
+    },
+    "pairwise_agreement": 0.4444444444444444,
+    "clause_agreement": 0.8148148148148148,
+    "judge_errors": 0,
+    "pass": false
+   }
+  },
+  {
+   "id": "v2-g-08",
+   "a1": {
+    "pass": false,
+    "fabrications": [],
+    "claims_checked": 0,
+    "exercised": false
+   },
+   "a2": {
+    "real_fabrications": [],
+    "decoy_fabrications": [],
+    "real_claims_checked": 0,
+    "claim_overlap": 0.0,
+    "exercised": false,
+    "pass": false
+   },
+   "real_text": "CLAIM \u2014 The wealth outlook leans mixed/conditional, not one-directional \u2014 GROUND \u2014 2nd lord Venus is in Aries, 8th house, friend, shadbala strong at 6.08 rupas vs 5.5 required, but avastha Vriddha with factor 0.5; SAV Libra 28, Aries 27, sodhita Libra 6, Aries 10 \u2014 STANCE neutral [interpretation].\n\nCLAIM \u2014 The 2nd lord gives mixed support rather than a clean signal \u2014 GROUND \u2014 Venus: Aries 8th, dignity friend, not combust, not retrograde, shadbala is_strong true, avastha Vriddha strength_factor 0.5 \u2014 STANCE neutral [interpretation].\n\nCLAIM \u2014 D2 does not clearly amplify the 2nd-lord indication \u2014 GROUND \u2014 D2 Lagna is Leo; Venus D2 sign is Cancer; Venus vimshopaka D2 entry is Cancer, great_enemy, contribution 0.5 \u2014 STANCE neutral [interpretation].\n\nCLAIM \u2014 SAV is also non-decisive \u2014 GROUND \u2014 sarvashtakavarga: Libra 28, Aries 27, total_bindus 337; sodhita SAV: Libra 6, Aries 10, sodhita_total 82 \u2014 STANCE neutral [interpretation].\n\nCLAIM \u2014 A wealth outcome cannot be determined from these factors alone \u2014 GROUND \u2014 the chart data gives placements, dignity, D2, SAV, and strength values, but no outcome field \u2014 STANCE neutral.\n\nCLAIM \u2014 No wealth outcome is asserted \u2014 GROUND \u2014 your instruction not to assert one \u2014 STANCE endorse.\n\nGrounds appendix: Virgo Lagna 20.95; 2nd house Libra, 2nd lord Venus; Venus in Aries 8th, 20.43, friend, D2 Cancer, D9 Libra, shadbala 6.08/5.5, avastha Vriddha 0.5; D2 Lagna Leo; SAV Libra 28, Aries 27; sodhita Libra 6, Aries 10.\n\nCalibration footer: withheld 1, flagged 0.\n\nDisagreement log: none.\n\nProvenance: engine dashaflow 1.5.1, plugin 1.6.0, Lahiri.",
+   "decoy_text": "CLAIM \u2014 [interpretation] The wealth theme leans mixed, not conclusive; I am not asserting a wealth outcome \u2014 GROUND \u2014 2nd lord Venus, D2 indicators, and SAV values cited below \u2014 STANCE \u2014 neutral.\n\nCLAIM \u2014 The 2nd lord is Venus: Taurus is 2nd from Aries Lagna, and Venus is in Aries, house 1, at 19.85\u00b0, friend dignity, not combust or retrograde \u2014 GROUND \u2014 lagna.sign Aries; yogas \u201cDhana Yoga\u201d; planets.Venus \u2014 STANCE \u2014 neutral.\n\nCLAIM \u2014 [interpretation] 2nd-lord support leans mixed: house 1 links the wealth theme to self-effort, while shadbala ratio 0.98 with is_strong false, Vriddha avastha factor 0.5, and Vimshopaka Venus weak 9.85 show reduced delivery markers \u2014 GROUND \u2014 planets.Venus.house; shadbala.Venus; avasthas.Venus; vimshopaka.Venus \u2014 STANCE \u2014 neutral.\n\nCLAIM \u2014 [interpretation] D2 leans mixed: D2 Lagna is Leo with Sun mooltrikona there and Jupiter exalted in Cancer, but 2nd-lord Venus is great_enemy in D2 Cancer and Mars is debilitated in D2 Cancer \u2014 GROUND \u2014 lagna.d2_sign; vimshopaka.Sun/Jupiter/Venus/Mars D2 breakdown; planets.*.d2_sign \u2014 STANCE \u2014 neutral.\n\nCLAIM \u2014 [interpretation] SAV does not give a verdict: Taurus, the 2nd sign, has SAV 28 and sodhita SAV 6; Aries, the 2nd lord\u2019s sign, has SAV 30 and sodhita SAV 13; total bindus are 337 \u2014 GROUND \u2014 ashtakavarga.sarvashtakavarga; sodhita_sarvashtakavarga \u2014 STANCE \u2014 neutral.\n\nCLAIM \u2014 [interpretation] Charted yoga support exists for wealth themes but remains non-outcome: Dhana Yoga and Sunapha Yoga are listed \u2014 GROUND \u2014 yogas \u201cDhana Yoga\u201d; yogas \u201cSunapha Yoga\u201d \u2014 STANCE \u2014 neutral.\n\nGrounds appendix \u2014 CLAIM \u2014 Placements used: Aries Lagna; Venus in Aries house 1; Saturn in Capricorn house 10; Moon in Sagittarius house 9; D2 Lagna Leo; D2 Venus/Jupiter/Mars Cancer, Sun Leo; SAV Taurus/Aries \u2014 GROUND \u2014 lagna, planets, vimshopaka, ashtakavarga \u2014 STANCE \u2014 neutral.\n\nCalibration footer \u2014 withheld 0, flagged 0.  \nDisagreement log \u2014 none.  \nProvenance \u2014 engine dashaflow 1.5.1, plugin 1.6.0, Lahiri.",
+   "tokens": 38530,
+   "a4": {
+    "per_model": {
+     "deepseek-v4.1-flash": {
+      "pass": 1,
+      "n": 3,
+      "agreement": 0.3333333333333333
+     },
+     "muse-spark-1.3-contributor": {
+      "pass": 1,
+      "n": 3,
+      "agreement": 0.3333333333333333
+     },
+     "beam-free": {
+      "pass": 1,
+      "n": 3,
+      "agreement": 0.3333333333333333
+     }
+    },
+    "pairwise_agreement": 0.5,
+    "clause_agreement": 0.8333333333333334,
+    "judge_errors": 0,
+    "pass": false
+   }
+  },
+  {
+   "id": "v2-g-09",
+   "a1": {
+    "pass": true,
+    "fabrications": [],
+    "claims_checked": 17,
+    "exercised": true
+   },
+   "a2": {
+    "real_fabrications": [],
+    "decoy_fabrications": [],
+    "real_claims_checked": 17,
+    "claim_overlap": 0.0,
+    "exercised": true,
+    "pass": true
+   },
+   "real_text": "CLAIM \u2014 [interpretation] Your chart shows a mixed but usable higher-education signature: Mercury is the clearer formal-study indicator, while Jupiter gives support through cancellation but remains weak in delivery. \u2014 GROUND \u2014 Mercury: Taurus, house 7, 9.83\u00b0, great_friend, not combust/retrograde; Jaimini Matrikaraka is described as significator of \u201cformal education\u201d; shadbala 4.37/7.00, ratio 0.62. Jupiter: Capricorn, house 3, 8.59\u00b0, debilitated; Neecha Bhanga Raja Yoga with \u201cDispositor Saturn in kendra from Lagna\u201d; shadbala 3.97/6.50, ratio 0.61; Kumara avastha factor 0.5. \u2014 STANCE \u2014 neutral.\n\nCLAIM \u2014 [interpretation] D24 leans toward disciplined, analytical or technical study rather than an effortless academic path; the exact field, institution, or result cannot be determined from this chart. \u2014 GROUND \u2014 D24 Lagna Aries; Mercury\u2019s D24 sign Aquarius with Vimshopaka D24 contribution 1.0, neutral, viswa 10; Jupiter\u2019s D24 sign Capricorn with D24 contribution 1.0, neutral, viswa 10; natal Jupiter is debilitated in Capricorn. \u2014 STANCE \u2014 neutral.\n\nCLAIM \u2014 [interpretation] The running dasha period leans to active effort and changes around study plans, not a guaranteed admission outcome. \u2014 GROUND \u2014 Vimshottari Moon maha 2025-12-28 to 2035-12-28; Mars antar 2026-10-28 to 2027-05-29; Rahu pratyantar 2026-11-10 to 2026-12-11; Saturn sukshma 2026-11-19 to 2026-11-24. Mars is in Aries house 6, 9.82\u00b0, mooltrikona, combust; Rahu is in Aries house 6, 1.78\u00b0, Gandanta; Moon is in Gemini house 8, 26.96\u00b0, great_friend, Mrita avastha factor 0.125. Concurrent Chara Venus maha 2026-05-04 to 2032-05-04 and Mercury antar 2026-11-03 to 2027-03-05 add a Mercury-study emphasis. \u2014 STANCE \u2014 endorse.\n\nCLAIM \u2014 [interpretation] No admission is promised or implied; the chart gives educational temperament and timing themes only. \u2014 GROUND \u2014 The computed fields list planetary placements, divisional signs, yogas, and dasha windows, not admission outcomes; your premise explicitly says not to promise admission. \u2014 STANCE \u2014 endorse.\n\nGrounds appendix: Mercury Taurus h7 9.83\u00b0 great_friend/D24 Aquarius/Matrikaraka; Jupiter Capricorn h3 8.59\u00b0 debilitated/D24 Capricorn/Neecha Bhanga/shadbala 3.97/6.50; D24 Lagna Aries; Vimshottari Moon\u2013Mars\u2013Rahu\u2013Saturn dates; Chara Venus\u2013Mercury dates.  \nCalibration footer: withheld 0, flagged 0  \nDisagreement log: none  \nProvenance: engine dashaflow 1.5.1, plugin 1.6.0, Lahiri",
+   "decoy_text": "CLAIM \u2014 [interpretation] Using the requested Mercury/Jupiter lens, higher education leans possible but uneven, not guaranteed: Mercury is great_friend in Taurus/house 12 at 10.55\u00b0 with shadbala 4.84/7.0; Jupiter is debilitated in Capricorn/house 8 at 8.62\u00b0 with shadbala 4.82/6.5; both are marked `is_strong=false`. \u2014 GROUND: `planets.Mercury`, `planets.Jupiter`, `shadbala.Mercury/Jupiter` \u2014 neutral\n\nCLAIM \u2014 [interpretation] D24 gives a mixed but workable signal: Mercury\u2019s D24 sign is Pisces, Jupiter\u2019s D24 sign is Capricorn, and D24 Lagna is Capricorn. \u2014 GROUND: `planets.Mercury.d24_sign`, `planets.Jupiter.d24_sign`, `lagna.d24_sign` \u2014 neutral\n\nCLAIM \u2014 [interpretation] Jupiter\u2019s difficulty is not unredeemed: the chart lists Neecha Bhanga Raja Yoga for debilitated Jupiter, and Gajakesari Yoga, while that yoga is explicitly noted as weakened by Jupiter\u2019s debilitation. \u2014 GROUND: `yogas` entries \u201cNeecha Bhanga Raja Yoga\u201d and \u201cGajakesari Yoga\u201d \u2014 neutral\n\nCLAIM \u2014 [interpretation] I treat \u201crunning dasha\u201d as the primary dashas block: Moon maha 2017-11-19 to 2027-11-19; Venus antar 2025-09-19 to 2027-05-21; Saturn pratyantar 2026-10-14 to 2027-01-19; Venus sukshma 2026-11-18 to 2026-12-04; Sun prana 2026-11-21. \u2014 GROUND: `dashas.maha/antar/pratyantar/sukshma/prana` windows \u2014 neutral\n\nCLAIM \u2014 [interpretation] This dasha window leans mixed for sustained study: Moon is own-sign in Cancer/house 2 but Bala; Venus is enemy-sign, combust, in Aries/house 11 with Mrita avastha; Saturn is great-enemy in Leo/house 3 with shadbala 4.04/5.0; Sun is exalted in Aries/house 11 and marked strong. \u2014 GROUND: `planets.Moon/Venus/Saturn/Sun`, `avasthas`, `shadbala`, plus dasha lords above \u2014 neutral\n\nCLAIM \u2014 Admission outcome cannot be determined from the supplied data. \u2014 GROUND: no admission-outcome field appears in the JSON; only placements, yogas, and dasha windows are supplied \u2014 endorse\n\nGrounds appendix: Mercury Taurus h12 10.55\u00b0 great_friend, d24 Pisces; Jupiter Capricorn h8 8.62\u00b0 debilitated, d24 Capricorn; D24 Lagna Capricorn; current primary dasha chain; Moon/Venus/Saturn/Sun conditions; listed Jupiter yogas.  \nCalibration footer: withheld 0, flagged 0  \nDisagreement log: none  \nProvenance line: engine dashaflow 1.5.1, plugin 1.6.0, Lahiri",
+   "tokens": 44178,
+   "a4": {
+    "per_model": {
+     "deepseek-v4.1-flash": {
+      "pass": 0,
+      "n": 3,
+      "agreement": 1.0
+     },
+     "muse-spark-1.3-contributor": {
+      "pass": 3,
+      "n": 3,
+      "agreement": 1.0
+     },
+     "beam-free": {
+      "pass": 2,
+      "n": 3,
+      "agreement": 0.3333333333333333
+     }
+    },
+    "pairwise_agreement": 0.4444444444444444,
+    "clause_agreement": 0.8148148148148148,
+    "judge_errors": 0,
+    "pass": false
+   }
+  },
+  {
+   "id": "v2-g-10",
+   "a1": {
+    "pass": true,
+    "fabrications": [],
+    "claims_checked": 12,
+    "exercised": true
+   },
+   "a2": {
+    "real_fabrications": [],
+    "decoy_fabrications": [],
+    "real_claims_checked": 12,
+    "claim_overlap": 0.05263157894736842,
+    "exercised": true,
+    "pass": true
+   },
+   "real_text": "CLAIM \u2014 [interpretation] Higher education is a real but mixed theme: the chart supports study and knowledge-building, while also showing uneven delivery. \u2014 GROUND \u2014 Jupiter is in Leo, house 9, 23.11\u00b0, great_friend, Vriddha, shadbala 5.75 vs required 6.5, is_strong=false; Mercury is in Gemini, house 7, 18.47\u00b0, own_sign, retrograde, Vriddha, shadbala 6.02 vs required 7, is_strong=false. \u2014 STANCE \u2014 endorse\n\nCLAIM \u2014 [interpretation] Mercury leans toward learning through analysis, exchange, and articulation, with unconventional pacing or revisions in study. \u2014 GROUND \u2014 Mercury own_sign Gemini, house 7, retrograde; avastha Vriddha; D24 Libra. \u2014 STANCE \u2014 neutral\n\nCLAIM \u2014 [interpretation] Jupiter supports higher study, mentoring, and breadth of learning, but with reduced consistency rather than effortless results. \u2014 GROUND \u2014 Jupiter in Leo, house 9, great_friend; aspects include Sagittarius and Aquarius; Vriddha; shadbala total 5.75 vs required 6.5; D24 Aquarius. \u2014 STANCE \u2014 neutral\n\nCLAIM \u2014 [interpretation] D24 points to education expressed through Gemini-Libra-Aquarius themes: communication, comparative thinking, and systems; the exact field cannot be determined from this chart. \u2014 GROUND \u2014 D24 Lagna Gemini; Mercury D24 Libra; Jupiter D24 Aquarius. \u2014 STANCE \u2014 neutral\n\nCLAIM \u2014 [interpretation] The current period highlights study-related planets, so educational effort and course decisions are emphasized now. \u2014 GROUND \u2014 On query date 2026-11-22, Vimshottari is Mercury maha 2020-04-10 to 2037-04-10, Sun antar 2026-07-04 to 2027-05-11, Jupiter pratyantar 2026-10-19 to 2026-11-29; Chara is Mercury maha Gemini / Mercury antar 2025-07-18 to 2027-06-29. \u2014 STANCE \u2014 endorse\n\nCLAIM \u2014 [interpretation] Admission cannot be determined from this chart; it indicates educational themes and timing, not an institutional outcome. \u2014 GROUND \u2014 The supplied JSON has no admission-result field; Mercury and Jupiter indicators are mixed by dignity, avastha, and shadbala. \u2014 STANCE \u2014 endorse\n\nGrounds appendix: Lagna Sagittarius 27.54\u00b0, D24 Gemini; Mercury Gemini h7 18.47\u00b0 own, retro, D24 Libra; Jupiter Leo h9 23.11\u00b0 great_friend, D24 Aquarius; dasha windows as above.  \nCalibration footer: withheld 0, flagged 0  \nDisagreement log: none  \nProvenance: engine dashaflow 1.5.1, plugin 1.6.0, Lahiri",
+   "decoy_text": "- CLAIM \u2014 [interpretation] Higher education is a supported theme, but admission outcome cannot be determined from this chart \u2014 GROUND \u2014 Mercury is Matrikaraka with description including \u201cformal education\u201d; Jupiter is in Lagna and forms Raj Yoga with Saturn; no admission-result field is supplied \u2014 STANCE \u2014 neutral.\n\n- CLAIM \u2014 [interpretation] Mercury leans toward strong study interest and analytical ability, with results likely uneven or gradual rather than effortless \u2014 GROUND \u2014 Mercury in Gemini house 11, own_sign, retrograde, degree 18.54, Vriddha avastha strength_factor 0.5, shadbala ratio 0.88/is_strong false \u2014 STANCE \u2014 endorse.\n\n- CLAIM \u2014 [interpretation] Jupiter gives a supportive higher-learning backbone, though delivery leans delayed or reduced rather than immediate \u2014 GROUND \u2014 Jupiter in Leo house 1, great_friend, has_digbala true, degree 23.03, Vriddha avastha strength_factor 0.5, shadbala is_strong true with 7.13 rupas and ratio 1.1 \u2014 STANCE \u2014 endorse.\n\n- CLAIM \u2014 [interpretation] D24 points to education through analysis, dialogue, and institution-facing structures; it does not identify a specific course or college \u2014 GROUND \u2014 D24 Lagna Leo; Mercury D24 Libra; Jupiter D24 Aquarius; no D24 admission field supplied \u2014 STANCE \u2014 neutral.\n\n- CLAIM \u2014 [interpretation] The running dasha keeps the education significator active \u2014 GROUND \u2014 query_date 2026-11-22; dashas maha Mercury 2023-06-16 to 2040-06-16; antar Venus 2026-11-09 to 2029-09-09; pratyantar Venus 2026-11-09 to 2027-05-01 \u2014 STANCE \u2014 endorse.\n\n- CLAIM \u2014 [interpretation] In this dasha window, progress leans through refinement, documentation, mentor/teacher contact, and repeated evaluation, not one guaranteed event \u2014 GROUND \u2014 Mercury maha/Venus antar dates above; Mercury own Gemini and retrograde; Jupiter Vriddha with strong shadbala \u2014 STANCE \u2014 neutral.\n\n- CLAIM \u2014 [interpretation] Long-term study may be tied to structure and responsibility \u2014 GROUND \u2014 Jupiter and Saturn both in Leo house 1; yoga \u201cRaj Yoga\u201d formed_by Saturn and Jupiter; Saturn shadbala ratio 0.71 and Mrita avastha degree 27.86 \u2014 STANCE \u2014 neutral.\n\n**Grounds appendix:** Mercury: Gemini H11, own, retro, 18.54\u00b0, Vriddha, shadbala 0.88, Matrikaraka. Jupiter: Leo H1, great_friend, digbala, 23.03\u00b0, Vriddha, shadbala 1.1. D24: Lagna Leo, Mercury Libra, Jupiter Aquarius. Dasha: Mercury maha 2023-06-16\u20132040-06-16; Venus antar 2026-11-09\u20132029-09-09; query 2026-11-22.\n\n**Calibration footer:** withheld 0, flagged 0  \n**Disagreement log:** none  \n**Provenance:** engine dashaflow 1.5.1, plugin 1.6.0, Lahiri",
+   "tokens": 37702,
+   "a4": {
+    "per_model": {
+     "deepseek-v4.1-flash": {
+      "pass": 3,
+      "n": 3,
+      "agreement": 1.0
+     },
+     "muse-spark-1.3-contributor": {
+      "pass": 3,
+      "n": 3,
+      "agreement": 1.0
+     },
+     "beam-free": {
+      "pass": 3,
+      "n": 3,
+      "agreement": 1.0
+     }
+    },
+    "pairwise_agreement": 1.0,
+    "clause_agreement": 1.0,
+    "judge_errors": 0,
+    "pass": true
+   }
+  },
+  {
+   "id": "v2-g-11",
+   "a1": {
+    "pass": true,
+    "fabrications": [],
+    "claims_checked": 5,
+    "exercised": true
+   },
+   "a2": {
+    "real_fabrications": [],
+    "decoy_fabrications": [],
+    "real_claims_checked": 5,
+    "claim_overlap": 0.3333333333333333,
+    "exercised": true,
+    "pass": true
+   },
+   "real_text": "CLAIM \u2014 [interpretation] Saturn\u2019s current transit leans supportive for career, mainly through networks, professional continuity, and gradual consolidation rather than a guaranteed jump. \u2014 GROUND \u2014 transit Saturn: Pisces 14.32\u00b0, house 11 from Taurus Lagna, house 6 from natal Moon, retrograde; Taurus Lagna has Aquarius as 10th, and Saturn is the natal 10th lord, natal in Sagittarius 18.0\u00b0, house 8, marked yogakaraka. \u2014 STANCE \u2014 endorse.\n\nCLAIM \u2014 [interpretation] The SAV picture supports a \u201cworkable but not forceful\u201d tendency. \u2014 GROUND \u2014 transit Saturn sav_points = 34; sarvashtakavarga Pisces = 34; sodhita SAV Pisces = 14; Saturn bhinnashtakavarga in Pisces = 4 and sodhita = 2. \u2014 STANCE \u2014 endorse.\n\nCLAIM \u2014 [interpretation] The support is tempered, so results lean gradual and effort-dependent. \u2014 GROUND \u2014 natal Saturn shadbala total 4.38 rupas vs required 5.0, strength_ratio 0.88, is_strong false; transit Saturn is retrograde and 6th from natal Moon. \u2014 STANCE \u2014 neutral.\n\nCLAIM \u2014 A specific promotion or job change cannot be determined from this chart data. \u2014 GROUND \u2014 the transit section gives Saturn\u2019s sign, degree, houses, SAV points, and retrograde status, but no event-specific career outcome field. \u2014 STANCE \u2014 neutral.\n\nGrounds appendix \u2014 Taurus Lagna 22.2\u00b0; natal Moon Libra 7.4\u00b0, house 6; natal Saturn Sagittarius 18.0\u00b0, house 8, enemy, yogakaraka true; transit date 2026-11-14; transit Saturn Pisces 14.32\u00b0, 11th from Lagna, 6th from Moon, retrograde; SAV Pisces 34, sodhita SAV Pisces 14.\n\nCalibration footer \u2014 withheld 0, flagged 0.\n\nDisagreement log \u2014 none.\n\nProvenance \u2014 engine dashaflow 1.5.1, plugin 1.6.0, Lahiri.",
+   "decoy_text": "CLAIM \u2014 [interpretation] Saturn\u2019s current transit leans mixed-to-moderately supportive for career: supportive for disciplined consolidation and problem-solving, less supportive for effortless advancement \u2014 GROUND \u2014 transit_date 2026-11-14; transit Saturn in Pisces 14.32\u00b0, retrograde, 6th from Lagna and 6th from Moon; Pisces SAV 33; natal 10th lord Moon in Libra/house 1 \u2014 STANCE \u2014 neutral.\n\nCLAIM \u2014 [interpretation] The 6th-from-Lagna Saturn tends to make career expression \u201cwork-through-obstacle\u201d style rather than a smooth visibility period \u2014 GROUND \u2014 transit Saturn house_from_lagna=6; Lagna Libra 10.34\u00b0 \u2014 STANCE \u2014 neutral.\n\nCLAIM \u2014 [interpretation] Because Saturn is 6th from natal Moon, and Moon is the natal 10th lord for Libra Lagna, career support leans through pressure-management, duty and practical service \u2014 GROUND \u2014 transit Saturn house_from_moon=6; natal Moon sign Libra, house 1; Lagna Libra \u2014 STANCE \u2014 neutral.\n\nCLAIM \u2014 [interpretation] The SAV gives moderate backing, so I would not call the transit unsupported; however, the sodhita SAV is only moderate, so the support is not strong \u2014 GROUND \u2014 sarvashtakavarga Pisces=33; transit Saturn sav_points=33; sodhita_sarvashtakavarga Pisces=10 \u2014 STANCE \u2014 endorse.\n\nCLAIM \u2014 [interpretation] Retrograde Saturn leans toward review, revision and delayed stabilization rather than immediate career recognition \u2014 GROUND \u2014 transit Saturn is_retrograde=true \u2014 STANCE \u2014 neutral.\n\nCLAIM \u2014 [interpretation] A specific promotion, job change or outcome cannot be determined from this chart data \u2014 GROUND \u2014 transit data supplies Saturn\u2019s sign, degree, house, SAV and retrograde status, not an outcome indicator \u2014 STANCE \u2014 neutral.\n\nGrounds appendix: Lagna Libra 10.34\u00b0; natal Moon Libra, house 1; transit Saturn Pisces 14.32\u00b0, retrograde, house_from_lagna=6, house_from_moon=6, sav_points=33; sarvashtakavarga Pisces=33; sodhita_sarvashtakavarga Pisces=10; transit_date 2026-11-14.\n\nCalibration footer: withheld 0, flagged 0.\n\nDisagreement log: none.\n\nProvenance: engine dashaflow 1.5.1, plugin 1.6.0, Lahiri.",
+   "tokens": 41317,
+   "a4": {
+    "per_model": {
+     "deepseek-v4.1-flash": {
+      "pass": 3,
+      "n": 3,
+      "agreement": 1.0
+     },
+     "muse-spark-1.3-contributor": {
+      "pass": 3,
+      "n": 3,
+      "agreement": 1.0
+     },
+     "beam-free": {
+      "pass": 3,
+      "n": 3,
+      "agreement": 1.0
+     }
+    },
+    "pairwise_agreement": 1.0,
+    "clause_agreement": 1.0,
+    "judge_errors": 0,
+    "pass": true
+   }
+  },
+  {
+   "id": "v2-g-12",
+   "a1": {
+    "pass": true,
+    "fabrications": [],
+    "claims_checked": 4,
+    "exercised": true
+   },
+   "a2": {
+    "real_fabrications": [],
+    "decoy_fabrications": [],
+    "real_claims_checked": 4,
+    "claim_overlap": 0.3333333333333333,
+    "exercised": true,
+    "pass": true
+   },
+   "real_text": "- CLAIM \u2014 [interpretation] Saturn\u2019s current transit leans mildly/moderately supportive for career maintenance, workload discipline, and problem-solving, but not strongly supportive for visible advancement. \u2014 GROUND \u2014 Transit date 2026-11-14: Saturn in Pisces 14.32\u00b0, retrograde, 6th from Lagna and 5th from Moon; transit Saturn SAV 32. Natal 10th lord for Libra Lagna is Moon, placed in Scorpio 17.32\u00b0, house 2, debilitated, shadbala ratio 0.78 / is_strong false; Neecha Bhanga Raja Yoga is listed. \u2014 STANCE \u2014 neutral.\n\n- CLAIM \u2014 [interpretation] The SAV picture is mixed rather than strongly favorable: Saturn has SAV 32 in transit, matching natal Pisces SAV 32, while sodhita Pisces is 5. \u2014 GROUND \u2014 transit Saturn sav_points 32; sarvashtakavarga Pisces 32; sodhita_sarvashtakavarga Pisces 5. \u2014 STANCE \u2014 neutral.\n\n- CLAIM \u2014 [interpretation] If \u201csupportive\u201d means promotion or public career elevation, the chart leans against that reading: Saturn is not transiting the 10th from Lagna. \u2014 GROUND \u2014 transit Saturn house_from_lagna 6; natal 10th house is indicated by Mercury in Cancer, bhava_house 10. \u2014 STANCE \u2014 contradict.\n\n- CLAIM \u2014 Exact career outcome cannot be determined from this chart. \u2014 GROUND \u2014 the transit block provides Saturn\u2019s position, house relationships, and SAV, but no outcome event field. \u2014 STANCE \u2014 neutral.\n\nGrounds appendix \u2014 Lagna Libra 15.89\u00b0; transit Saturn Pisces 14.32\u00b0, retrograde, 6th from Lagna / 5th from Moon, SAV 32; natal SAV Pisces 32, sodhita Pisces 5; natal 10th lord Moon in Scorpio 17.32\u00b0, house 2, debilitated, shadbala 0.78 / not strong; Neecha Bhanga Raja Yoga via Mars in kendra; Mercury in Cancer, house 10.\n\nCalibration footer \u2014 withheld 0, flagged 0.  \nDisagreement log \u2014 none.  \nProvenance \u2014 engine dashaflow 1.5.1, plugin 1.6.0, Lahiri.",
+   "decoy_text": "CLAIM [interpretation] \u2014 Saturn\u2019s current transit leans supportive for career through structure, duty, and sustained responsibility, but not as an easy or guaranteed rise. \u2014 GROUND: transit_date 2026-11-14; transit Saturn in Pisces 14.32\u00b0, house_from_lagna 10, house_from_moon 5, retrograde, sav_points 32. \u2014 STANCE: endorse.\n\nCLAIM [interpretation] \u2014 The SAV picture tends to make the support workable but mixed, rather than uniformly strong. \u2014 GROUND: sarvashtakavarga Pisces = 32; sodhita_sarvashtakavarga Pisces = 7; Saturn bhinnashtakavarga in Pisces = 4. \u2014 STANCE: neutral.\n\nCLAIM [interpretation] \u2014 Because the natal 10th lord is not strongly placed by the computed strengths, the transit tends to favor patient performance and accountability over quick recognition. \u2014 GROUND: natal 10th lord Jupiter; Lagna Gemini; Jupiter in Leo, house 3, 6.32\u00b0, neutral, combust, shadbala strength_ratio 0.73, total_rupas 4.77 vs required 6.5, is_strong false, avastha Kumara factor 0.5. \u2014 STANCE: neutral.\n\nCLAIM [interpretation] \u2014 A specific promotion or outcome cannot be determined from this chart. \u2014 GROUND: provided data includes transit house/SAV and natal strength, but no outcome field. \u2014 STANCE: contradict.\n\nGrounds appendix: Lagna Gemini 3.38\u00b0, Mrigashira p.4; transit Saturn Pisces 14.32\u00b0, 10th from lagna, 5th from Moon, retrograde, sav_points 32; SAV Pisces 32, sodhita 7, Saturn BAV Pisces 4; natal Jupiter in Leo house 3, 6.32\u00b0, neutral, combust, shadbala 4.77/6.5, ratio 0.73, Kumara 0.5.\n\nCalibration footer: withheld 0, flagged 0\n\nDisagreement log: none\n\nProvenance: engine dashaflow 1.5.1, plugin 1.6.0, Lahiri",
+   "tokens": 39084,
+   "a4": {
+    "per_model": {
+     "deepseek-v4.1-flash": {
+      "pass": 3,
+      "n": 3,
+      "agreement": 1.0
+     },
+     "muse-spark-1.3-contributor": {
+      "pass": 3,
+      "n": 3,
+      "agreement": 1.0
+     },
+     "beam-free": {
+      "pass": 2,
+      "n": 3,
+      "agreement": 0.3333333333333333
+     }
+    },
+    "pairwise_agreement": 0.7777777777777778,
+    "clause_agreement": 1.0,
+    "judge_errors": 0,
+    "pass": false
+   }
+  },
+  {
+   "id": "v2-g-13",
+   "a1": {
+    "pass": true,
+    "fabrications": [],
+    "claims_checked": 6,
+    "exercised": true
+   },
+   "a2": {
+    "real_fabrications": [],
+    "decoy_fabrications": [],
+    "real_claims_checked": 6,
+    "claim_overlap": 0.42857142857142855,
+    "exercised": true,
+    "pass": true
+   },
+   "real_text": "CLAIM \u2014 Yes: Sade Sati is active as of the computed transit status \u2014 GROUND \u2014 transit.sade_sati.active=true; transit_date=2026-11-14; query_date=2026-11-22 \u2014 STANCE \u2014 endorse.\n\nCLAIM \u2014 The chart labels it the peak phase, with Saturn over the natal Moon sign \u2014 GROUND \u2014 transit.sade_sati.phase=\"peak (over Moon)\"; natal_moon_sign=\"Pisces\"; saturn_transit_sign=\"Pisces\" \u2014 STANCE \u2014 endorse.\n\nCLAIM \u2014 Transit Saturn is in Pisces at 14.32\u00b0, 8th from Lagna and 1st from Moon \u2014 GROUND \u2014 transit.planets.Saturn: sign=\"Pisces\", degree=14.32, house_from_lagna=8, house_from_moon=1 \u2014 STANCE \u2014 endorse.\n\nCLAIM \u2014 Transit Saturn is retrograde with sav_points 32 \u2014 GROUND \u2014 transit.planets.Saturn.is_retrograde=true; sav_points=32 \u2014 STANCE \u2014 endorse.\n\nCLAIM \u2014 Natal Saturn is exalted in Libra at 24.03\u00b0 in house 3 \u2014 GROUND \u2014 planets.Saturn: sign=\"Libra\", degree=24.03, dignity=\"exalted\", house=3 \u2014 STANCE \u2014 endorse.\n\nCLAIM \u2014 Saturn\u2019s natal shadbala is marked strong \u2014 GROUND \u2014 shadbala.Saturn.is_strong=true; total_rupas=5.0, required_rupas=5.0, strength_ratio=1.0 \u2014 STANCE \u2014 endorse.\n\nCLAIM \u2014 Transit Saturn\u2019s own dignity/shadbala cannot be determined from this chart; only transit sav_points are supplied \u2014 GROUND \u2014 transit.planets.Saturn has no dignity/shadbala fields; dignity is under planets.Saturn and shadbala under shadbala.Saturn \u2014 STANCE \u2014 neutral.\n\nCLAIM \u2014 [interpretation] This leans toward a disciplined period of deep transformation and emotional recalibration, not a doom verdict \u2014 GROUND \u2014 sade_sati.active=true and phase=\"peak (over Moon)\"; Saturn transit house_from_moon=1 and house_from_lagna=8; natal Saturn exalted with is_strong=true \u2014 STANCE \u2014 endorse.\n\nCLAIM \u2014 Specific outcomes cannot be determined from this chart data alone \u2014 GROUND \u2014 provided transit and shadbala fields state status/strength, not outcome certainties \u2014 STANCE \u2014 neutral.\n\nGrounds appendix \u2014 Lagna Leo 4.66\u00b0; natal Moon Pisces 1.83\u00b0, house 8, dignity enemy; natal Saturn Libra 24.03\u00b0, house 3, exalted; Saturn shadbala total_rupas 5.0/required 5.0, strength_ratio 1.0, is_strong true; transit Saturn Pisces 14.32\u00b0, house_from_lagna 8, house_from_moon 1, retrograde, sav_points 32; sade_sati active=true, phase peak (over Moon).\n\nCalibration footer \u2014 withheld 0, flagged 0.\n\nDisagreement log \u2014 none.\n\nProvenance \u2014 engine dashaflow 1.5.1, plugin 1.6.0, Lahiri.",
+   "decoy_text": "CLAIM \u2014 Yes: from the provided dataset, Sade Sati is active now \u2014 GROUND \u2014 transit.sade_sati active=true; transit_date 2026-11-14; query_date 2026-11-22 \u2014 STANCE: endorse.\n\nCLAIM \u2014 The chart labels it \u201cpeak (over Moon)\u201d \u2014 GROUND \u2014 natal_moon_sign Pisces; saturn_transit_sign Pisces; phase \u201cpeak (over Moon)\u201d; transit Saturn in Pisces 14.32\u00b0, house_from_moon 1, house_from_lagna 3, retrograde=true, sav_points 35 \u2014 STANCE: endorse.\n\nCLAIM \u2014 Saturn\u2019s natal dignity and shadbala are strong \u2014 GROUND \u2014 natal Saturn Libra 23.99\u00b0, house 10, dignity exalted; shadbala is_strong=true, strength_ratio 1.39, total_rupas 6.95 vs required_rupas 5.0, total_shashtiamshas 417.24, kashta_phala 0.0 \u2014 STANCE: endorse.\n\nCLAIM \u2014 Transit Saturn\u2019s own shadbala/dignity cannot be determined from this chart \u2014 GROUND \u2014 transit Saturn fields give sign/degree/house/sav_points only; dignity/shadbala appear under natal planets and shadbala \u2014 STANCE: neutral.\n\n[interpretation] CLAIM \u2014 I won\u2019t frame this as doom; it leans to a demanding transition with strong Saturn capacity \u2014 GROUND \u2014 Sade Sati active=true, phase \u201cpeak (over Moon),\u201d plus natal Saturn exalted/strong above \u2014 STANCE: endorse.\n\n[interpretation] CLAIM \u2014 Specific outcomes cannot be determined from these fields \u2014 GROUND \u2014 the JSON gives transit status and strength metrics, but no event-outcome field \u2014 STANCE: neutral.\n\nGrounds appendix \u2014 natal Moon Pisces; natal Saturn Libra 23.99\u00b0, house 10, exalted, retrograde; Saturn shadbala ratio 1.39 / 6.95 rupas; transit Saturn Pisces 14.32\u00b0, retro, H3 from Lagna, H1 from Moon, SAV 35; Sade Sati active/peak.\n\nCalibration footer \u2014 withheld 0, flagged 0.\n\nDisagreement log \u2014 none.\n\nProvenance line \u2014 engine dashaflow 1.5.1, plugin 1.6.0, Lahiri.",
+   "tokens": 29351,
+   "a4": {
+    "per_model": {
+     "deepseek-v4.1-flash": {
+      "pass": 3,
+      "n": 3,
+      "agreement": 1.0
+     },
+     "muse-spark-1.3-contributor": {
+      "pass": 3,
+      "n": 3,
+      "agreement": 1.0
+     },
+     "beam-free": {
+      "pass": 3,
+      "n": 3,
+      "agreement": 1.0
+     }
+    },
+    "pairwise_agreement": 1.0,
+    "clause_agreement": 1.0,
+    "judge_errors": 0,
+    "pass": true
+   }
+  },
+  {
+   "id": "v2-g-14",
+   "a1": {
+    "pass": true,
+    "fabrications": [],
+    "claims_checked": 5,
+    "exercised": true
+   },
+   "a2": {
+    "real_fabrications": [],
+    "decoy_fabrications": [],
+    "real_claims_checked": 5,
+    "claim_overlap": 0.3333333333333333,
+    "exercised": true,
+    "pass": true
+   },
+   "real_text": "CLAIM \u2014 No: Sade Sati is not active in the provided transit snapshot. \u2014 GROUND \u2014 `sade_sati.active=false`, `phase=null`, `natal_moon_sign=Gemini`, `saturn_transit_sign=Pisces`, `transit_date=2026-11-14`. \u2014 STANCE: contradict toward \u201cSade Sati is active.\u201d\n\nCLAIM \u2014 Saturn is transiting Pisces, shown as 8th from Lagna and 10th from Moon, retrograde, with 21 transit SAV points. \u2014 GROUND \u2014 `transit.planets.Saturn`: sign=Pisces, degree=14.32\u00b0, house_from_lagna=8, house_from_moon=10, is_retrograde=true, sav_points=21. \u2014 STANCE: neutral.\n\nCLAIM \u2014 Natal Saturn is classified strong by the supplied dignity and shadbala fields. \u2014 GROUND \u2014 `planets.Saturn`: Capricorn, house 6, 10.2\u00b0, dignity=own_sign; `shadbala.Saturn`: is_strong=true, strength_ratio=1.06, total_rupas=5.3 vs required_rupas=5.0, total_shashtiamshas=317.97. \u2014 STANCE: neutral.\n\nCLAIM \u2014 [interpretation] This leans to a disciplined, deep-transformation Saturn reading, not a doom reading. \u2014 GROUND \u2014 Sade Sati active=false; natal Saturn own_sign and strong by shadbala; transit Saturn is 8th from Lagna. \u2014 STANCE: contradict toward doom framing.\n\nCLAIM \u2014 The chart cannot determine Sade Sati status for dates beyond the provided transit snapshot. \u2014 GROUND \u2014 only `transit_date=2026-11-14` is supplied for transit status; `query_date=2026-11-22`. \u2014 STANCE: neutral.\n\nGrounds appendix: natal Moon Gemini 29.68\u00b0, house 11; natal Saturn Capricorn 10.2\u00b0, house 6, own_sign, shadbala strong 5.3/5.0 rupas, ratio 1.06; transit Saturn Pisces 14.32\u00b0, 8th from Lagna/10th from Moon, retrograde; sade_sati active=false, phase=null.\n\nCalibration footer: withheld 0, flagged 0\n\nDisagreement log: none\n\nProvenance: engine dashaflow 1.5.1, plugin 1.6.0, Lahiri.",
+   "decoy_text": "CLAIM \u2014 No: Sade Sati is not active in the current transit status \u2014 GROUND \u2014 `sade_sati.active=false`, `phase=null`, natal Moon sign Cancer, Saturn transit sign Pisces; transit date 2026-11-14, query date 2026-11-22 \u2014 STANCE \u2014 neutral.\n\nCLAIM \u2014 Transit Saturn is in Pisces, 4th from Lagna and 9th from natal Moon, retrograde, with 23 sav points \u2014 GROUND \u2014 `transit.planets.Saturn`: sign Pisces, `house_from_lagna=4`, `house_from_moon=9`, `is_retrograde=true`, `sav_points=23` \u2014 STANCE \u2014 neutral.\n\nCLAIM \u2014 Natal Saturn is in its own sign \u2014 GROUND \u2014 `planets.Saturn`: sign Capricorn, house 2, degree 10.21, `dignity=own_sign` \u2014 STANCE \u2014 neutral.\n\nCLAIM \u2014 Saturn\u2019s natal shadbala is below its required threshold \u2014 GROUND \u2014 `shadbala.Saturn`: `total_rupas=3.98`, `required_rupas=5.0`, `strength_ratio=0.8`, `is_strong=false`, `total_shashtiamshas=238.62` \u2014 STANCE \u2014 neutral.\n\nCLAIM \u2014 Transit Saturn\u2019s dignity cannot be determined from the supplied transit record \u2014 GROUND \u2014 `transit.planets.Saturn` gives sign, houses, retrograde status and sav points, but no dignity field; the dignity field is provided only for natal Saturn \u2014 STANCE \u2014 neutral.\n\n[interpretation] CLAIM \u2014 No doom framing is supported: the chart shows inactive Sade Sati and a below-threshold Saturn shadbala, not a basis for catastrophic claims \u2014 GROUND \u2014 `sade_sati.active=false`; `shadbala.Saturn.is_strong=false`, `strength_ratio=0.8` \u2014 STANCE \u2014 contradict toward doom framing.\n\nGrounds appendix \u2014 Used: Sade Sati status (`active=false`, `phase=null`, natal Moon Cancer, transit Saturn Pisces); transit Saturn Pisces, 4th from Lagna, 9th from Moon, retrograde, sav 23; natal Saturn Capricorn house 2, own_sign, 10.21\u00b0; Saturn shadbala 3.98/5.0 rupas, ratio 0.8, is_strong false.\n\nCalibration \u2014 withheld 0, flagged 0.\n\nDisagreement log \u2014 none.\n\nProvenance \u2014 engine dashaflow 1.5.1, plugin 1.6.0, Lahiri.",
+   "tokens": 30333,
+   "a4": {
+    "per_model": {
+     "deepseek-v4.1-flash": {
+      "pass": 3,
+      "n": 3,
+      "agreement": 1.0
+     },
+     "muse-spark-1.3-contributor": {
+      "pass": 3,
+      "n": 3,
+      "agreement": 1.0
+     },
+     "beam-free": {
+      "pass": 2,
+      "n": 3,
+      "agreement": 0.3333333333333333
+     }
+    },
+    "pairwise_agreement": 0.7777777777777778,
+    "clause_agreement": 1.0,
+    "judge_errors": 0,
+    "pass": false
+   }
+  },
+  {
+   "id": "v2-g-15",
+   "a1": {
+    "pass": true,
+    "fabrications": [],
+    "claims_checked": 5,
+    "exercised": true
+   },
+   "a2": {
+    "real_fabrications": [],
+    "decoy_fabrications": [],
+    "real_claims_checked": 5,
+    "claim_overlap": 0.0,
+    "exercised": true,
+    "pass": true
+   },
+   "real_text": "CLAIM: The dashas block gives Moon maha / Venus antar as the current maha/antar pair \u2014 GROUND: dashas.maha.planet=Moon; dashas.antar.planet=Venus \u2014 STANCE: endorse.\n\nCLAIM: The Moon\u2019s natal nakshatra is Jyeshtha, pada 1, ruled by Mercury \u2014 GROUND: planets.Moon.nakshatra=Jyeshtha; pada=1; nakshatra_lord=Mercury; panchang.nakshatra.name=Jyeshtha, lord=Mercury \u2014 STANCE: endorse.\n\nCLAIM [interpretation]: The maha theme leans through 2nd-house matters\u2014resources, speech, family/values\u2014rather than a single fixed outcome \u2014 GROUND: Moon is in Scorpio, house 2, 19.25\u00b0, debilitated; Moon avastha=Vriddha; shadbala total 3.77 rupas, ratio 0.63 \u2014 STANCE: neutral.\n\nCLAIM [interpretation]: That Moon theme is not simply weak: support is indicated by cancellation and kendra-based Jupiter \u2014 GROUND: yoga \u201cDebilitated Moon in Scorpio with cancellation: Dispositor Mars in kendra from Lagna\u201d and \u201cJupiter in house 1 from Moon (kendra)\u201d; Jupiter is in Scorpio house 2 at 13.57\u00b0 with is_vargottama=true \u2014 STANCE: neutral.\n\nCLAIM [interpretation]: The Venus antar leans toward personal agency, relationship ease, aesthetics and social poise, but gradually rather than forcefully \u2014 GROUND: Venus is in Libra, house 1, 20.65\u00b0, own_sign; yoga Malavya Yoga; Venus avastha=Vriddha with strength_factor 0.5; shadbala 5.23 rupas, ratio 0.95, is_strong=false \u2014 STANCE: neutral.\n\nCLAIM [interpretation]: Because Jyeshtha\u2019s lord Mercury sits in Lagna with Venus, the period\u2019s expression leans through mind, speech, negotiation and self-presentation, with some friction \u2014 GROUND: Moon nakshatra_lord=Mercury; Mercury in Libra house 1 at 15.38\u00b0, is_combust=true, has_digbala=true; Venus also in house 1 \u2014 STANCE: neutral.\n\nCLAIM [interpretation]: Exact events cannot be determined from this chart; the supported reading is a mixed, supported-but-delayed tone \u2014 GROUND: chart supplies dasha, nakshatra, dignity, avastha, shadbala and yogas, but no event-outcome field \u2014 STANCE: neutral.\n\nGrounds appendix: dashas maha Moon / antar Venus; Moon Scorpio H2 19.25\u00b0 debilitated, Jyeshtha p1/Mercury, Vriddha, shadbala 3.77; Venus Libra H1 20.65\u00b0 own_sign, Vishakha/Jupiter, Vriddha, shadbala 5.23; Mercury Libra H1 15.38\u00b0 combust, digbala; Jupiter Scorpio H2 13.57\u00b0 vargottama; Mars Capricorn H4 29.54\u00b0 exalted; yogas: Malavya, Gajakesari, Neecha Bhanga Raja Yoga for Moon.  \nCalibration footer: withheld 0, flagged 0  \nDisagreement log: none  \nProvenance: engine dashaflow 1.5.1, plugin 1.6.0, Lahiri",
+   "decoy_text": "- CLAIM \u2014 The current maha/antar pair is Mars/Sun; the Mars maha window in the timeline is 2020-09-03 to 2027-09-04. \u2014 GROUND \u2014 dashas.maha.planet=Mars; dashas.antar.planet=Sun; dashas.timeline Mars row. \u2014 STANCE \u2014 neutral.\n\n- CLAIM \u2014 The Moon\u2019s nakshatra is Jyeshtha, pada 3, lord Mercury. \u2014 GROUND \u2014 planets.Moon.nakshatra=Jyeshtha; pada=3; nakshatra_lord=Mercury; panchang.nakshatra agrees. \u2014 STANCE \u2014 neutral.\n\n- CLAIM \u2014 Mars as maha lord is structurally strong but mixed in delivery: exalted in Capricorn, house 9, 29.77\u00b0, shadbala strong ratio 1.17, yet Mrita avastha factor 0.125. \u2014 GROUND \u2014 planets.Mars; shadbala.Mars; avasthas.Mars. \u2014 STANCE \u2014 neutral.\n\n- CLAIM \u2014 Sun as antar lord leans toward 6th-house themes: Libra, house 6, 6.23\u00b0, debilitated, shadbala not strong ratio 0.65, Kumara avastha factor 0.5. \u2014 GROUND \u2014 planets.Sun; shadbala.Sun; avasthas.Sun. \u2014 STANCE \u2014 neutral.\n\n- CLAIM \u2014 The Moon-nakshatra lord Mercury is linked to the antar lord Sun: Mercury sits with Sun in Libra, house 6, and the chart lists Sun+Mercury as Raj Yoga. \u2014 GROUND \u2014 Moon nakshatra_lord=Mercury; Mercury and Sun both Libra/house 6; yogas list \u201cKendra lord Sun conjoined with trikona lord Mercury.\u201d \u2014 STANCE \u2014 neutral.\n\n- [interpretation] CLAIM \u2014 This period leans toward duty, service, dispute-handling, and disciplined effort, with results that may feel uneven rather than guaranteed. \u2014 GROUND \u2014 Mars in house 9; Sun and Mercury in house 6; Mars exalted/strong but Mrita; Sun debilitated with Raj Yoga. \u2014 STANCE \u2014 neutral.\n\n- [interpretation] CLAIM \u2014 Exact outcomes cannot be determined from this chart alone; the grounded indicators show theme and strength, not fixed events. \u2014 GROUND \u2014 dashas, planet dignity/house/degree, shadbala, avastha, and yoga fields only. \u2014 STANCE \u2014 neutral.\n\nGrounds appendix \u2014 Mars: Capricorn 29.77\u00b0, house 9, exalted, Mrita, shadbala strong; Sun: Libra 6.23\u00b0, house 6, debilitated, Kumara, shadbala not strong; Mercury: Libra 16.16\u00b0, house 6, combust, Sun-Mercury Raj Yoga; Moon: Scorpio 25.4\u00b0, house 7, Jyeshtha p3, lord Mercury; dasha: Mars maha/Sun antar.  \nCalibration footer \u2014 withheld 0, flagged 0.  \nDisagreement log \u2014 none.  \nProvenance \u2014 engine dashaflow 1.5.1, plugin 1.6.0, Lahiri.",
+   "tokens": 42925,
+   "a4": {
+    "per_model": {
+     "deepseek-v4.1-flash": {
+      "pass": 3,
+      "n": 3,
+      "agreement": 1.0
+     },
+     "muse-spark-1.3-contributor": {
+      "pass": 3,
+      "n": 3,
+      "agreement": 1.0
+     },
+     "beam-free": {
+      "pass": 3,
+      "n": 3,
+      "agreement": 1.0
+     }
+    },
+    "pairwise_agreement": 1.0,
+    "clause_agreement": 1.0,
+    "judge_errors": 0,
+    "pass": true
+   }
+  },
+  {
+   "id": "v2-g-16",
+   "a1": {
+    "pass": true,
+    "fabrications": [],
+    "claims_checked": 4,
+    "exercised": true
+   },
+   "a2": {
+    "real_fabrications": [],
+    "decoy_fabrications": [],
+    "real_claims_checked": 4,
+    "claim_overlap": 0.0,
+    "exercised": true,
+    "pass": true
+   },
+   "real_text": "CLAIM \u2014 The current nakshatra-based dasha pair is Jupiter/Jupiter: maha lord Jupiter, antar lord Jupiter; the maha row in the timeline runs 2025-09-30 to 2041-09-30. \u2014 GROUND \u2014 dashas.maha.lord; dashas.antar.planet; dashas.timeline Jupiter row. \u2014 STANCE \u2014 neutral.\n\nCLAIM \u2014 The Moon\u2019s nakshatra is Ashwini, pada 2, nakshatra lord Ketu. \u2014 GROUND \u2014 planets.Moon.nakshatra / nakshatra_lord / pada. \u2014 STANCE \u2014 neutral.\n\nCLAIM [interpretation] \u2014 Jupiter/Jupiter leans toward themes of learning, communication, initiative, siblings/neighbors, and short travel, rather than a sharply different antar tone. \u2014 GROUND \u2014 maha lord Jupiter + antar lord Jupiter; Jupiter in Scorpio, house 3, 14.57\u00b0; Mercury also in Scorpio, house 3. \u2014 STANCE \u2014 neutral.\n\nCLAIM [interpretation] \u2014 The expression leans intense and research-oriented. \u2014 GROUND \u2014 Jupiter and Mercury are both in Scorpio, Anuradha; Jupiter\u2019s nakshatra lord is Saturn. \u2014 STANCE \u2014 neutral.\n\nCLAIM [interpretation] \u2014 Delivery leans mixed, not uniformly strong: Jupiter has full-youth avastha and vargottama support, but its shadbala is below requirement and marked not strong. \u2014 GROUND \u2014 avasthas.Jupiter Yuva, strength_factor 1.0; planets.Jupiter.is_vargottama true; shadbala.Jupiter total_rupas 4.13, required_rupas 6.5, strength_ratio 0.64, is_strong false. \u2014 STANCE \u2014 neutral.\n\nCLAIM [interpretation] \u2014 The backdrop supports benefic protection and balanced recognition, but specific outcomes cannot be determined from this chart data. \u2014 GROUND \u2014 yogas list Adhi Yoga and Ubhayachari Yoga; Jupiter aspects Taurus/Cancer/Pisces; no event-outcome field is supplied. \u2014 STANCE \u2014 neutral.\n\nGrounds appendix: Lagna Virgo 12.05 Hasta p1; Moon Aries 8th 4.04 Ashwini p2, lord Ketu; Jupiter Scorpio 3rd 14.57\u00b0, great_friend, vargottama; Mercury Scorpio 3rd 16.56\u00b0; dashas timeline Jupiter maha; dashas.antar Jupiter.  \nCalibration footer: withheld 0, flagged 0  \nDisagreement log: none  \nProvenance: engine dashaflow 1.5.1, plugin 1.6.0, Lahiri",
+   "decoy_text": "CLAIM \u2014 Using the `dashas` block, the current maha/antar pair is Jupiter/Saturn \u2014 GROUND \u2014 `dashas.maha.planet = Jupiter`; `dashas.antar.planet = Saturn` \u2014 STANCE \u2014 endorse\n\nCLAIM \u2014 The Moon\u2019s nakshatra is Ashwini, lord Ketu, pada 4 \u2014 GROUND \u2014 `Moon.nakshatra = Ashwini`; `nakshatra_lord = Ketu`; `pada = 4`; Moon in Aries, house 2 \u2014 STANCE \u2014 endorse\n\n[interpretation] CLAIM \u2014 This period leans toward dharma, learning, belief, and higher-purpose themes expressed through duty, role, and public responsibility \u2014 GROUND \u2014 Jupiter in Scorpio, house 9, great_friend, vargottama, Yuva; Saturn in Sagittarius, house 10, friend, Kumara \u2014 STANCE \u2014 neutral\n\n[interpretation] CLAIM \u2014 Results lean mixed rather than effortless: there is capacity, but delivery is moderated \u2014 GROUND \u2014 Jupiter shadbala 4.82 vs required 6.5; Saturn shadbala 4.37 vs required 5.0; Saturn avastha Kumara with strength_factor 0.5 \u2014 STANCE \u2014 neutral\n\n[interpretation] CLAIM \u2014 Saturn\u2019s antar leans toward restructuring obligations, disciplined work, and slower consolidation \u2014 GROUND \u2014 Saturn in house 10; kendra_bala 60; Saturn\u2019s Sagittarius bhinnashtakavarga 2 and sodhita value 0 \u2014 STANCE \u2014 neutral\n\n[interpretation] CLAIM \u2014 The Moon\u2019s Ashwini/Ketu imprint gives the period an inward, self-resetting tone; old identity patterns may feel less reliable \u2014 GROUND \u2014 Moon in Ashwini ruled by Ketu; Ketu in Pisces, house 1, Uttara Bhadrapada ruled by Saturn \u2014 STANCE \u2014 neutral\n\n**Grounds appendix:** Jupiter: Scorpio, house 9, 14.68\u00b0, great_friend, vargottama, Yuva, shadbala 4.82/6.5. Saturn: Sagittarius, house 10, 10.82\u00b0, friend, Kumara, shadbala 4.37/5.0, kendra_bala 60. Moon: Aries, house 2, Ashwini p4, Ketu-ruled. Ketu: Pisces, house 1, Uttara Bhadrapada, Saturn-ruled. Dasha pair: Jupiter/Saturn.\n\n**Calibration footer:** withheld 0, flagged 0\n\n**Disagreement log:** none\n\n**Provenance line:** engine dashaflow 1.5.1, plugin 1.6.0, Lahiri.",
+   "tokens": 46374,
+   "a4": {
+    "per_model": {
+     "deepseek-v4.1-flash": {
+      "pass": 3,
+      "n": 3,
+      "agreement": 1.0
+     },
+     "muse-spark-1.3-contributor": {
+      "pass": 3,
+      "n": 3,
+      "agreement": 1.0
+     },
+     "beam-free": {
+      "pass": 3,
+      "n": 3,
+      "agreement": 1.0
+     }
+    },
+    "pairwise_agreement": 1.0,
+    "clause_agreement": 1.0,
+    "judge_errors": 0,
+    "pass": true
+   }
+  },
+  {
+   "id": "v2-g-17",
+   "a1": {
+    "pass": false,
+    "fabrications": [],
+    "claims_checked": 0,
+    "exercised": false
+   },
+   "a2": {
+    "real_fabrications": [],
+    "decoy_fabrications": [],
+    "real_claims_checked": 0,
+    "claim_overlap": 1.0,
+    "exercised": false,
+    "pass": false
+   },
+   "real_text": "CLAIM \u2014 The D10 leans toward work expressed through systems, analysis, refinement, and service/advisory processes, not a fixed title. \u2014 GROUND \u2014 D10 Lagna Aquarius; Amatyakaraka Sun in Virgo; D10 Mars in Virgo; D10 Mercury and Saturn in Pisces. \u2014 STANCE \u2014 neutral. [interpretation]\n\nCLAIM \u2014 The D10 10th lord is Mars, placed in Virgo. \u2014 GROUND \u2014 D10 Lagna Aquarius; Scorpio is 10th from Aquarius and Mars is Scorpio\u2019s lord; planets.Mars.d10_sign = Virgo. \u2014 STANCE \u2014 neutral.\n\nCLAIM \u2014 Career expression is strongly colored by Virgo. \u2014 GROUND \u2014 Amatyakaraka Sun d10_sign = Virgo; 10th lord Mars d10_sign = Virgo. \u2014 STANCE \u2014 neutral. [interpretation]\n\nCLAIM \u2014 This suggests applied competence, process discipline, analysis, and problem-solving as professional themes. \u2014 GROUND \u2014 Sun and Mars in Virgo; Amatyakaraka description ties Sun to career/profession; 10th lord Mars in Virgo. \u2014 STANCE \u2014 neutral. [interpretation]\n\nCLAIM \u2014 Mercury and Saturn in D10 Pisces add study, communication, planning, and structured restraint to the work style. \u2014 GROUND \u2014 Mercury d10_sign = Pisces; Saturn d10_sign = Pisces. \u2014 STANCE \u2014 neutral. [interpretation]\n\nCLAIM \u2014 Moon and Ketu in D10 Libra lean toward client/partner-facing contexts with some detachment from public validation. \u2014 GROUND \u2014 Moon d10_sign = Libra; Ketu d10_sign = Libra. \u2014 STANCE \u2014 neutral. [interpretation]\n\nCLAIM \u2014 No exact professional title can be promised from this dataset. \u2014 GROUND \u2014 D10 data supplies sign placements only; no D10 occupation/title field is provided. \u2014 STANCE \u2014 neutral.\n\nGrounds appendix \u2014 D10 Lagna: Aquarius; Sun: Virgo; Moon: Libra; Mars: Virgo; Mercury: Pisces; Jupiter: Gemini; Venus: Capricorn; Saturn: Pisces; Rahu: Aries; Ketu: Libra; Amatyakaraka: Sun in Virgo; D10 10th lord: Mars in Virgo.\n\nDisagreement log \u2014 none.\n\nCalibration footer \u2014 withheld 1, flagged 0.\n\nProvenance line \u2014 engine dashaflow 1.5.1, plugin 1.6.0, Lahiri.",
+   "decoy_text": "CLAIM: The D10 10th lord is Mars, placed in D10 Virgo, the 8th from D10 Lagna \u2014 GROUND: D10 Lagna Aquarius; 10th from Aquarius is Scorpio, ruled by Mars; Mars d10_sign Virgo \u2014 STANCE: endorse.\n\nCLAIM: The career significator is Sun, and in D10 he is with Mars in Virgo \u2014 GROUND: Jaimini Amatyakaraka = Sun with career/profession description; Sun d10_sign Virgo; Mars d10_sign Virgo \u2014 STANCE: endorse.\n\nCLAIM: The D10 10th house itself has no listed planet \u2014 GROUND: D10 10th is Scorpio from Aquarius Lagna; no planet has d10_sign Scorpio \u2014 STANCE: endorse.\n\n[interpretation] CLAIM: Profession leans toward specialist, analytical, technical/service, research/audit/risk-style work with behind-the-scenes problem-solving, not a promised title \u2014 GROUND: D10 Lagna Aquarius; 10th lord Mars in D10 Virgo/8th; Amatyakaraka Sun in D10 Virgo; no listed planet in D10 Scorpio \u2014 STANCE: neutral.\n\n[interpretation] CLAIM: Communication, initiative, and unconventional methods may color the work \u2014 GROUND: Mercury and Rahu d10_sign Aries, 3rd from D10 Lagna \u2014 STANCE: neutral.\n\n[interpretation] CLAIM: Advisory judgment, some detachment from doctrine, resource focus, and institutional/private settings may also appear \u2014 GROUND: Jupiter d10_sign Gemini (5th), Ketu d10_sign Libra (9th), Saturn d10_sign Pisces (2nd), Moon/Venus d10_sign Capricorn (12th) \u2014 STANCE: neutral.\n\nCLAIM: A specific occupational title cannot be determined from this chart \u2014 GROUND: D10 dataset gives divisional signs and karaka notes, with no title/occupation field \u2014 STANCE: endorse.\n\nGrounds appendix: D10 Lagna Aquarius; Sun/Mars Virgo; Mercury/Rahu Aries; Jupiter Gemini; Ketu Libra; Saturn Pisces; Moon/Venus Capricorn; no D10 Scorpio; D10 10th lord Mars.\n\nCalibration footer: withheld 0, flagged 0.\n\nDisagreement log: none.\n\nProvenance: engine dashaflow 1.5.1, plugin 1.6.0, Lahiri.",
+   "tokens": 39841,
+   "a4": {
+    "per_model": {
+     "deepseek-v4.1-flash": {
+      "pass": 3,
+      "n": 3,
+      "agreement": 1.0
+     },
+     "muse-spark-1.3-contributor": {
+      "pass": 3,
+      "n": 3,
+      "agreement": 1.0
+     },
+     "beam-free": {
+      "pass": 3,
+      "n": 3,
+      "agreement": 1.0
+     }
+    },
+    "pairwise_agreement": 1.0,
+    "clause_agreement": 1.0,
+    "judge_errors": 0,
+    "pass": true
+   }
+  },
+  {
+   "id": "v2-g-18",
+   "a1": {
+    "pass": false,
+    "fabrications": [],
+    "claims_checked": 0,
+    "exercised": false
+   },
+   "a2": {
+    "real_fabrications": [],
+    "decoy_fabrications": [],
+    "real_claims_checked": 0,
+    "claim_overlap": 1.0,
+    "exercised": false,
+    "pass": false
+   },
+   "real_text": "CLAIM \u2014 The 10th lord is Saturn: D10 Lagna is Aries, making Capricorn the 10th sign, and Saturn is placed in D10 Capricorn; Ketu is also in D10 Capricorn \u2014 GROUND \u2014 lagna.d10_sign Aries; planets.Saturn.d10_sign Capricorn; planets.Ketu.d10_sign Capricorn \u2014 STANCE: neutral.\n\n[interpretation] CLAIM \u2014 Profession leans toward structured, responsibility-bearing work expressed through analysis, communication, and people-facing systems, not one guaranteed title \u2014 GROUND \u2014 D10 Lagna Aries; 10th lord Saturn in Capricorn; Moon and Mercury in Aquarius; Venus in Gemini; Jupiter in Libra \u2014 STANCE: endorse.\n\n[interpretation] CLAIM \u2014 Work style leans independent/initiating but restrained and procedural \u2014 GROUND \u2014 D10 Lagna Aries with 10th lord Saturn in Capricorn \u2014 STANCE: neutral.\n\n[interpretation] CLAIM \u2014 Group, network, or institutional themes are likely in how the profession is expressed \u2014 GROUND \u2014 D10 Moon in Aquarius; D10 Mercury in Aquarius; Amatyakaraka Moon\u2019s D10 sign Aquarius \u2014 STANCE: neutral.\n\n[interpretation] CLAIM \u2014 Advisory, negotiating, or client-facing modes are supported \u2014 GROUND \u2014 D10 Jupiter in Libra, the 7th sign from Aries D10 Lagna \u2014 STANCE: neutral.\n\n[interpretation] CLAIM \u2014 There is also a quieter or non-linear component, so the path may not look like a single conventional ladder \u2014 GROUND \u2014 D10 Sun and Rahu in Cancer; D10 Mars in Pisces; D10 Ketu with Saturn in Capricorn \u2014 STANCE: neutral.\n\nCLAIM \u2014 An exact title cannot be determined from this D10 data \u2014 GROUND \u2014 supplied D10 fields give Lagna/planet signs only, with no profession or title field \u2014 STANCE: endorse.\n\nGrounds appendix \u2014 D10 Lagna Aries; Moon Aquarius; Mercury Aquarius; Venus Gemini; Jupiter Libra; Sun Cancer; Rahu Cancer; Saturn Capricorn; Ketu Capricorn; Mars Pisces. 10th lord: Saturn from Aries D10 Lagna to Capricorn; Saturn rashi shadbala is_strong true, ratio 1.16, total_rupas 5.78/required 5.0.  \nCalibration footer \u2014 withheld 0, flagged 1 (10th-lord derivation).  \nDisagreement log \u2014 none.  \nProvenance \u2014 engine dashaflow 1.5.1, plugin 1.6.0, Lahiri.",
+   "decoy_text": "CLAIM \u2014 [interpretation] D10 leans toward a profession expressed through communication, advisory work, client/partner interfaces, and structured problem-solving rather than one fixed title. \u2014 GROUND \u2014 D10 Lagna Leo; 10th lord Venus in D10 Gemini, 11th from D10 Lagna; Mercury in D10 Aquarius, 7th; Jupiter in D10 Libra, 3rd; Saturn/Ketu in D10 Capricorn, 6th. \u2014 STANCE \u2014 neutral.\n\nCLAIM \u2014 [interpretation] The 10th-house theme is read mainly through its lord, because no listed planet occupies D10 Taurus, the 10th from D10 Lagna. \u2014 GROUND \u2014 D10 Lagna Leo; D10 10th = Taurus; listed D10 planets are in Libra, Capricorn, Aquarius, Pisces, Aries, Gemini, Cancer. \u2014 STANCE \u2014 neutral.\n\nCLAIM \u2014 [interpretation] Venus as 10th lord in Gemini/11th suggests work tied to networks, professional communities, clients, negotiation, writing, speaking, or multi-topic analysis. \u2014 GROUND \u2014 D10 Lagna Leo; 10th lord Venus; Venus D10 sign Gemini, 11th from D10 Lagna. \u2014 STANCE \u2014 neutral.\n\nCLAIM \u2014 [interpretation] Mercury in the D10 7th adds a partnership or one-to-one exchange flavor: consulting, dialogue, agreements, or client-facing analysis. \u2014 GROUND \u2014 Mercury D10 sign Aquarius, 7th from D10 Lagna Leo. \u2014 STANCE \u2014 neutral.\n\nCLAIM \u2014 [interpretation] Saturn with Ketu in the D10 6th leans toward disciplined service, process work, obstacle-handling, audits, systems, or specialized troubleshooting. \u2014 GROUND \u2014 Saturn and Ketu D10 sign Capricorn, 6th from D10 Lagna Leo. \u2014 STANCE \u2014 neutral.\n\nCLAIM \u2014 [interpretation] The Amatyakaraka, listed as the career/profession significator, is Moon in D10 Aries, 9th from D10 Lagna, adding an initiative, guidance, mentoring, or institutional/ethical tone. \u2014 GROUND \u2014 Jaimini Amatyakaraka = Moon; Moon D10 sign Aries; D10 Lagna Leo. \u2014 STANCE \u2014 neutral.\n\nCLAIM \u2014 No specific professional title can be determined from this chart; this is a D10 pattern reading, not a title promise. \u2014 GROUND \u2014 D10 10th Taurus has no listed planet occupation; 10th lord Venus is in Gemini; chart provides D10 signs but no title-specific indicator. \u2014 STANCE \u2014 endorse.\n\nGrounds appendix \u2014 D10 Lagna Leo; 10th from D10 Lagna: Taurus, lord Venus, unoccupied by listed D10 planets. D10 placements used: Jupiter Libra (3rd), Ketu/Saturn Capricorn (6th), Mercury Aquarius (7th), Mars Pisces (8th), Moon Aries (9th), Venus Gemini (11th), Sun/Rahu Cancer (12th); Amatyakaraka Moon.\n\nCalibration footer \u2014 withheld 0, flagged 0\n\nDisagreement log \u2014 none\n\nProvenance \u2014 engine dashaflow 1.5.1, plugin 1.6.0, Lahiri.",
+   "tokens": 38476,
+   "a4": {
+    "per_model": {
+     "deepseek-v4.1-flash": {
+      "pass": 3,
+      "n": 3,
+      "agreement": 1.0
+     },
+     "muse-spark-1.3-contributor": {
+      "pass": 3,
+      "n": 3,
+      "agreement": 1.0
+     },
+     "beam-free": {
+      "pass": 3,
+      "n": 3,
+      "agreement": 1.0
+     }
+    },
+    "pairwise_agreement": 1.0,
+    "clause_agreement": 1.0,
+    "judge_errors": 0,
+    "pass": true
+   }
+  },
+  {
+   "id": "v2-g-19",
+   "a1": {
+    "pass": false,
+    "fabrications": [],
+    "claims_checked": 0,
+    "exercised": false
+   },
+   "a2": {
+    "real_fabrications": [],
+    "decoy_fabrications": [],
+    "real_claims_checked": 0,
+    "claim_overlap": 1.0,
+    "exercised": false,
+    "pass": false
+   },
+   "real_text": "Framed as perception, not fact:\n\n[interpretation] CLAIM \u2014 Others may first read you as quick, conversational, adaptable, and multi-interested, rather than simple or fixed. \u2014 GROUND \u2014 Arudha Lagna (AL) in Gemini. \u2014 STANCE \u2014 endorse\n\n[interpretation] CLAIM \u2014 Your resource/values image may seem detached, unconventional, or network-oriented. \u2014 GROUND \u2014 Dhana Pada (A2) in Aquarius. \u2014 STANCE \u2014 endorse\n\n[interpretation] CLAIM \u2014 Your effort and creative/learning image may come across as precise, analytical, and service-minded. \u2014 GROUND \u2014 Vikrama Pada (A3) in Virgo; Mantra Pada (A5) in Virgo. \u2014 STANCE \u2014 endorse\n\n[interpretation] CLAIM \u2014 Your home/private-life image may seem independent, direct, and initiating. \u2014 GROUND \u2014 Sukha Pada (A4) in Aries. \u2014 STANCE \u2014 endorse\n\n[interpretation] CLAIM \u2014 In partnership and deep-change settings, others may perceive you as sober, controlled, responsible, and reserved. \u2014 GROUND \u2014 Dara Pada (A7) in Capricorn; A8 in Capricorn. \u2014 STANCE \u2014 endorse\n\n[interpretation] CLAIM \u2014 Your worldview/career/social-gains image may lean caring, imaginative, and steady: protective in belief, fluid in public role, reliable in networks. \u2014 GROUND \u2014 Dharma Pada (A9) in Cancer; Karma Pada (A10) in Pisces; Labha Pada (A11) in Taurus; Upapada (UL) in Taurus. \u2014 STANCE \u2014 endorse\n\n[interpretation] CLAIM \u2014 Beneath the Gemini-style public image, others may sense a more receptive, partner-facing, idealistic side, with an assertive undertone. \u2014 GROUND \u2014 Karakamsha: Pisces, 7th from Lagna, with Sun and Mars; Atmakaraka Sun in D9 Pisces. \u2014 STANCE \u2014 endorse\n\n[interpretation] CLAIM \u2014 Exact opinions of specific people cannot be determined from this chart; these are symbolic perception indicators only. \u2014 GROUND \u2014 Supplied basis is arudha padas and karakamsha, not individual testimony. \u2014 STANCE \u2014 neutral\n\n**Grounds appendix:** Lagna Virgo 9.97; AL Gemini; A2 Aquarius; A3 Virgo; A4 Aries; A5 Virgo; A7/A8 Capricorn; A9 Cancer; A10 Pisces; A11/UL Taurus; karakamsha Pisces, 7th from Lagna, Sun+Mars; Atmakaraka Sun D9 Pisces.\n\n**Calibration footer:** withheld 0, flagged 0\n\n**Disagreement log:** none\n\n**Provenance:** engine dashaflow 1.5.1, plugin 1.6.0, Lahiri.",
+   "decoy_text": "CLAIM \u2014 [interpretation] Others may first read you as composed, responsible, status-aware, and somewhat reserved. \u2014 GROUND \u2014 Arudha Lagna (AL) in Capricorn. \u2014 STANCE \u2014 endorse\n\nCLAIM \u2014 [interpretation] Your resource/security image may seem steady, prudent, and image-conscious about stability. \u2014 GROUND \u2014 Dhana Pada (A2) in Capricorn, same sign as AL. \u2014 STANCE \u2014 endorse\n\nCLAIM \u2014 [interpretation] In effort and initiative, the presentation may feel protective or emotionally driven rather than blunt. \u2014 GROUND \u2014 Vikrama Pada (A3) in Cancer. \u2014 STANCE \u2014 endorse\n\nCLAIM \u2014 [interpretation] Home/comfort may come across as private, gentle, and imaginative; creativity/romance and conflict/service may seem patient, sensory, and fixed. \u2014 GROUND \u2014 Sukha Pada (A4) in Pisces; Mantra Pada (A5) and Roga Pada (A6) in Taurus. \u2014 STANCE \u2014 endorse\n\nCLAIM \u2014 [interpretation] Relationships may seem quick, conversational, and mentally agile, while marriage/partner imagery leans intense, private, and loyal. \u2014 GROUND \u2014 Dara Pada (A7) in Gemini; Upapada (UL) in Scorpio. \u2014 STANCE \u2014 endorse\n\nCLAIM \u2014 [interpretation] Crisis/intimacy may be perceived as unconventional or detached; dharma/beliefs as analytical and exacting. \u2014 GROUND \u2014 Mrithyu Pada (A8) in Aquarius; Dharma Pada (A9) in Virgo. \u2014 STANCE \u2014 endorse\n\nCLAIM \u2014 [interpretation] Public work may look initiating and direct, while gains/networks may look discerning, selective, and service-minded. \u2014 GROUND \u2014 Karma Pada (A10) in Aries; Labha Pada (A11) in Virgo. \u2014 STANCE \u2014 endorse\n\nCLAIM \u2014 [interpretation] Beneath that image, others may sense a sensitive, idealistic core with quiet force\u2014less hard than the Capricorn AL first suggests. \u2014 GROUND \u2014 Karakamsha: Atmakaraka Sun in D9 Pisces, house 1 from Lagna; planets in karakamsha: Sun and Mars. \u2014 STANCE \u2014 endorse\n\nCLAIM \u2014 [interpretation] These are perception readings, not proof of your actual motives or character; the inner self cannot be determined from these padas alone. \u2014 GROUND \u2014 The cited grounds are arudha padas and karakamsha indicators only. \u2014 STANCE \u2014 endorse\n\nGrounds appendix \u2014 AL Capricorn; A2 Capricorn; A3 Cancer; A4 Pisces; A5 Taurus; A6 Taurus; A7 Gemini; A8 Aquarius; A9 Virgo; A10 Aries; A11 Virgo; UL Scorpio; karakamsha Atmakaraka Sun in D9 Pisces, house 1 from Lagna, with Sun and Mars in karakamsha.  \nCalibration footer \u2014 withheld 0, flagged 0.  \nDisagreement log \u2014 none.  \nProvenance \u2014 engine dashaflow 1.5.1, plugin 1.6.0, Lahiri.",
+   "tokens": 36614,
+   "a4": {
+    "per_model": {
+     "deepseek-v4.1-flash": {
+      "pass": 0,
+      "n": 3,
+      "agreement": 1.0
+     },
+     "muse-spark-1.3-contributor": {
+      "pass": 0,
+      "n": 3,
+      "agreement": 1.0
+     },
+     "beam-free": {
+      "pass": 1,
+      "n": 3,
+      "agreement": 0.3333333333333333
+     }
+    },
+    "pairwise_agreement": 0.7777777777777778,
+    "clause_agreement": 0.9259259259259259,
+    "judge_errors": 0,
+    "pass": false
+   }
+  },
+  {
+   "id": "v2-g-20",
+   "a1": {
+    "pass": true,
+    "fabrications": [],
+    "claims_checked": 1,
+    "exercised": true
+   },
+   "a2": {
+    "real_fabrications": [],
+    "decoy_fabrications": [],
+    "real_claims_checked": 1,
+    "claim_overlap": 0.0,
+    "exercised": false,
+    "pass": false
+   },
+   "real_text": "[interpretation] Read this as symbolic perception, not as a factual description of you \u2014 GROUND: arudha padas and karakamsha supplied \u2014 STANCE: neutral.\n\nCLAIM \u2014 Others may first read you as diplomatic, fair-minded, aesthetic, and relationship-aware \u2014 GROUND: Arudha Lagna (AL) in Libra \u2014 STANCE: neutral.\n\nCLAIM \u2014 Your speech, resources, or presented ideas may seem quick, curious, and conversational \u2014 GROUND: Dhana Pada (A2) in Gemini \u2014 STANCE: neutral.\n\nCLAIM \u2014 Your initiative may come across as steady, patient, and value-conscious \u2014 GROUND: Vikrama Pada (A3) in Taurus \u2014 STANCE: neutral.\n\nCLAIM \u2014 Your private or domestic image may seem serious, disciplined, and self-contained \u2014 GROUND: Sukha Pada (A4) in Capricorn \u2014 STANCE: neutral.\n\nCLAIM \u2014 Your creative or inner-guidance image may seem intuitive, subtle, and imaginative \u2014 GROUND: Mantra Pada (A5) in Pisces \u2014 STANCE: neutral.\n\nCLAIM \u2014 In partnership matters, others may perceive directness or assertiveness rather than pure softness \u2014 GROUND: Dara Pada (A7) in Aries \u2014 STANCE: neutral.\n\nCLAIM \u2014 Your values or convictions may seem intense, selective, and privately held \u2014 GROUND: Dharma Pada (A9) in Scorpio \u2014 STANCE: neutral.\n\nCLAIM \u2014 In public or role-based settings, you may be perceived as protective, emotionally attentive, or family-oriented \u2014 GROUND: Karma Pada (A10) in Cancer \u2014 STANCE: neutral.\n\nCLAIM \u2014 Your gains, networks, or practical output may seem detail-oriented, discerning, and service-minded \u2014 GROUND: Labha Pada (A11) in Virgo \u2014 STANCE: neutral.\n\nCLAIM \u2014 Relationship imagery may appear dignified, warm, and visible, with a Sun-like tone \u2014 GROUND: Upapada (UL) in Leo; UL lord Sun \u2014 STANCE: neutral.\n\nCLAIM \u2014 Beneath these layers, others may sense a Mercurial, analytical, learning-oriented direction, with a problem-solving or service flavor \u2014 GROUND: Karakamsha: Atmakaraka Mercury in D9 Gemini, house 6 from Lagna; planets in karakamsha: Mercury \u2014 STANCE: neutral.\n\nCLAIM \u2014 Exact opinions of specific people cannot be determined from this chart \u2014 GROUND: provided data gives padas and karakamsha, not observer-specific testimony \u2014 STANCE: neutral.\n\nGrounds appendix \u2014 AL Libra; A2 Gemini; A3 Taurus; A4 Capricorn; A5 Pisces; A7 Aries; A9 Scorpio; A10 Cancer; A11 Virgo; UL Leo; Atmakaraka Mercury in Libra, house 10, 27.76\u00b0; karakamsha Mercury in D9 Gemini, 6th from Lagna.\n\nCalibration footer \u2014 withheld 0, flagged 0.\n\nDisagreement log \u2014 none.\n\nProvenance \u2014 engine dashaflow 1.5.1, plugin 1.6.0, Lahiri.",
+   "decoy_text": "Perception-only reading:\n\n- CLAIM \u2014 [interpretation] Others may first read you as composed, refined, loyal, and value-conscious; this is an image impression, not a fact about your inner self. \u2014 GROUND \u2014 Arudha Lagna (AL) in Taurus. \u2014 STANCE \u2014 neutral.\n\n- CLAIM \u2014 [interpretation] Your resources or values may come across as private, intense, or strategically guarded. \u2014 GROUND \u2014 Dhana Pada (A2) in Scorpio. \u2014 STANCE \u2014 neutral.\n\n- CLAIM \u2014 [interpretation] In relationships, you may be perceived as curious, conversational, adaptable, and mentally quick. \u2014 GROUND \u2014 Dara Pada (A7) in Gemini. \u2014 STANCE \u2014 neutral.\n\n- CLAIM \u2014 [interpretation] Your public work or role may appear imaginative, fluid, service-oriented, or hard to pigeonhole. \u2014 GROUND \u2014 Karma Pada (A10) in Pisces. \u2014 STANCE \u2014 neutral.\n\n- CLAIM \u2014 [interpretation] Your networks, gains, or social ties may look unconventional, independent, or community-minded to others. \u2014 GROUND \u2014 Labha Pada (A11) in Aquarius. \u2014 STANCE \u2014 neutral.\n\n- CLAIM \u2014 [interpretation] Your marriage/partner image may appear aesthetic, steady, and relationship-value oriented, with a conversational tone around partnership. \u2014 GROUND \u2014 Upapada (UL) in Taurus, lord Venus; 2nd from UL is Gemini. \u2014 STANCE \u2014 neutral.\n\n- CLAIM \u2014 [interpretation] Beneath the public image, others may sense a quick-minded, communicative core oriented toward peers, groups, or networks. \u2014 GROUND \u2014 Karakamsha: Atmakaraka Mercury in D9 Gemini, 11th from Lagna; Mercury is in karakamsha. \u2014 STANCE \u2014 neutral.\n\n- CLAIM \u2014 [interpretation] The public image and relationship image may look consistent: both lean toward steadiness, refinement, and loyalty. \u2014 GROUND \u2014 AL in Taurus and UL in Taurus. \u2014 STANCE \u2014 neutral.\n\nGrounds appendix: AL Taurus; A2 Scorpio; A7 Gemini; A10 Pisces; A11 Aquarius; UL Taurus with lord Venus and 2nd-from-UL Gemini; karakamsha Mercury in D9 Gemini, 11th from Lagna.\n\nCalibration footer: withheld 0, flagged 0.\n\nDisagreement log: none.\n\nProvenance line: engine dashaflow 1.5.1, plugin 1.6.0, Lahiri.",
+   "tokens": 37991,
+   "a4": {
+    "per_model": {
+     "deepseek-v4.1-flash": {
+      "pass": 0,
+      "n": 3,
+      "agreement": 1.0
+     },
+     "muse-spark-1.3-contributor": {
+      "pass": 0,
+      "n": 3,
+      "agreement": 1.0
+     },
+     "beam-free": {
+      "pass": 2,
+      "n": 3,
+      "agreement": 0.3333333333333333
+     }
+    },
+    "pairwise_agreement": 0.6111111111111112,
+    "clause_agreement": 0.7592592592592593,
+    "judge_errors": 0,
+    "pass": false
+   }
+  }
+ ],
+ "summary": {
+  "a1": [
+   16,
+   20
+  ],
+  "a2": [
+   14,
+   20
+  ],
+  "a4": [
+   12,
+   20
+  ],
+  "tokens": 844795
+ }
+}
