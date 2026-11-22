@@ -10,9 +10,12 @@ import json
 import pathlib
 import sys
 
+from chart_claims import check_claims
 from eval_arms import ChatClient, run_without
 from eval_runner import (
     _engine_provenance,
+    _resume_state,
+    _write_partial,
     judge_response,
     load_jsonl,
     load_ledger,
@@ -22,13 +25,12 @@ from eval_runner import (
 from eval_scoring import extract_numeric_claims, find_fabrications
 
 
-def shift_birth(birth: dict, hours: int = 12) -> dict:
-    """Return a copy of the birth data with the time shifted by `hours`."""
-    t = datetime.time.fromisoformat(birth["time"])
-    shifted = (
-        datetime.datetime.combine(datetime.date.min, t) + datetime.timedelta(hours=hours)
-    ).time()
+def shift_birth(birth: dict, hours: int = 12, days: int = 0) -> dict:
+    """Return a copy of the birth data shifted by `hours` and `days`."""
+    original = datetime.datetime.fromisoformat(f"{birth['dob']}T{birth['time']}")
+    shifted = original + datetime.timedelta(hours=hours, days=days)
     out = dict(birth)
+    out["dob"] = shifted.date().isoformat()
     out["time"] = shifted.strftime("%H:%M")
     return out
 
@@ -38,16 +40,30 @@ def chart_text_divergence(
 ) -> dict:
     """Compare a real-chart reading with a decoy-chart reading.
 
-    A1 is the real reading's fabrication list against the real chart. A2 passes
-    only when both readings assert at least one numeric chart claim, the two
-    claim sets share less than half their values, and — when the decoy chart is
-    supplied — the decoy reading fits its own chart. Identical texts always
-    fail: a chart-blind pipeline cannot distinguish the charts.
+    A1 is the real reading's contradiction list against the real chart: numeric
+    fabrications plus sign/house mismatches. A2 passes only when both readings
+    assert at least one chart claim (numeric, sign or house), the two claim sets
+    share less than half their values, and — when the decoy chart is supplied —
+    the decoy reading fits its own chart. Identical texts always fail: a
+    chart-blind pipeline cannot distinguish the charts.
     """
-    real_fab = find_fabrications(real_text, real_chart)
-    decoy_fab = find_fabrications(decoy_text, decoy_chart or real_chart)
-    real_claims = {c.lower() for c in extract_numeric_claims(real_text)}
-    decoy_claims = {c.lower() for c in extract_numeric_claims(decoy_text)}
+    real_check = check_claims(real_text, real_chart)
+    decoy_check = check_claims(decoy_text, decoy_chart or real_chart)
+    real_fab = find_fabrications(real_text, real_chart) + real_check["contradictions"]
+    decoy_fab = (
+        find_fabrications(decoy_text, decoy_chart or real_chart)
+        + decoy_check["contradictions"]
+    )
+    real_numeric = {c.lower() for c in extract_numeric_claims(real_text)}
+    decoy_numeric = {c.lower() for c in extract_numeric_claims(decoy_text)}
+    real_claims = real_numeric | {
+        f"{c.get('scope', '')}:{c['kind']}:{c['planet'].lower()}:{c['value']}"
+        for c in real_check["claims"]
+    }
+    decoy_claims = decoy_numeric | {
+        f"{c.get('scope', '')}:{c['kind']}:{c['planet'].lower()}:{c['value']}"
+        for c in decoy_check["claims"]
+    }
     union = real_claims | decoy_claims
     overlap = 1.0 if not union else len(real_claims & decoy_claims) / len(union)
     exercised = bool(real_claims) and bool(decoy_claims)
@@ -55,14 +71,37 @@ def chart_text_divergence(
     return {
         "real_fabrications": real_fab,
         "decoy_fabrications": decoy_fab,
-        "real_claims_checked": len(real_claims),
+        "real_claims_checked": len(real_numeric) + real_check["checked"],
+        "real_sign_house_checked": real_check["checked"],
         "claim_overlap": overlap,
         "exercised": exercised,
         "pass": exercised and overlap < 0.5 and fits_own_chart,
     }
 
 
-def judge_consistency(judge_client, item, entry, chart, text, judge_models, trials):
+def parse_judge_models(spec):
+    """Parse `model`, `model:effort` entries into (models, efforts)."""
+    models = []
+    efforts = {}
+    for entry in spec.split(","):
+        entry = entry.strip()
+        if not entry:
+            continue
+        if ":" in entry:
+            model, effort = entry.rsplit(":", 1)
+        else:
+            model, effort = entry, None
+        model = model.strip()
+        effort = effort.strip() if effort else None
+        if model:
+            models.append(model)
+            if effort:
+                efforts[model] = effort
+    return models, efforts
+
+
+def judge_consistency(judge_client, item, entry, chart, text, judge_models, trials,
+                      judge_reasoning=None):
     """Repeat a clause judge across models and trials; report agreement only.
 
     Agreement is consistency, not quality: judges can agree on the same wrong
@@ -73,7 +112,8 @@ def judge_consistency(judge_client, item, entry, chart, text, judge_models, tria
     for model in judge_models:
         for _ in range(trials):
             judged = judge_response(
-                judge_client, item, entry, chart, text, judge_model=model
+                judge_client, item, entry, chart, text, judge_model=model,
+                reasoning=(judge_reasoning or {}).get(model),
             )
             errors += int(judged["judge_error"])
             verdicts.append((model, judged["pass"], judged["clauses"]))
@@ -118,9 +158,14 @@ def judge_consistency(judge_client, item, entry, chart, text, judge_models, tria
     }
 
 
-def cast_decoy(item):
-    """Cast the time-shifted decoy, keeping any transit block the item names."""
-    return precompute_chart(dict(item, birth=shift_birth(item["birth"])))
+def cast_decoy(item, days=15):
+    """Cast a shifted decoy: 12 hours plus 15 days, and shift the transit date."""
+    decoy = dict(item, birth=shift_birth(item["birth"], days=days))
+    if item.get("transit_date"):
+        decoy["transit_date"] = (
+            datetime.date.fromisoformat(item["transit_date"]) + datetime.timedelta(days=days)
+        ).isoformat()
+    return precompute_chart(decoy)
 
 
 def screen_item(item, entry, client, doctrine_prompt, arm_model, budget, reasoning="none"):
@@ -143,6 +188,7 @@ def screen_item(item, entry, client, doctrine_prompt, arm_model, budget, reasoni
             "pass": not divergence["real_fabrications"] and claims_checked > 0,
             "fabrications": divergence["real_fabrications"],
             "claims_checked": claims_checked,
+            "sign_house_checked": divergence["real_sign_house_checked"],
             "exercised": claims_checked > 0,
         },
         "a2": divergence,
@@ -181,7 +227,7 @@ def write_report(payload, outdir):
         "",
         "## Per item",
         "",
-        "| Item | A1 | Claims | Fabrications | A2 | Claim overlap | A4 agreement | A4 clauses |",
+        "| Item | A1 | Claims | Contradictions | A2 | Claim overlap | A4 agreement | A4 clauses |",
         "|---|---|---|---|---|---|---|---|",
     ]
     for result in payload.get("items", []):
@@ -193,22 +239,40 @@ def write_report(payload, outdir):
             a1_status = "not exercised"
         else:
             a1_status = "pass" if a1.get("pass") else "fail"
+        if not a2.get("exercised", True):
+            a2_status = "not exercised"
+        else:
+            a2_status = "pass" if a2.get("pass") else "fail"
         a4_agreement = "not run" if a4 is None else format(a4.get("pairwise_agreement", 0), ".2f")
         a4_clauses = "not run" if a4 is None else format(a4.get("clause_agreement", 0), ".2f")
         lines.append(
             f"| {result.get('id', '?')} | {a1_status} | {a1.get('claims_checked', 0)} | {fab} "
-            f"| {'pass' if a2.get('pass') else 'fail'} "
+            f"| {a2_status} "
             f"| {a2.get('claim_overlap', 0):.2f} "
             f"| {a4_agreement} | {a4_clauses} |"
         )
+    item_count = len(payload.get("items", []))
+    a1_exercised = sum(
+        1 for r in payload.get("items", []) if r.get("a1", {}).get("exercised", True)
+    )
+    a2_exercised = sum(
+        1 for r in payload.get("items", []) if r.get("a2", {}).get("exercised", True)
+    )
     lines.extend(
         [
             "",
+            f"A1 exercised: {a1_exercised}/{item_count}; A2 exercised: {a2_exercised}/{item_count}",
+            "",
             "## Limits",
             "",
-            "- A1 checks degree and date claims only. Sign and house claims are not checked.",
-            "- A1 counts a reading as pass only when it asserted at least one numeric claim; "
-            "zero claims read as not exercised.",
+            "- A1 checks degrees, dates, signs and houses. Aspects, yogas and dignities are not checked.",
+            "- A1 scopes D10/D9 and transit claims when labelled; relative houses "
+            "(\"from Moon\") and ambiguous trailing-varga claims are skipped.",
+            "- A1 counts a reading as pass only when it asserted at least one checkable "
+            "claim; zero claims read as not exercised.",
+            "- A2 requires both readings to assert at least one numeric, sign or house "
+            "claim; otherwise it reads as not exercised, not chart-blind.",
+            "- A2 shifts birth time by 12 hours and date by 15 days so sign claims diverge.",
             "- A2 shows chart sensitivity, not chart truth.",
             "- A4 measures agreement among judges. A panel can agree on the same wrong verdict.",
             "- Nothing here measures reading quality or correspondence to the person.",
@@ -221,7 +285,9 @@ def write_report(payload, outdir):
             "generated_at",
             "transport",
             "arm_model",
+            "arm_reasoning",
             "judge_models",
+            "judge_reasoning",
             "trials",
             "budget",
             "items",
@@ -250,6 +316,7 @@ def main(argv=None):
     parser.add_argument("--trials", type=int, default=3)
     parser.add_argument("--budget", type=int, default=700)
     parser.add_argument("--arm-reasoning", default="none")
+    parser.add_argument("--resume", action="store_true")
     args = parser.parse_args(argv)
 
     items = load_jsonl(args.items, protocol="v2")
@@ -262,10 +329,25 @@ def main(argv=None):
         "openrouter": "deepseek/deepseek-v4.1-flash",
         "opencode-go": "deepseek-v4.1-flash",
     }[args.transport]
+    judge_models, judge_reasoning = parse_judge_models(args.judge_models)
 
-    results = []
-    judge_models = [m.strip() for m in args.judge_models.split(",") if m.strip()]
-    for item in items:
+    outdir = pathlib.Path(args.out)
+    outdir.mkdir(parents=True, exist_ok=True)
+    run_config = {
+        "transport": args.transport,
+        "arm_model": arm_model,
+        "arm_reasoning": args.arm_reasoning,
+        "judge_models": judge_models,
+        "judge_reasoning": judge_reasoning,
+        "trials": args.trials,
+        "budget": args.budget,
+        "items": args.items,
+    }
+    completed = _resume_state(str(outdir), run_config) if args.resume else {}
+    results = [completed[item["id"]] for item in items if item["id"] in completed]
+    pending = [item for item in items if item["id"] not in completed]
+
+    for item in pending:
         entry = ledger[item["id"]]
         result = screen_item(
             item,
@@ -285,21 +367,18 @@ def main(argv=None):
                 result["real_text"],
                 judge_models,
                 args.trials,
+                judge_reasoning=judge_reasoning,
             )
         results.append({"id": item["id"], **result})
+        _write_partial(str(outdir), results, len(items), len(results), run_config)
         print(f"[{len(results)}/{len(items)}] {item['id']}", flush=True)
 
-    outdir = pathlib.Path(args.out)
-    outdir.mkdir(parents=True, exist_ok=True)
+    by_id = {result["id"]: result for result in results}
+    results = [by_id[item["id"]] for item in items if item["id"] in by_id]
     payload = {
         "config": {
+            **run_config,
             "generated_at": datetime.datetime.now(datetime.timezone.utc).isoformat(),
-            "transport": args.transport,
-            "arm_model": arm_model,
-            "judge_models": judge_models,
-            "trials": args.trials,
-            "budget": args.budget,
-            "items": args.items,
             "engine": _engine_provenance(),
         },
         "items": results,
@@ -315,6 +394,10 @@ def main(argv=None):
     }
     (outdir / "results.json").write_text(json.dumps(payload, indent=1), encoding="utf-8")
     write_report(payload, str(outdir))
+    try:
+        (outdir / "partial.json").unlink()
+    except FileNotFoundError:
+        pass
     print(outdir / "report.md")
     return 0
 

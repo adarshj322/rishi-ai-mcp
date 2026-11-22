@@ -8,11 +8,13 @@ readings and public resources only. It is a diagnostic, not a substitute for the
 ## What it runs
 
 - **A1 — deterministic chart-fact checks.** Extract chart-fact claims from each reading and
-  recompute them against the engine. A contradiction fails the reading. The current checker covers
-  degrees and dates, not sign or house claims; that limit is reported, not hidden.
-- **A2 — chart-swap.** Generate a reading from the real chart and one from a time-shifted decoy
-  chart. If the two readings make the same chart claims, the pipeline is not reading the chart.
-  A2 fails on identical texts.
+  recompute them against the engine. A contradiction fails the reading. The checker covers
+  degrees, dates, signs and houses; D10/D9 and transit claims are scoped when labelled, and
+  relative houses ("from Moon") are skipped. Aspects, yogas and dignities are not checked.
+- **A2 — chart-swap.** Generate a reading from the real chart and one from a shifted decoy chart
+  (12 hours and 15 days, transit date included). If the two readings make the same chart claims,
+  the pipeline is not reading the chart. A2 fails on identical texts and reads as "not exercised"
+  when either side asserts no numeric, sign or house claim.
 - **A4 — multi-model judge consistency.** Repeat a clause-level judge across three model families
   and K trials. Report agreement and judge errors. This is **consistency**, not quality, and never
   a validity claim.
@@ -36,10 +38,26 @@ screen's honest sentence is the claim boundary above.
 python tools/zero_human_screen.py --cases evals/v2/cases --limit 5 --out /tmp/zero-human
 ```
 
+Model IDs are exact. `--arm-reasoning` sets the arm effort (`none`, `default`, `max`, ...).
+`--judge-models` accepts `model` or `model:effort` entries, e.g.
+`deepseek-v4.1-flash:max,muse-spark-1.3-contributor:xhigh`.
+
+Add `--resume` to continue an interrupted run. The screen writes `<out>/partial.json`
+after every item and removes it on success. A partial from a different model,
+effort, budget or corpus is refused rather than mixed in.
+
 The report is written to `<out>/report.md`; the machine-readable results to `<out>/results.json`.
 
 ## Results
 
 | date | commit | items | A1 pass | A2 pass | A4 agreement | notes |
 |---|---|---|---|---|---|---|
-| `__PENDING__` | `__PENDING__` | `__PENDING__` | `__PENDING__` | `__PENDING__` | `__PENDING__` | `__PENDING__` |
+| 2026-11-21/22 | `0dc419c` | 20 | 16/20 | 14/20 | 12/20 | `hy4-flash-free` max; 3 judges; 0 fabrications; A1/A2 clean when exercised; A4 unstable, 0 judge errors |
+| 2026-11-22 | `21071d2` | 20 | 18/20 | 17/20 | not run | sign/house checker; conservative re-score: 0 real A1 contradictions, 18 exercised; A2 one decoy derived-relation artifact |
+
+Full report: `results/2026-11-21-grounding-hy4-crossfamily/report.md`;
+interpretation: `results/2026-11-21-grounding-hy4-crossfamily/NOTES.md`.
+Post-hoc sign/house re-score on the saved texts: 93 claims, 0 contradictions.
+
+Sign/house run: `results/2026-11-22-grounding-sign-house/report.md`;
+conservative re-score: `results/2026-11-22-grounding-sign-house/RESCORE.md`.

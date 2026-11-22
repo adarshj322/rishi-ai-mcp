@@ -23,7 +23,7 @@ class FakeJudgeClient:
         self.calls = []
 
     def complete(self, system, user, model, temperature, max_tokens, seed=7, reasoning=None):
-        self.calls.append({"system": system, "user": user, "model": model})
+        self.calls.append({"system": system, "user": user, "model": model, "reasoning": reasoning})
         payload = self.payloads.pop(0) if self.payloads else _judge_json("pass")
         return {
             "text": payload,
@@ -516,3 +516,15 @@ class TestV2Protocol(unittest.TestCase):
 
 if __name__ == "__main__":
     unittest.main()
+
+
+class TestJudgeReasoning(unittest.TestCase):
+    def test_judge_passes_reasoning(self):
+        from eval_runner import judge_response
+
+        client = FakeJudgeClient([_judge_json("pass")])
+        judge_response(
+            client, ITEM, LEDGER, chart(), "the 10th lord is strong.",
+            judge_model="m", reasoning="max",
+        )
+        self.assertEqual(client.calls[0]["reasoning"], "max")

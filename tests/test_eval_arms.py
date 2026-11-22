@@ -296,3 +296,16 @@ class TestSampleSeeds(unittest.TestCase):
 
 if __name__ == "__main__":
     unittest.main()
+
+
+class TestReasoningParams(unittest.TestCase):
+    def test_reasoning_params_are_transport_specific(self):
+        from eval_arms import reasoning_params
+
+        self.assertEqual(reasoning_params("opencode-go", "max"), {"reasoning_effort": "max"})
+        self.assertEqual(
+            reasoning_params("openrouter", "xhigh"),
+            {"extra_body": {"reasoning": {"effort": "xhigh"}}},
+        )
+        self.assertEqual(reasoning_params("opencode-go", None), {})
+        self.assertEqual(reasoning_params("opencode-go", "none"), {"reasoning_effort": "none"})

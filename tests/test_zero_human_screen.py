@@ -2,6 +2,8 @@ import json
 import pathlib
 import sys
 
+import pytest
+
 sys.path.insert(0, str(pathlib.Path(__file__).resolve().parents[1] / "tools"))
 
 from zero_human_screen import chart_text_divergence, judge_consistency, shift_birth
@@ -16,7 +18,7 @@ class FakeJudgeClient:
         self.calls = []
 
     def complete(self, system, user, model, temperature, max_tokens, seed=7, reasoning=None):
-        self.calls.append(model)
+        self.calls.append({"model": model, "reasoning": reasoning})
         return {
             "text": self.payloads.pop(0),
             "output_tokens": 50,
@@ -245,3 +247,154 @@ def test_main_offline_uses_ledger_items(tmp_path, monkeypatch):
     assert zhs.main(["--limit", "1", "--out", str(tmp_path)]) == 0
     report = (tmp_path / "report.md").read_text()
     assert "A1 chart-fact" in report
+
+
+def test_judge_consistency_passes_per_model_reasoning():
+    client = FakeJudgeClient([_judge_json("pass")] * 4)
+    judge_consistency(
+        client,
+        {"id": "x", "prompt": "q"},
+        LEDGER,
+        CHART,
+        "answer",
+        ["m1", "m2"],
+        1,
+        judge_reasoning={"m1": "max", "m2": "xhigh"},
+    )
+    assert [(c["model"], c["reasoning"]) for c in client.calls] == [
+        ("m1", "max"),
+        ("m2", "xhigh"),
+    ]
+
+
+def test_parse_judge_models():
+    from zero_human_screen import parse_judge_models
+
+    models, efforts = parse_judge_models("a:max,b:xhigh,c")
+    assert models == ["a", "b", "c"]
+    assert efforts == {"a": "max", "b": "xhigh"}
+
+
+def test_main_writes_partial_and_resumes(tmp_path, monkeypatch):
+    import zero_human_screen as zhs
+
+    class FlakyClient:
+        calls = 0
+
+        def __init__(self, *a, **k):
+            pass
+
+        def complete(self, *a, **k):
+            type(self).calls += 1
+            if type(self).calls >= 7:
+                raise RuntimeError("boom")
+            return {
+                "text": "Career will be good.",
+                "output_tokens": 1,
+                "input_tokens": 1,
+                "latency_s": 0.0,
+            }
+
+    monkeypatch.setattr(zhs, "ChatClient", FlakyClient)
+    with pytest.raises(RuntimeError):
+        zhs.main(["--limit", "2", "--out", str(tmp_path)])
+
+    partial = json.loads((tmp_path / "partial.json").read_text())
+    assert [item["id"] for item in partial["items"]] == ["v2-g-01"]
+
+    class GoodClient:
+        calls = 0
+
+        def __init__(self, *a, **k):
+            pass
+
+        def complete(self, *a, **k):
+            type(self).calls += 1
+            return {
+                "text": "Career will be good.",
+                "output_tokens": 1,
+                "input_tokens": 1,
+                "latency_s": 0.0,
+            }
+
+    monkeypatch.setattr(zhs, "ChatClient", GoodClient)
+    assert zhs.main(["--limit", "2", "--out", str(tmp_path), "--resume"]) == 0
+    final = json.loads((tmp_path / "results.json").read_text())
+    assert [item["id"] for item in final["items"]] == ["v2-g-01", "v2-g-02"]
+    assert GoodClient.calls == 6
+    assert not (tmp_path / "partial.json").exists()
+
+
+def test_report_marks_unexercised_a2(tmp_path):
+    from zero_human_screen import write_report
+
+    write_report(
+        {
+            "items": [
+                {
+                    "id": "x",
+                    "a1": {"pass": False, "claims_checked": 0, "exercised": False, "fabrications": []},
+                    "a2": {"pass": False, "exercised": False, "claim_overlap": 1.0},
+                }
+            ],
+            "summary": {"a1": [0, 1], "a2": [0, 1], "a4": [0, 0], "tokens": 1},
+        },
+        str(tmp_path),
+    )
+    text = (tmp_path / "report.md").read_text()
+    assert "not exercised" in text
+    assert "A1 exercised: 0/1; A2 exercised: 0/1" in text
+
+
+def test_a2_exercises_sign_claims():
+    real_chart = {"planets": {"Sun": {"sign": "Aries", "degree": 10.0}}}
+    decoy_chart = {"planets": {"Sun": {"sign": "Leo", "degree": 10.0}}}
+    result = chart_text_divergence(
+        "The Sun is in Aries.", "The Sun is in Leo.", real_chart, decoy_chart
+    )
+    assert result["exercised"] is True
+    assert result["real_fabrications"] == []
+    assert result["pass"] is True
+
+
+def test_a2_fails_when_decoy_repeats_real_sign_claim():
+    real_chart = {"planets": {"Sun": {"sign": "Aries", "degree": 10.0}}}
+    decoy_chart = {"planets": {"Sun": {"sign": "Leo", "degree": 10.0}}}
+    result = chart_text_divergence(
+        "The Sun is in Aries.", "The Sun is in Aries.", real_chart, decoy_chart
+    )
+    assert result["pass"] is False
+
+
+def test_a1_flags_sign_contradiction():
+    real_chart = {"planets": {"Sun": {"sign": "Aries", "degree": 10.0}}}
+    decoy_chart = {"planets": {"Sun": {"sign": "Leo", "degree": 10.0}}}
+    result = chart_text_divergence(
+        "The Sun is in Leo.", "The Sun is in Aries.", real_chart, decoy_chart
+    )
+    assert result["real_fabrications"] == ["Sun in Leo (chart: Aries)"]
+    assert result["real_claims_checked"] == 1
+
+
+def test_shift_birth_crosses_midnight():
+    result = shift_birth(
+        {"dob": "2000-01-01", "time": "19:13", "lat": 0, "lon": 0, "tz": "UTC"}
+    )
+    assert result["dob"] == "2000-01-02"
+    assert result["time"] == "07:13"
+
+
+def test_cast_decoy_moves_transit_date():
+    import zero_human_screen as zhs
+
+    item = {
+        "birth": {
+            "dob": "1953-12-17",
+            "time": "19:13",
+            "lat": 34.052,
+            "lon": -118.243,
+            "tz": "UTC",
+        },
+        "transit_date": "2026-01-01",
+    }
+    assert zhs.cast_decoy(item)["transit"]["transit_date"] == "2026-01-16"
